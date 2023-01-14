@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lodging index{% endblock %}
+
+{% block body %}
+    <h1>Lodging index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Number_rooms</th>
+                <th>Max_people</th>
+                <th>Surface</th>
+                <th>Weekly_base_price</th>
+                <th>Created_at</th>
+                <th>Updated_at</th>
+                <th>Type</th>
+                <th>Adress</th>
+                <th>Lodging_long</th>
+                <th>Lodging_lat</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for lodging in lodgings %}
+            <tr>
+                <td>{{ lodging.id }}</td>
+                <td>{{ lodging.name }}</td>
+                <td>{{ lodging.description }}</td>
+                <td>{{ lodging.numberRooms }}</td>
+                <td>{{ lodging.maxPeople }}</td>
+                <td>{{ lodging.surface }}</td>
+                <td>{{ lodging.weeklyBasePrice }}</td>
+                <td>{{ lodging.createdAt ? lodging.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ lodging.updatedAt ? lodging.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ lodging.type }}</td>
+                <td>{{ lodging.adress }}</td>
+                <td>{{ lodging.lodgingLong }}</td>
+                <td>{{ lodging.lodgingLat }}</td>
+                <td>
+                    <a href="{{ path('app_lodging_show', {'id': lodging.id}) }}">show</a>
+                    <a href="{{ path('app_lodging_edit', {'id': lodging.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="14">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_lodging_new') }}">Create new</a>
+{% endblock %}
