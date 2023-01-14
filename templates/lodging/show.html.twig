@@ -12,7 +12,7 @@
                 <td>{{ lodging.id }}</td>
             </tr>
             <tr>
-                <th>Name</th>
+                <th>Titre</th>
                 <td>{{ lodging.name }}</td>
             </tr>
             <tr>
@@ -20,35 +20,35 @@
                 <td>{{ lodging.description }}</td>
             </tr>
             <tr>
-                <th>Number_rooms</th>
+                <th>Nombre de chambres</th>
                 <td>{{ lodging.numberRooms }}</td>
             </tr>
             <tr>
-                <th>Max_people</th>
+                <th>Personnes max</th>
                 <td>{{ lodging.maxPeople }}</td>
             </tr>
             <tr>
                 <th>Surface</th>
-                <td>{{ lodging.surface }}</td>
+                <td>{{ lodging.surface }} m²</td>
             </tr>
             <tr>
-                <th>Weekly_base_price</th>
+                <th>Prix de base hebdomadaire</th>
                 <td>{{ lodging.weeklyBasePrice }}</td>
             </tr>
             <tr>
-                <th>Created_at</th>
+                <th>Date de création</th>
                 <td>{{ lodging.createdAt ? lodging.createdAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>Updated_at</th>
+                <th>Date de mise à jour</th>
                 <td>{{ lodging.updatedAt ? lodging.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>Type</th>
+                <th>Type de logement</th>
                 <td>{{ lodging.type }}</td>
             </tr>
             <tr>
-                <th>Adress</th>
+                <th>Adresse</th>
                 <td>{{ lodging.adress }}</td>
             </tr>
             <tr>
@@ -58,6 +58,18 @@
             <tr>
                 <th>Lodging_lat</th>
                 <td>{{ lodging.lodgingLat }}</td>
+            </tr>
+            <tr>
+            <pre>
+                {{ dump(lodging) }}
+                {{ dump(lodging.criteria) }}
+            </pre>
+                <th>Critères</th>
+                {% if lodging.criteria is defined %}
+                    {# <td>{{ lodging.criteria }}</td> #}
+
+                {% endif %}
+                
             </tr>
         </tbody>
     </table>
