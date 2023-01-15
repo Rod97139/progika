@@ -60,13 +60,17 @@ class LodgingController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_lodging_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Lodging $lodging, LodgingRepository $lodgingRepository): Response
+    public function edit(Request $request, Lodging $lodging, ManagerRegistry $doctrine): Response
     {
+        
         $form = $this->createForm(LodgingType::class, $lodging);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $lodgingRepository->save($lodging, true);
+           
+            $manager = $doctrine->getManager();
+            $manager->persist($lodging);
+            $manager->flush();
 
             return $this->redirectToRoute('app_lodging_index', [], Response::HTTP_SEE_OTHER);
         }

@@ -12,6 +12,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -22,16 +23,15 @@ class LodgingType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+
         $builder
             ->add('name')
-            ->add('description')
+            ->add('description', TextType::class)
             ->add('number_rooms')
             ->add('max_people')
             ->add('surface')
             ->add('weekly_base_price')
-            ->add('created_at')
-            ->add('updated_at')
-            ->add('type')
+            
 
             ->add('region', EntityType::class, [
             'mapped' => false,
@@ -45,18 +45,30 @@ class LodgingType extends AbstractType
             // 'placeholder' => 'Départements',
             // 'required' => false
             // ]) 
+
+            
+                
+            
             ->add('departement', EntityType::class, [
                 'mapped' => false,
                 'class' => Departement::class,
                 'choice_label' => 'name',
                 'placeholder' => 'Departement'
-                ])
-            
-            ->add('city', ChoiceType::class, [
-                'placeholder' => 'Ville (Choisir une Région et un Département)'
-                ]) 
-
-            ->add('adress')
+            ]);
+                        if ($_SERVER['PATH_INFO'] === "/lodging/new") {
+                        $builder->add('city', ChoiceType::class, [
+                                'placeholder' => 'Ville (Choisir une Région et un Département)',
+                                'required' => false
+                            ]) ;
+                        }else{
+                        $builder->add('city', EntityType::class, [
+                                'class' => City::class,
+                                'choice_label' => 'name',
+                                'placeholder' => 'Villes',
+                                'label' => 'Villes'
+                            ]); 
+                        }
+            $builder->add('adress')
             ->add('lodging_long')
             ->add('lodging_lat')
             ->add('criteria', EntityType::class, [
@@ -68,7 +80,8 @@ class LodgingType extends AbstractType
                 'attr' => [
                     'class' => 'select2']
                 ])      
-            
+            ->add('created_at')
+            ->add('updated_at')
             ->add('Valider', SubmitType::class)
                 ;
 
@@ -100,22 +113,15 @@ class LodgingType extends AbstractType
 
 
             $formModifier2 = function(FormInterface $form, Departement $departement = null){
-                    
-               
                 $cities = (($departement === null) ? [] : $departement->getCities());
-               
-
                 $form->add('city', EntityType::class, [
                     'class' => City::class,
                     'choices' => $cities,
                     'choice_label' => 'name',
                     'placeholder' => 'Villes',
-                    'label' => 'Villes',
-                    'required' => false
+                    'label' => 'Villes'
                 ]);
             };
-
-
             
             $builder->get('departement')->addEventListener(
                 FormEvents::POST_SUBMIT,
@@ -126,11 +132,6 @@ class LodgingType extends AbstractType
                     $formModifier2($event2->getForm()->getParent(), $departement);
 
                 });
-
-
-              
-
-
     }
 
     public function configureOptions(OptionsResolver $resolver): void
