@@ -41,7 +41,7 @@
                 <td>{{ lodging.lodgingLong }}</td>
                 <td>{{ lodging.lodgingLat }}</td>
                 <td>
-                    <a href="{{ path('app_lodging_show', {'id': lodging.id}) }}">show</a>
+                    <a class="btn btn-primary" href="{{ path('app_lodging_show', {'id': lodging.id}) }}">show</a>
                     <a href="{{ path('app_lodging_edit', {'id': lodging.id}) }}">edit</a>
                 </td>
             </tr>
@@ -53,5 +53,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_lodging_new') }}">Create new</a>
+    <a class="btn btn-primary" href="{{ path('app_lodging_new') }}">Create new</a>
 {% endblock %}

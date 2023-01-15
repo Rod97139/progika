@@ -61,14 +61,27 @@
             </tr>
             <tr>
             <pre>
-                {{ dump(lodging) }}
-                {{ dump(lodging.criteria) }}
+                {# {{ dump(lodging) }} #}
+                {# {{ dump(lodging.criteria) }} #}
             </pre>
+            
                 <th>Critères</th>
-                {% if lodging.criteria is defined %}
-                    {# <td>{{ lodging.criteria }}</td> #}
-
-                {% endif %}
+                <td>
+                    {% set i = 0 %}
+                    {% if criterion[i] is defined %}
+                                {{ criterion[i].type }}:
+                        {% for criteria in criterion %}
+                                {{criteria.name}}
+                                {% if criterion[i + 1].type is defined and criterion[i].type != criterion[i + 1].type %}
+                                <hr>
+                                {{ criterion[i + 1].type }}:
+                                {% elseif criterion[i + 1].type is defined and criterion[i].type and criterion[i + 1].type == criterion[i].type %}
+                                {{","}}
+                                {% endif %}
+                        {% set i = i + 1 %}
+                        {% endfor %}
+                    {% endif %}
+                </td>
                 
             </tr>
         </tbody>

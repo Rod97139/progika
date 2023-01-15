@@ -1,0 +1,36 @@
+$primary: #499b4a ;
+$danger: red;
+
+@import "~bootstrap/scss/bootstrap";
+
+
+body {
+    background-color: #24292f;
+    color: #CDA434;
+
+    th{
+        color: #bfbfbf;
+    }
+    td{
+        color: #bfbfbf;
+    }
+
+    header{
+        nav{
+            .nav-item{
+                color: #CDA434;
+            }
+            .nav-link{
+                color: #CDA434;
+            }
+            li{
+                a{
+                    
+                color: #CDA434;
+                }
+            }
+        }
+    }
+
+   
+}

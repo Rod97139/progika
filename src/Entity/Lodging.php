@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Lodging
 {
 
+    use TimeStampTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -36,12 +37,6 @@ class Lodging
     #[ORM\Column]
     private ?float $weekly_base_price = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $updated_at = null;
-
     #[ORM\Column(length: 255)]
     private ?string $type = null;
 
@@ -62,7 +57,7 @@ class Lodging
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\ManyToMany(targetEntity: Criteria::class, inversedBy: 'lodgings')]
+    #[ORM\ManyToMany(targetEntity: Criteria::class, inversedBy: 'lodgings', fetch: 'EAGER')]
     private Collection $criteria;
 
     public function __construct()
@@ -143,30 +138,6 @@ class Lodging
     public function setWeeklyBasePrice(float $weekly_base_price): self
     {
         $this->weekly_base_price = $weekly_base_price;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $created_at): self
-    {
-        $this->created_at = $created_at;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updated_at;
-    }
-
-    public function setUpdatedAt(\DateTimeImmutable $updated_at): self
-    {
-        $this->updated_at = $updated_at;
 
         return $this;
     }
