@@ -38,9 +38,6 @@ class Lodging
     private ?float $weekly_base_price = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $type = null;
-
-    #[ORM\Column(length: 255)]
     private ?string $adress = null;
 
     #[ORM\ManyToOne(inversedBy: 'lodgings')]
@@ -132,18 +129,6 @@ class Lodging
     public function setWeeklyBasePrice(float $weekly_base_price): self
     {
         $this->weekly_base_price = $weekly_base_price;
-
-        return $this;
-    }
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): self
-    {
-        $this->type = $type;
 
         return $this;
     }

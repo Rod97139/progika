@@ -41,36 +41,37 @@ class LodgingType extends AbstractType
             'placeholder' => 'Régions'
             ])
 
-            // ->add('departement', ChoiceType::class, [
-            // 'mapped' => false,
-            // 'placeholder' => 'Départements',
-            // 'required' => false
-            // ]) 
+            ->add('departement', ChoiceType::class, [
+            'mapped' => false,
+            'placeholder' => 'Départements',
+            'required' => false,
+            'attr' => [
+                'disabled' => true
+            ]
+            ]) ;
 
-            ->add('departement', EntityType::class, [
-                'mapped' => false,
-                'class' => Departement::class,
-                'choice_label' => 'name',
-                'placeholder' => 'Departement'
-            ]);
+            // ->add('departement', EntityType::class, [
+            //     'mapped' => false,
+            //     'class' => Departement::class,
+            //     'choice_label' => 'name',
+            //     'placeholder' => 'Departement'
+            // ]);
 
-            if ($_SERVER['PATH_INFO'] === "/lodging/new") {
+            
                 $builder->add('city', ChoiceType::class, [
                         'placeholder' => 'Ville (Choisir une Région et un Département)',
                         'required' => false
                     ]) ;
-            }else{
-                $builder->add('city', EntityType::class, [
-                        'class' => City::class,
-                        'choice_label' => 'name',
-                        'placeholder' => 'Villes',
-                        'label' => 'Villes'
-                    ]); 
-            }
+           
+                // $builder->add('city', EntityType::class, [
+                //         'class' => City::class,
+                //         'choice_label' => 'name',
+                //         'placeholder' => 'Villes',
+                //         'label' => 'Villes'
+                //     ]); 
+            
 
             $builder->add('adress')
-            ->add('lodging_long')
-            ->add('lodging_lat')
             ->add('criteria', EntityType::class, [
                 'multiple' => true,
                 'class' => Criteria::class,
@@ -87,34 +88,9 @@ class LodgingType extends AbstractType
             ])
             ->add('Valider', SubmitType::class)
                 ;
-
-            // $formModifier = function(FormInterface $form, Region $region = null){
-            //     $departements = (($region === null) ? [] : $region->getDepartements());
-               
                 
 
-            //     $form->add('departement', EntityType::class, [
-            //         'mapped' => false,
-            //         'class' => Departement::class,
-            //         'choices' => $departements,
-            //         'choice_label' => 'name',
-            //         'placeholder' => 'Départements',
-            //         'label' => 'Départements',
-            //         'required' => false
-            //     ]);
                 
-            // };
-
-            // $builder->get('region')->addEventListener(
-            //     FormEvents::POST_SUBMIT,
-            //     function(FormEvent $event) use($formModifier) {
-            //         $region = $event->getForm()->getData();
-                    
-            //         $formModifier($event->getForm()->getParent(), $region);
-
-            //     });
-
-        if ($_SERVER['PATH_INFO'] === "/lodging/new") {
             $formModifier2 = function(FormInterface $form, Departement $departement = null){
                 $cities = (($departement === null) ? [] : $departement->getCities());
                 $form->add('city', EntityType::class, [
@@ -130,12 +106,39 @@ class LodgingType extends AbstractType
                 FormEvents::POST_SUBMIT,
                 function(FormEvent $event2) use($formModifier2) {
                     
-                    
                     $departement = $event2->getForm()->getData();
                     $formModifier2($event2->getForm()->getParent(), $departement);
 
             });
-        }
+        
+
+            $formModifier = function(FormInterface $form, Region $region = null){
+                $departements = (($region === null) ? [] : $region->getDepartements());
+               
+                
+
+                $form->add('departement', EntityType::class, [
+                    'mapped' => false,
+                    'class' => Departement::class,
+                    'choices' => $departements,
+                    'choice_label' => 'name',
+                    'placeholder' => 'Départements',
+                    'label' => 'Départements',
+                    'required' => false
+                ]);
+                
+            };
+
+            $builder->get('region')->addEventListener(
+                FormEvents::POST_SUBMIT,
+                function(FormEvent $event) use($formModifier) {
+                    $region = $event->getForm()->getData();
+                    
+                    $formModifier($event->getForm()->getParent(), $region);
+
+                });
+
+        
     }
 
     public function configureOptions(OptionsResolver $resolver): void

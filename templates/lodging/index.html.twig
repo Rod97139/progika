@@ -17,7 +17,7 @@
                 <th>Prix de Base Mensuel</th>
                 <th>Créé le:</th>
                 <th>Mis à jour le:</th>
-                <th>Type</th>
+                
                 <th>Adresse</th>
                 <th>Lodging_long</th>
                 <th>Lodging_lat</th>
@@ -36,7 +36,7 @@
                 <td>{{ lodging.weeklyBasePrice }}</td>
                 <td>{{ lodging.createdAt ? lodging.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ lodging.updatedAt ? lodging.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ lodging.type }}</td>
+                
                 <td>{{ lodging.adress }}</td>
                 <td>
                     <a class="btn btn-primary" href="{{ path('app_lodging_show', {'id': lodging.id}) }}">show</a>

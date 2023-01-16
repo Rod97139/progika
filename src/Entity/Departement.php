@@ -11,15 +11,17 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Index(name: 'code', columns: ['code'])]
 class Departement
 {
-    #[ORM\Id]
+    
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    
     #[ORM\ManyToOne(targetEntity: Region::class, inversedBy: 'departements')]
     #[ORM\JoinColumn(name: "region_code", referencedColumnName: "code", nullable: false)]
     private ?Region $region = null;
 
+    #[ORM\Id]
     #[ORM\Column(length: 3)]
     private ?string $code = null;
 

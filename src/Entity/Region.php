@@ -11,11 +11,12 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Index(name: 'code', columns: ['code'])]
 class Region
 {
-    #[ORM\Id]
+    
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
     
+    #[ORM\Id]
     #[ORM\Column(length: 3)]
     private ?string $code = null;
 
