@@ -43,12 +43,6 @@ class Lodging
     #[ORM\Column(length: 255)]
     private ?string $adress = null;
 
-    #[ORM\Column]
-    private ?float $lodging_long = null;
-
-    #[ORM\Column]
-    private ?float $lodging_lat = null;
-
     #[ORM\ManyToOne(inversedBy: 'lodgings')]
     #[ORM\JoinColumn(nullable: false)]
     private ?City $city = null;
@@ -166,30 +160,7 @@ class Lodging
         return $this;
     }
 
-    public function getLodgingLong(): ?float
-    {
-        return $this->lodging_long;
-    }
-
-    public function setLodgingLong(float $lodging_long): self
-    {
-        $this->lodging_long = $lodging_long;
-
-        return $this;
-    }
-
-    public function getLodgingLat(): ?float
-    {
-        return $this->lodging_lat;
-    }
-
-    public function setLodgingLat(float $lodging_lat): self
-    {
-        $this->lodging_lat = $lodging_lat;
-
-        return $this;
-    }
-
+    
     public function getCity(): ?City
     {
         return $this->city;

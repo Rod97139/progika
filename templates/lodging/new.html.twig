@@ -5,12 +5,14 @@
 {% block body %}
     <h1>Create new Lodging</h1>
     
-
+<pre>
+    {# {{ dump() }} #}
+</pre>
     {{ include('lodging/_form.html.twig') }}
     <a href="{{ path('app_lodging_index') }}">back to list</a>
 {% endblock %}
 
-{% block javascripts %}
+{# {% block javascripts %}
 
     <script>
         window.onload = () => {
@@ -71,4 +73,4 @@
         }
     </script>
     
-{% endblock %}
+{% endblock %} #}

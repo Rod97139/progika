@@ -38,8 +38,6 @@
                 <td>{{ lodging.updatedAt ? lodging.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ lodging.type }}</td>
                 <td>{{ lodging.adress }}</td>
-                <td>{{ lodging.lodgingLong }}</td>
-                <td>{{ lodging.lodgingLat }}</td>
                 <td>
                     <a class="btn btn-primary" href="{{ path('app_lodging_show', {'id': lodging.id}) }}">show</a>
                     <a href="{{ path('app_lodging_edit', {'id': lodging.id}) }}">edit</a>

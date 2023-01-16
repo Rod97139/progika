@@ -15,21 +15,30 @@ class City
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\ManyToOne(inversedBy: 'cities')]
+    #[ORM\JoinColumn(name: "departement_code", referencedColumnName: "code", nullable: false)]
+    private ?Departement $departement = null;
+
+    #[ORM\Column(length: 5, nullable: true)]
+    private ?string $insee_code = null;
+
+    #[ORM\Column(length: 5, nullable: true)]
+    private ?string $zip_code = null;
+
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column]
-    private ?int $zip_code = null;
-
-    #[ORM\Column]
-    private ?int $insee_code = null;
-
-    #[ORM\ManyToOne(inversedBy: 'cities')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Departement $departement = null;
-
     #[ORM\OneToMany(mappedBy: 'city', targetEntity: Lodging::class, orphanRemoval: true)]
     private Collection $lodgings;
+
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
+
+    #[ORM\Column]
+    private ?float $gps_lat = null;
+
+    #[ORM\Column]
+    private ?float $gps_lng = null;
 
     public function __construct()
     {
@@ -119,6 +128,42 @@ class City
                 $lodging->setCity(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getGpsLat(): ?float
+    {
+        return $this->gps_lat;
+    }
+
+    public function setGpsLat(float $gps_lat): self
+    {
+        $this->gps_lat = $gps_lat;
+
+        return $this;
+    }
+
+    public function getGpsLng(): ?float
+    {
+        return $this->gps_lng;
+    }
+
+    public function setGpsLng(float $gps_lng): self
+    {
+        $this->gps_lng = $gps_lng;
 
         return $this;
     }

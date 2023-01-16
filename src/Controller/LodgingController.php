@@ -34,14 +34,17 @@ class LodgingController extends AbstractController
     public function new(Request $request, ManagerRegistry $doctrine, UserInterface $user): Response
     {
         $lodging = new Lodging();
+        
         $form = $this->createForm(LodgingType::class, $lodging);
+        
         $form->remove('created_at');
         $form->remove('updated_at');
         $form->remove('user');
         $form->handleRequest($request);
+        
         $lodging->setUser($user);
+        
         $lodging->setCreatedAt(new \DateTime());
-
         
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -53,7 +56,8 @@ class LodgingController extends AbstractController
             return $this->redirectToRoute('app_lodging_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('lodging/new.html.twig', [
+        return $this->render('lodging/new.html.twig', [
+            
             'lodging' => $lodging,
             'form' => $form,
         ]);
