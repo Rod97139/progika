@@ -51,6 +51,9 @@ class Lodging
     #[ORM\ManyToMany(targetEntity: Criteria::class, inversedBy: 'lodgings', fetch: 'EAGER')]
     private Collection $criteria;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
     public function __construct()
     {
         $this->criteria = new ArrayCollection();
@@ -190,6 +193,18 @@ class Lodging
     public function removeCriterion(Criteria $criterion): self
     {
         $this->criteria->removeElement($criterion);
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }
