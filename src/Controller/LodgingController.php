@@ -109,6 +109,9 @@ class LodgingController extends AbstractController
         $form->remove('user');
         $form->remove('created_at');
         $form->remove('updated_at');
+        $form->remove('departement');
+        $form->remove('city');
+        
         $form->handleRequest($request);
         $lodging->setUpdatedAt(new \DateTime());
 

@@ -28,9 +28,6 @@ class City
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'city', targetEntity: Lodging::class, orphanRemoval: true)]
-    private Collection $lodgings;
-
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
@@ -39,6 +36,10 @@ class City
 
     #[ORM\Column]
     private ?float $gps_lng = null;
+
+    #[ORM\OneToMany(mappedBy: 'city', targetEntity: Lodging::class, orphanRemoval: true)]
+    private Collection $lodgings;
+
 
     public function __construct()
     {
