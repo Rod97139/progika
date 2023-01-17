@@ -4,8 +4,65 @@
 
 {% block body %}
 
-<form action="">
+ {# {% for lodg in lodgs %}
+<div class="col-3 mt-2">
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">{{ lodg.name }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ lodg.firstname }} {{ lodg.name }}</h6>
+            <p class="card-text">Age: {{ lodg.age }}</p>
+            <a href="{{ path('lodg.detail', {id: lodg.id}) }}" class="card-link"><i class="fa-solid fa-circle-info"></i></a>
+            {% if is_granted('ROLE_ADMIN') %}       
+                <a href="{{ path('lodg.delete', {id: lodg.id}) }}" class="card-link"><i class="fa-solid fa-user-xmark"></i></a>
+                <a href="{{ path('lodg.edit', {id: lodg.id}) }}" class="card-link"><i class="fa-solid fa-user-pen"></i></a>
+             {% endif %}
+        </div>
+    </div>
+     </div>
+    {% endfor %} #}
+<div class='container-fluid'>
+<div class='row'>
+    <div class="col-12 col-md-6 mt-3">
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+    
+  </div>
+  <img class="lodging-pic" src="{{ asset('/uploads/images/bakery-63c584ce5f0ae.png') }}" class="card-img-bottom" alt="...">
+  
+    <i class="fa-solid fa-circle-info"></i>
+</div>
+    <div class="col-12 col-md-6 mt-3">
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+    
+  </div>
+  <img class="lodging-pic" src="{{ asset('/uploads/images/bakery-63c584ce5f0ae.png') }}" class="card-img-bottom" alt="...">
+  
+    <i class="fa-solid fa-circle-info"></i>
+</div>
+    <div class="col-12 col-md-6 mt-3">
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+    
+  </div>
+  <img class="lodging-pic" src="{{ asset('/uploads/images/bakery-63c584ce5f0ae.png') }}" class="card-img-bottom" alt="...">
+  
+    <i class="fa-solid fa-circle-info"></i>
+</div>
+    <div class="col-12 col-md-6 mt-3">
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+    
+  </div>
+  <img class="lodging-pic" src="{{ asset('/uploads/images/bakery-63c584ce5f0ae.png') }}" class="card-img-bottom" alt="...">
+  
+    <i class="fa-solid fa-circle-info"></i>
+</div>
+</div>
 
-</form>
 
 {% endblock %}

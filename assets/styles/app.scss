@@ -1,10 +1,34 @@
 $primary: #499b4a ;
 $danger: red;
+$navbar-dark-color: #CDA434;
+$navbar-light-color: #CDA434;
+$navbar-light-disabled-color: #CDA434;
+$navbar-light-active-color: #CDA434;
+$navbar-light-toggler-border-color: red;
+$navbar-light-brand-color: #499b4a;
+$navbar-light-brand-hover-color: #79a87a;
+$navbar-light-hover-color: #cab478;
+$navbar-light-toggler-border-color: red;
 
 @import "~bootstrap/scss/bootstrap";
 
 
 body {
+    .lodging-pic{
+        width: 100px;
+    }
+    .dropdown-menu{
+        background-color: #cab478;
+    }
+    .dropdown-item{
+        background-color: #cab478;;
+        color: #24292f;
+    }
+
+    .dropdown-item:hover {
+        background-color: #CDA434;
+        color: #499b4a ;
+    }
     background-color: #24292f;
     color: #CDA434;
 
@@ -14,23 +38,5 @@ body {
     td{
         color: #bfbfbf;
     }
-
-    header{
-        nav{
-            .nav-item{
-                color: #CDA434;
-            }
-            .nav-link{
-                color: #CDA434;
-            }
-            li{
-                a{
-                    
-                color: #CDA434;
-                }
-            }
-        }
-    }
-
    
 }

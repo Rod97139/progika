@@ -19,51 +19,36 @@
       <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
-              <a class="navbar-brand" href="{{ path('app_home') }}">Progica</a>
+              <a class="navbar-brand" href="{{ path('app_home') }}"><i class="fa-solid fa-house"></i> Progica</a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   <li class="nav-item">
-                    <a class="nav-link" href="#">Gîtes</a>
+                    <a class="nav-link" href="#"><i class="fa-solid fa-list"></i> Gîtes</a>
                   </li>
                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                        width="20px" height="20px" viewBox="0 0 510 510" style="fill:#CDA434;" xml:space="preserve">
-                      <g>
-                        <g id="account-circle">
-                          <path   d="M255,0C114.75,0,0,114.75,0,255s114.75,255,255,255s255-114.75,255-255S395.25,0,255,0z M255,76.5
-                            c43.35,0,76.5,33.15,76.5,76.5s-33.15,76.5-76.5,76.5c-43.35,0-76.5-33.15-76.5-76.5S211.65,76.5,255,76.5z M255,438.6
-                            c-63.75,0-119.85-33.149-153-81.6c0-51,102-79.05,153-79.05S408,306,408,357C374.85,405.45,318.75,438.6,255,438.6z"/>
-                        </g>
-                      </g>
-                      </svg>
+                      <i class="fa-solid fa-user"></i> Mon compte
                     </a>
                     <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="#">Paramètres du compte</a></li>
-                      <li><a class="dropdown-item" href="#">Mes favoris</a></li>
+                      <li><a class="dropdown-item" href="#"><i class="fa-solid fa-user-pen"></i> Paramètres du compte</a></li>
+                      <li><a class="dropdown-item" href="#"><i class="fa-solid fa-star"></i> Mes favoris</a></li>
                       <li><hr class="dropdown-divider"></li>
-                      <li><a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a></li>
+                      <li><a class="dropdown-item" href="{{ path('app_logout') }}"><i class="fa-solid fa-door-open"></i> Déconnexion</a></li>
                     </ul>
                   </li>
                   {% endif %}
-                  <li class="nav-item">
-                    <a class="nav-link disabled">Disabled</a>
-                  </li>
                    <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{ path('app_login') }}">Connexion</a>
+                    <a class="nav-link" aria-current="page" href="{{ path('app_login') }}"><i class="fa-solid fa-unlock-keyhole"></i> Connexion</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{ path('app_register') }}">Enregistrement</a>
+                    <a class="nav-link" aria-current="page" href="{{ path('app_register') }}"><i class="fa-solid fa-key"></i> Enregistrement</a>
                   </li>
                 </ul>
-                <form class="d-flex" role="search">
-                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                  <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
+                
               </div>
             </div>
           </nav>
