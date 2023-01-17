@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
-    #[Route('/home', name: 'app_home')]
+    #[Route('/home')]
     public function index(ManagerRegistry $doctrine): Response
     {
         $repository = $doctrine->getRepository(Criteria::class);
