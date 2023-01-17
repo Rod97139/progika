@@ -29,7 +29,7 @@ class CriteriaFixtures extends Fixture
             ['Location de linge', 'Services'],
             ['Accès internet', 'Services'],
             ['Massage', 'Services'],
-            ['Location de voiture', 'Services'],
+            ['Location de voiture', 'Services']
        ];
 
         for ($i=0; $i < count($data); $i++) { 

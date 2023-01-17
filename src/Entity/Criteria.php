@@ -24,6 +24,9 @@ class Criteria
     #[ORM\ManyToMany(targetEntity: Lodging::class, mappedBy: 'criteria')]
     private Collection $lodgings;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $price = null;
+
     public function __construct()
     {
         $this->lodgings = new ArrayCollection();
@@ -85,6 +88,18 @@ class Criteria
         if ($this->lodgings->removeElement($lodging)) {
             $lodging->removeCriterion($this);
         }
+
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?float $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }

@@ -17,4 +17,4 @@ symfony console make:registration-form
 symfony console make:reset-password
 
 fixtures ==> ```composer require --dev orm-fixtures`
-            ```php bin/console doctrine:fixtures:load`
+            ```php bin/console doctrine:fixtures:load --append`
