@@ -26,21 +26,22 @@ class CriteriaFixtures extends Fixture
             ['Tennis', 'Équipements extérieurs'],
             ['Ping-pong', 'Équipements extérieurs'],
             ['Basket', 'Équipements extérieurs'],
-            ['Location de linge', 'Services'],
-            ['Accès internet', 'Services'],
-            ['Massage', 'Services'],
-            ['Location de voiture', 'Services']
+            ['Location de linge', 'Services', 20],
+            ['Accès internet', 'Services', 10],
+            ['Massage en fin de séjour', 'Services', 50],
+            ['Location de voiture', 'Services', 50]
        ];
 
         for ($i=0; $i < count($data); $i++) { 
             $criteria = new Criteria();
             $criteria->setName($data[$i][0]);
             $criteria->setType($data[$i][1]);
+            if (isset($data[$i][2])){
+                $criteria->setPrice($data[$i][2]);
+            }
+
             $manager->persist($criteria);
-            // name type
         }
-        // $product = new Product();
-        // $manager->persist($product);
 
         $manager->flush();
     }

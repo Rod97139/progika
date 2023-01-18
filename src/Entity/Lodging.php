@@ -41,11 +41,11 @@ class Lodging
     private ?string $adress = null;
 
     #[ORM\ManyToOne(inversedBy: 'lodgings')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?City $city = null;
 
     #[ORM\ManyToOne(inversedBy: 'lodgings')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?User $user = null;
 
     #[ORM\ManyToMany(targetEntity: Criteria::class, inversedBy: 'lodgings', fetch: 'EAGER')]
@@ -171,6 +171,10 @@ class Lodging
         $this->user = $user;
 
         return $this;
+    }
+
+    public function __toString(){
+        return $this->name; // Remplacer champ par une propriété "string" de l'entité
     }
 
     /**

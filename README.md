@@ -16,5 +16,8 @@ symfony console make:registration-form
 
 symfony console make:reset-password
 
-fixtures ==> ```composer require --dev orm-fixtures`
-            ```php bin/console doctrine:fixtures:load --append`
+fixtures ==> `composer require --dev orm-fixtures`
+
+ --append evite la purge ==> `php bin/console doctrine:fixtures:load --append`
+
+ selectionner un group seulement `php bin/console doctrine:fixtures:load --group=UserFixtures --append`
