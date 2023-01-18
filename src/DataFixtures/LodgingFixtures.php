@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\City;
 use App\Entity\Lodging;
 use App\Repository\CityRepository;
+use App\Repository\UserRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -12,13 +13,16 @@ class LodgingFixtures extends Fixture
 {
     
     public function __construct(
-        private CityRepository $cityRepository
+        private CityRepository $cityRepository,
+        private UserRepository $userRepository
     ) {}
     public function load(ObjectManager $manager): void
 
     {
 
         $cities = $this->cityRepository->findAll();
+        
+        $users = $this->userRepository->findByRole('ROLE_OWNER');
 
         $data =  $data = [
             ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gite_example.jpg'],
@@ -41,8 +45,13 @@ class LodgingFixtures extends Fixture
 
         for ($i=0; $i < count($data); $i++) { 
             $lodging = new Lodging();
+
             $cityIndex = array_rand($cities, 1);
+            $userIndex = array_rand($users, 1);
+
             $lodging->setCity($cities[$cityIndex]);
+            $lodging->setUser($users[$userIndex]);
+        
             $lodging->setName($data[$i][0]);
             $lodging->setDescription($data[$i][1]);
             $lodging->setNumberRooms($data[$i][2]);

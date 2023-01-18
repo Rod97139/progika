@@ -56,6 +56,23 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->save($user, true);
     }
 
+    public function findByRole(string $role): array
+{
+    // The ResultSetMapping maps the SQL result to entities
+    $rsm = $this->createResultSetMappingBuilder('u');
+
+    $rawQuery = sprintf(
+        'SELECT %s
+        FROM user u 
+        WHERE JSON_SEARCH(u.roles, "one", :role) IS NOT NULL',
+        $rsm->generateSelectClause()
+    );
+
+    $query = $this->getEntityManager()->createNativeQuery($rawQuery, $rsm);
+    $query->setParameter('role', $role);
+    return $query->getResult();
+}
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */
