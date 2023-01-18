@@ -15,7 +15,7 @@ class HomeController extends AbstractController
     public function index(ManagerRegistry $doctrine): Response
     {
         $repository = $doctrine->getRepository(Criteria::class);
-        $criterion = $repository->findBy([], ["type" => "DESC"]);
+        $criterion = $repository->findBy([], ["id" => "DESC"]);
 
 
         return $this->render('home/index.html.twig', [

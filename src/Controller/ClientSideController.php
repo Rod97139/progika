@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\City;
 use App\Entity\Lodging;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,10 +17,29 @@ class ClientSideController extends AbstractController
     {
 
         $repository = $doctrine->getRepository(Lodging::class);
-        $lodgs = $repository->findAll();
+        $lodgs = $repository->findBy([], ["id" => "DESC"]);
 
         return $this->render('client_side/index.html.twig', [
             'lodgs' => $lodgs,
         ]);
+    }
+
+    #[Route('/detail/{id<\d+>}', name: 'app_client_detail')]
+    public function detail(Lodging $lodging = null): Response
+    {
+
+        if (!$lodging || !$lodging->getCity()) {
+            $this->addFlash('error', 'Le gîte n\'existe pas');
+            return $this->redirectToRoute('app_home');
+        }
+
+        $coordgps[] = $lodging->getCity()->getGpsLat();
+        $coordgps[] = $lodging->getCity()->getGpsLng();
+        
+
+        return $this->render('client_side/detail.html.twig', [
+                'lodging' => $lodging,
+                'gps' => $coordgps
+            ]);
     }
 }

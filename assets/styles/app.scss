@@ -12,11 +12,19 @@ $navbar-light-toggler-border-color: red;
 
 @import "~bootstrap/scss/bootstrap";
 
+.lodging-pic{
+        height: 200px;
+    }
+
+    .leaflet-container {
+        height: 400px;
+        width: 600px;
+        max-width: 100%;
+        max-height: 100%;
+    }
 
 body {
-    .lodging-pic{
-        width: 100px;
-    }
+    
     .dropdown-menu{
         background-color: #cab478;
     }

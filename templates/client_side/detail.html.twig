@@ -1,0 +1,43 @@
+{% extends "base.html.twig" %}
+
+ {% block stylesheets %}
+     {{ parent() }}
+     {# leaflet #}
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+{% endblock %}
+
+{% block body %}
+
+
+    <div class="container-fluid" ><img class='lodging-pic' src="{{lodging.image}}" alt="{{lodging.name}}"></div>
+<h1>HELLO</h1>
+
+<div id="map" style="width: 600px; height: 400px;"></div>
+
+
+
+
+
+
+<script>
+const map = L.map('map').setView([{{ gps[0] }}, {{ gps[1] }}], 13);
+
+	const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		maxZoom: 19,
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+	}).addTo(map);
+
+    var circle = L.circle([{{ gps[0] }}, {{ gps[1] }}], {
+        color: 'red',
+        fillColor: '#f03',
+        fillOpacity: 0.5,
+        radius: 500
+    }).addTo(map);
+</script>
+{% endblock %}
+
+
+  
+
+
