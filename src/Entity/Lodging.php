@@ -41,11 +41,11 @@ class Lodging
     private ?string $adress = null;
 
     #[ORM\ManyToOne(inversedBy: 'lodgings')]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\JoinColumn(nullable: false)]
     private ?City $city = null;
 
     #[ORM\ManyToOne(inversedBy: 'lodgings')]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
     #[ORM\ManyToMany(targetEntity: Criteria::class, inversedBy: 'lodgings', fetch: 'EAGER')]

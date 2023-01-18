@@ -73,7 +73,7 @@ class LodgingController extends AbstractController
 
                 // updates the 'brochureFilename' property to store the PDF file name
                 // instead of its contents
-                $lodging->setImage($newFilename);
+                $lodging->setImage('/uploads/images/' . $newFilename);
             }
 
             $manager = $doctrine->getManager();
@@ -102,7 +102,7 @@ class LodgingController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_lodging_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Lodging $lodging, ManagerRegistry $doctrine): Response
+    public function edit(Request $request, Lodging $lodging, ManagerRegistry $doctrine, SluggerInterface $slugger): Response
     {
         
         $form = $this->createForm(LodgingType::class, $lodging);
@@ -116,6 +116,32 @@ class LodgingController extends AbstractController
         $lodging->setUpdatedAt(new \DateTime());
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            
+            $file = $form->get('image')->getData();
+
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($file) {
+                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $file->move(
+                        $this->getParameter('lodging_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $lodging->setImage('/uploads/images/' . $newFilename);
+            }
            
             $manager = $doctrine->getManager();
             $manager->persist($lodging);

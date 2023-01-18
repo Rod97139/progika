@@ -15,26 +15,20 @@ class LodgingFixtures extends Fixture
 
     {
         $data =  $data = [
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', 'bakery-63c65e3fd5b6b.png'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', 'bakery-63c65e3fd5b6b.png'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', 'bakery-63c65e3fd5b6b.png'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', 'bakery-63c65e3fd5b6b.png'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', 'bakery-63c65e3fd5b6b.png'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', 'bakery-63c65e3fd5b6b.png'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', 'bakery-63c65e3fd5b6b.png'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', 'bakery-63c65e3fd5b6b.png'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', 'bakery-63c65e3fd5b6b.png'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', 'bakery-63c65e3fd5b6b.png'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', 'bakery-63c65e3fd5b6b.png'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', 'bakery-63c65e3fd5b6b.png'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', 'bakery-63c65e3fd5b6b.png'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', 'bakery-63c65e3fd5b6b.png'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', 'bakery-63c65e3fd5b6b.png'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', 'bakery-63c65e3fd5b6b.png'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', 'bakery-63c65e3fd5b6b.png'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', 'bakery-63c65e3fd5b6b.png'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', 'bakery-63c65e3fd5b6b.png'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', 'bakery-63c65e3fd5b6b.png']
+            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gite_example.jpg'],
+            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gite_example.jpg'],
+            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gite_example.jpg'],
+            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gite_example.jpg'],
+            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gite_example.jpg'],
+            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gite_example.jpg'],
+            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gite_example.jpg'],
+            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gite_example.jpg'],
+            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gite_example.jpg'],
+            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gite_example.jpg'],
+            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gite_example.jpg'],
+            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gite_example.jpg'],
+            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gite_example.jpg'],
+            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gite_example.jpg']
        ];
 
         for ($i=0; $i < count($data); $i++) { 
