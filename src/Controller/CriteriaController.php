@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/criteria')]
-// #[IsGranted('ROLE_ADMIN')]
+#[IsGranted('ROLE_OWNER')]
 class CriteriaController extends AbstractController
 {
     #[Route('/', name: 'app_criteria_index', methods: ['GET'])]
