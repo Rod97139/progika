@@ -25,7 +25,7 @@ class ClientSideController extends AbstractController
         ]);
     }
 
-    #[Route('/all')]
+    #[Route('/all', name: 'map_all')]
     public function mapAll(LodgingRepository $lodgingRepository): Response
     {
        
