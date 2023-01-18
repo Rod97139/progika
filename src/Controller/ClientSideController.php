@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\City;
 use App\Entity\Lodging;
+use App\Repository\LodgingRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,10 +25,15 @@ class ClientSideController extends AbstractController
         ]);
     }
 
-    // public function mapAll(Lodging $lodging = null): Response
-    // {
-        
-    // }
+    #[Route('/all')]
+    public function mapAll(LodgingRepository $lodgingRepository): Response
+    {
+       
+
+        return $this->render('client_side/showall.html.twig', [
+                'lodgings' =>  $lodgingRepository->findAll()
+        ]);
+    }
 
     #[Route('/detail/{id<\d+>}', name: 'app_client_detail')]
     public function detail(Lodging $lodging = null): Response

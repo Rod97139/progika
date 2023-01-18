@@ -40,7 +40,7 @@ class Lodging
     #[ORM\Column(length: 255)]
     private ?string $adress = null;
 
-    #[ORM\ManyToOne(inversedBy: 'lodgings')]
+    #[ORM\ManyToOne(inversedBy: 'lodgings', fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: false)]
     private ?City $city = null;
 

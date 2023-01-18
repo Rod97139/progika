@@ -1,0 +1,41 @@
+{% extends "base.html.twig" %}
+
+{% block stylesheets %}
+     {{ parent() }}
+     {# leaflet #}
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin=""/>
+       <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+        {% endblock %}
+
+{% block body %}
+
+    <div style="position: relative; right: 20px;" id="map"></div>
+
+    <script>
+
+const map = L.map('map').setView([ 46.93186500000001, 2.82579196078431], 5);
+
+const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		maxZoom: 19,
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+	}).addTo(map);
+
+
+{% for lodg in lodgings %}
+
+
+   L.marker([{{ lodg.city.gpsLat }}, {{ lodg.city.gpsLng }}]).addTo(map);
+    
+{% endfor %}
+
+
+</script>
+    
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+
+
+
+{% endblock %}
