@@ -16,7 +16,10 @@
 
   <img class="lodging-pic mt-2" src="{{ asset(lodg.image) }}" class="card-img-bottom" alt="...">
   
-   <a href="{{ path('app_client_detail', {id: lodg.id}) }}"> <i class="fa-solid fa-circle-info"></i> </a>
+    <br>
+   <a href="{{ path('app_client_detail', {id: lodg.id}) }}"> <i class="fa-solid fa-circle-info"></i> </a> 
+   <br>
+   <a href="#"><i class="fa-regular fa-star"></i></a>
 </div>
     {% endfor %}
     </div>

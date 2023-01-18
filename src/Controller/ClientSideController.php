@@ -24,6 +24,11 @@ class ClientSideController extends AbstractController
         ]);
     }
 
+    // public function mapAll(Lodging $lodging = null): Response
+    // {
+        
+    // }
+
     #[Route('/detail/{id<\d+>}', name: 'app_client_detail')]
     public function detail(Lodging $lodging = null): Response
     {
@@ -35,6 +40,7 @@ class ClientSideController extends AbstractController
 
         $coordgps[] = $lodging->getCity()->getGpsLat();
         $coordgps[] = $lodging->getCity()->getGpsLng();
+
         
 
         return $this->render('client_side/detail.html.twig', [

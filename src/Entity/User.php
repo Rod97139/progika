@@ -205,7 +205,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     public function __toString(){
-        return $this->id; // Remplacer champ par une propriété "string" de l'entité
+        return $this->email; // Remplacer champ par une propriété "string" de l'entité
     }
 
     /**
