@@ -5,9 +5,9 @@
 {% block body %}
 
 
-<div class='row'>
+<div class='row' >
  {% for lodg in lodgs %}
-<div class="col-12 col-md-6 mt-3">
+<div class="col-12 col-md-6 mt-3" id='home-card'>
   <div class="card-body">
     <h5 class="card-title">{{ lodg.name }}</h5>
     <p class="card-text">{{ lodg.description }}</p>
@@ -17,57 +17,33 @@
   <img class="lodging-pic mt-2" src="{{ asset(lodg.image) }}" class="card-img-bottom" alt="...">
   
     <br>
-   <a href="{{ path('app_client_detail', {id: lodg.id}) }}"> <i class="fa-solid fa-circle-info"></i> </a> 
-   <br>
-   <a href="#"><i class="fa-regular fa-star"></i></a>
+   <a style='text-decoration:none;' href="{{ path('app_client_detail', {id: lodg.id}) }}"> <i class="pt-3 fa-solid fa-circle-info"></i> </a> 
+   
+   <a href="#"><i  class="p-1 fa-regular fa-star"></i></a>
 </div>
     {% endfor %}
     </div>
 
-{# 
-<div class='container-fluid'>
-<div class='row'>
-    <div class="col-12 col-md-6 mt-3">
-  <div class="card-body">
-    <h5 class="card-title">{{ lodg.name }}</h5>>
-    <p class="card-text">{{ lodg.description }}</p>
-    
-  </div>
-  <img class="lodging-pic" src="{{ asset('/uploads/images/bakery-63c584ce5f0ae.png') }}" class="card-img-bottom" alt="...">
-  
-    <i class="fa-solid fa-circle-info"></i>
+{% if isPaginated is defined and isPaginated %}
+<div id='pagination' class="row">
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end">
+   {% if page != 1 %}
+    <li class="page-item"><a class="page-link" href="{{ path('app_home', {page: page -1, nbre: nbre}) }}">Précédent</a></li>
+    {% endif %}
+      
+    {% for i in range(1, nbrePage) %}
+        <li class="page-item"><a class="page-link" href="{{ path('app_home', {page: i, nbre: nbre}) }}">{{i}}</a></li>
+    {% endfor %}
+
+    {% if page != nbrePage %}
+    <li class="page-item"><a class="page-link" href="{{ path('app_home', {page: page + 1, nbre: nbre}) }}">Suivant</a></li>
+    {% endif %}
+  </ul>
+</nav>
 </div>
-    <div class="col-12 col-md-6 mt-3">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-    
-  </div>
-  <img class="lodging-pic" src="{{ asset('/uploads/images/bakery-63c584ce5f0ae.png') }}" class="card-img-bottom" alt="...">
   
-    <i class="fa-solid fa-circle-info"></i>
-</div>
-    <div class="col-12 col-md-6 mt-3">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-    
-  </div>
-  <img class="lodging-pic" src="{{ asset('/uploads/images/bakery-63c584ce5f0ae.png') }}" class="card-img-bottom" alt="...">
-  
-    <i class="fa-solid fa-circle-info"></i>
-</div>
-    <div class="col-12 col-md-6 mt-3">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-    
-  </div>
-  <img class="lodging-pic" src="{{ asset('/uploads/images/bakery-63c584ce5f0ae.png') }}" class="card-img-bottom" alt="...">
-  
-    <i class="fa-solid fa-circle-info"></i>
-</div>
-</div> #}
+{% endif %}
 
 
 {% endblock %}

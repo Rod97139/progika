@@ -13,19 +13,41 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/')]
 class ClientSideController extends AbstractController
 {
-    #[Route('/', name: 'app_home')]
+    #[Route('/', name: 'app_start')]
     public function index(ManagerRegistry $doctrine): Response
     {
 
-        $repository = $doctrine->getRepository(Lodging::class);
-        $lodgs = $repository->findBy([], ["id" => "DESC"]);
+        return $this->redirectToRoute('app_home');
+        // $repository = $doctrine->getRepository(Lodging::class);
+        // $lodgs = $repository->findBy([], ["id" => "DESC"]);
 
-        return $this->render('client_side/index.html.twig', [
-            'lodgs' => $lodgs,
-        ]);
+        // return $this->render('client_side/index.html.twig', [
+        //     'lodgs' => $lodgs,
+        // ]);
     }
 
-    #[Route('/all', name: 'map_all')]
+
+    #[Route('/all/{page?1}/{nbre?6}', name: 'app_home')]
+    public function indexAll(ManagerRegistry $doctrine, $page, $nbre): Response
+    {
+        $repository = $doctrine->getRepository(Lodging::class);
+        $nbLodging = $repository->count([]);
+        
+        $nbrePage = ceil($nbLodging / $nbre);
+        $lodgings = $repository->findBy([], [], $nbre, ($page - 1) * $nbre );
+
+        return $this->render('client_side/index.html.twig', [
+            'lodgs' => $lodgings,
+            'isPaginated' => true,
+            'nbrePage' => $nbrePage,
+            'page' => $page,
+            'nbre' => $nbre
+        ]);
+        
+    }
+
+
+    #[Route('/map/all', name: 'map_all')]
     public function mapAll(LodgingRepository $lodgingRepository): Response
     {
        

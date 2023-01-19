@@ -1,3 +1,4 @@
+
 $primary: #499b4a ;
 $danger: red;
 $navbar-dark-color: #CDA434;
@@ -10,11 +11,25 @@ $navbar-light-brand-hover-color: #79a87a;
 $navbar-light-hover-color: #cab478;
 $navbar-light-toggler-border-color: red;
 
+// card
+
+
 @import "~bootstrap/scss/bootstrap";
 
 .lodging-pic{
         height: 200px;
+        border-radius: 30px;
     }
+
+    #home-card{
+        text-align: center;
+    }
+#pagination{
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 2rem;
+    background-color: #bfbfbf;
+}
 
   
 
