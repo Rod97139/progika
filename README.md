@@ -33,4 +33,4 @@ fixtures ==> `composer require --dev orm-fixtures`
 
  --append evite la purge ==> `php bin/console doctrine:fixtures:load --append`
 
- selectionner un group seulement `php bin/console doctrine:fixtures:load --group=UserFixtures --append`
+ selectionner un group seulement `php bin/console doctrine:fixtures:load --group=LodgingFixtures --append`

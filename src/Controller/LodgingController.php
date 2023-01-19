@@ -35,9 +35,13 @@ class LodgingController extends AbstractController
     #[Route('/new', name: 'app_lodging_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ManagerRegistry $doctrine, UserInterface $user, SluggerInterface $slugger): Response
     {
+        
+        $routeName = $request->attributes->get('_route');
         $lodging = new Lodging();
         
-        $form = $this->createForm(LodgingType::class, $lodging);
+        $form = $this->createForm(LodgingType::class, $lodging, [
+            'routeName' => $routeName
+        ]);
         
         $form->remove('created_at');
         $form->remove('updated_at');
@@ -104,13 +108,14 @@ class LodgingController extends AbstractController
     #[Route('/{id}/edit', name: 'app_lodging_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Lodging $lodging, ManagerRegistry $doctrine, SluggerInterface $slugger): Response
     {
-        
-        $form = $this->createForm(LodgingType::class, $lodging);
+        $routeName = $request->attributes->get('_route');
+        $form = $this->createForm(LodgingType::class, $lodging, [
+            'routeName' => $routeName
+        ]);
         $form->remove('user');
         $form->remove('created_at');
         $form->remove('updated_at');
         $form->remove('departement');
-        $form->remove('city');
         
         $form->handleRequest($request);
         $lodging->setUpdatedAt(new \DateTime());

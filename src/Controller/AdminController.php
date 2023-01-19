@@ -15,7 +15,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ADMIN')]
 class AdminController extends AbstractController
 {
-    #[Route('/', name: 'app_admin_index', methods: ['GET'])]
+    #[Route('/user', name: 'app_admin_index', methods: ['GET'])]
     public function index(UserRepository $userRepository): Response
     {
         return $this->render('admin/index.html.twig', [
@@ -54,7 +54,10 @@ class AdminController extends AbstractController
     public function edit(Request $request, User $user, UserRepository $userRepository): Response
     {
         $form = $this->createForm(UserType::class, $user);
+        $form->remove('updated_at');
+        $form->remove('created_at');
         $form->handleRequest($request);
+        $user->setUpdatedAt(new \DateTime());
 
         if ($form->isSubmitted() && $form->isValid()) {
             $userRepository->save($user, true);

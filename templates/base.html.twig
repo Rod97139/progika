@@ -18,16 +18,13 @@
     <body>
       <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div class="container-fluid">
+            <div class="container">
               <a class="navbar-brand" href="{{ path('app_home') }}"><i class="fa-solid fa-house"></i> Progica</a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                  <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_lodging_index') }}"><i class="fa-solid fa-list"></i> Gîtes</a>
-                  </li>
                     <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="{{ path('map_all') }}"> <i class="fa-solid fa-map-location-dot"></i> Map</a>
                   </li>
@@ -54,18 +51,26 @@
                   </li>
                   {% endif %}
                   {% if is_granted('ROLE_ADMIN') %}
-                  <li class="nav-item">
-                    <a class="nav-link" style='color:red;' aria-current="page" href="{{ path('app_admin_index') }}"><i class="fa-solid fa-screwdriver-wrench"></i> Gestion administrateur</a>
-                  </li>                    
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" style='color:red;' href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="fa-solid fa-screwdriver-wrench"></i> Gestion administrateur
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="{{ path('app_admin_index') }}"><i class="fa-solid fa-list"></i> Gestion des utilisateurs</a></li>
+                      <li><hr class="dropdown-divider"></li>
+                      <li><a class="dropdown-item" href="{{ path('app_lodging_index') }}"><i class="fa-solid fa-list"></i> Gestion des gîtes</a></li>
+                      <li><hr class="dropdown-divider"></li>
+                      <li><a class="dropdown-item" href="{{ path('app_criteria_index') }}"><i class="fa-solid fa-list"></i> Gestion des critères</a></li>
+                    </ul>
+                  </li>
                   {% endif %}
                 </ul>
-                
               </div>
             </div>
           </nav>
       </header>
       
-      <div class='container-fluid'>
+      <div class='container'>
           {% block body %}{% endblock %}
       </div>
 

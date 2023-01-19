@@ -16,14 +16,18 @@ $navbar-light-toggler-border-color: red;
         height: 200px;
     }
 
+  
+
+body {
+
     .leaflet-container {
         height: 400px;
         width: 600px;
+        margin-left: auto;
+        margin-right: auto;
         max-width: 100%;
         max-height: 100%;
     }
-
-body {
     
     .dropdown-menu{
         background-color: #cab478;

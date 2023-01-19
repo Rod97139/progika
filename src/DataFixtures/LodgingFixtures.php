@@ -2,13 +2,14 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\City;
 use App\Entity\Lodging;
 use App\Repository\CityRepository;
 use App\Repository\UserRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
+// class LodgingFixtures extends Fixture implements DependentFixtureInterface
 class LodgingFixtures extends Fixture
 {
     
@@ -25,20 +26,20 @@ class LodgingFixtures extends Fixture
         $users = $this->userRepository->findByRole('ROLE_OWNER');
 
         $data =  $data = [
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gite_example.jpg'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gite_example.jpg'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gite_example.jpg'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gite_example.jpg'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gite_example.jpg'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gite_example.jpg'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gite_example.jpg'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gite_example.jpg'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gite_example.jpg'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gite_example.jpg'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gite_example.jpg'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gite_example.jpg'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gite_example.jpg'],
-            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gite_example.jpg']
+            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gitetest-63c7a74d73062.jpg'],
+            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gitetest-63c7a74d73062.jpg'],
+            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gitetest-63c7a74d73062.jpg'],
+            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gitetest-63c7a74d73062.jpg'],
+            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gitetest-63c7a74d73062.jpg'],
+            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gitetest-63c7a74d73062.jpg'],
+            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gitetest-63c7a74d73062.jpg'],
+            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gitetest-63c7a74d73062.jpg'],
+            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gitetest-63c7a74d73062.jpg'],
+            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gitetest-63c7a74d73062.jpg'],
+            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gitetest-63c7a74d73062.jpg'],
+            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gitetest-63c7a74d73062.jpg'],
+            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gitetest-63c7a74d73062.jpg'],
+            ['Gîte de base', 'Description du gîte en question', 4, 5, 100, 100, '5 rue de la paix', '/uploads/images/gitetest-63c7a74d73062.jpg']
        ];
 
 
@@ -66,5 +67,12 @@ class LodgingFixtures extends Fixture
 
         $manager->flush();
     }
+
+    // public function getDependencies()
+    // {
+    //     return [
+    //         UserFixtures::class,
+    //     ];
+    // }
     
 }

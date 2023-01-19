@@ -19,6 +19,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 
@@ -27,6 +28,7 @@ class LodgingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
+        $routeName = $options['routeName'];
         $builder
             ->add('name')
             ->add('description')
@@ -69,18 +71,23 @@ class LodgingType extends AbstractType
             ]);
 
             
-                $builder->add('city', ChoiceType::class, [
+               
+                    if ($routeName === "app_lodging_edit") {
+                $builder->add('city', EntityType::class, [
+                        'class' => City::class,
+                        'choice_label' => 'name',
+                        'placeholder' => 'Villes',
+                        'label' => 'Villes',
+                        'attr' => [
+                            'class' => 'select2'
+                        ]
+                    ]); 
+                } else {
+                    $builder->add('city', ChoiceType::class, [
                         'placeholder' => 'Ville (Choisir une Région et un Département)',
                         'required' => false
                     ]) ;
-           
-                // $builder->add('city', EntityType::class, [
-                //         'class' => City::class,
-                //         'choice_label' => 'name',
-                //         'placeholder' => 'Villes',
-                //         'label' => 'Villes'
-                //     ]); 
-            
+                }
 
             $builder->add('adress')
            
@@ -89,11 +96,6 @@ class LodgingType extends AbstractType
             ->add('user', EntityType::class, [
                 'class' => User::class
             ])
-            
-                
-                
-
-                
                 // ...
                 ->add('image', FileType::class, [
                     'label' => 'Votre image',
@@ -123,6 +125,10 @@ class LodgingType extends AbstractType
                 ->add('Valider', SubmitType::class)
                 ;
                 
+                
+        dump($routeName);
+
+        // if ($routeName === "app_lodging_edit") {
             $formModifier2 = function(FormInterface $form, Departement $departement = null){
                 $cities = (($departement === null) ? [] : $departement->getCities());
                 $form->add('city', EntityType::class, [
@@ -142,7 +148,7 @@ class LodgingType extends AbstractType
                     $formModifier2($event2->getForm()->getParent(), $departement);
 
             });
-        
+        // }
 
             // $formModifier = function(FormInterface $form, Region $region = null){
             //     $departements = (($region === null) ? [] : $region->getDepartements());
@@ -177,6 +183,9 @@ class LodgingType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Lodging::class,
+        ]);
+        $resolver->setRequired([
+            'routeName',
         ]);
     }
 }

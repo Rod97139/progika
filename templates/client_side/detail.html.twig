@@ -9,12 +9,12 @@
 
 {% block body %}
 
-<div class='cont'>
-<h1>{{lodging.name}}</h1>
-    <div class="container-fluid" ><img class='lodging-pic' src="{{lodging.image}}" alt="{{lodging.name}}"></div>
-    <div id="map" style="width: 600px; height: 400px;"  ></div>
-   
 
+   <div class="row">
+<div class="col-12 col-md-6 mt-3">
+<h1>{{lodging.name}}</h1>
+    <img class='lodging-pic' src="{{lodging.image}}" alt="{{lodging.name}}">
+    
 <h5 class='mt-2'>Description :</h5>
 <p>{{lodging.description}}</p>
 <p>Nombre de chambres : {{lodging.numberRooms}}</p>
@@ -22,14 +22,41 @@
 <p>Superficie : {{lodging.surface}} m²</p>
 <p>Tarif hebdomadaire : {{lodging.weeklyBasePrice}} €/semaine</p>
 <p>Adresse : {{lodging.adress}}</p>
+<h5>Équipements et services:</h5>
 
+<table>
+<tbody>
+ <tr>
+                <td>
+                    {% set i = 0 %}
+                    {% set totalPrice = 0 %}
+                    {% if criterion[i] is defined %}
+                                {{ criterion[i].type }}:
+                        {% for criteria in criterion %}
+                                {% if criterion[i].price is defined %}
+                                    {% set totalPrice = totalPrice + criterion[i].price %}
+                                {% endif %}
+                                {{criteria.name}}
+                                {% if criterion[i + 1].type is defined and criterion[i].type != criterion[i + 1].type %}
+                                <br>
+                                {{ criterion[i + 1].type }}:
+                                {% elseif criterion[i + 1].type is defined and criterion[i].type and criterion[i + 1].type == criterion[i].type %}
+                                {{","}}
+                                {% endif %}
+                        {% set i = i + 1 %}
+                        {% endfor %}
+                    {% endif %}
+                    <br>
+                    Prix total services: {{ totalPrice }} €/séjour
+                </td>
+                
+            </tr>
+            </tbody>
+            </table>
+</div>
+<div class="col-12 col-md-6 mt-5" id="map" style="width: 600px; height: 400px;"  ></div>
 </div>
 
-
-
-<pre>
-    {{ dump(gps) }}
-</pre>
 
 
 <script>
@@ -40,12 +67,8 @@ const map = L.map('map').setView([{{ gps[0] }}, {{ gps[1] }}], 13);
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 	}).addTo(map);
 
-    var circle = L.circle([{{ gps[0] }}, {{ gps[1] }}], {
-        color: 'red',
-        fillColor: '#f03',
-        fillOpacity: 0.5,
-        radius: 500
-    }).addTo(map);
+    L.marker([{{ gps[0] }}, {{ gps[1] }}]).addTo(map);
+
 </script>
 {% endblock %}
 
