@@ -128,7 +128,7 @@ class LodgingType extends AbstractType
                 
         dump($routeName);
 
-        // if ($routeName === "app_lodging_edit") {
+        if ($routeName !== "app_lodging_edit") {
             $formModifier2 = function(FormInterface $form, Departement $departement = null){
                 $cities = (($departement === null) ? [] : $departement->getCities());
                 $form->add('city', EntityType::class, [
@@ -148,7 +148,7 @@ class LodgingType extends AbstractType
                     $formModifier2($event2->getForm()->getParent(), $departement);
 
             });
-        // }
+        }
 
             // $formModifier = function(FormInterface $form, Region $region = null){
             //     $departements = (($region === null) ? [] : $region->getDepartements());

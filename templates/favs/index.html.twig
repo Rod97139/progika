@@ -3,18 +3,29 @@
 {% block title %}Hello FavsController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<div class='row' >
+ {% set i = 0 %}
+{% for fav in favs %}
+ {% for lodg in lodgs %}
+ 
+    {% if favs[i][0] == lodg.id %}
+    <div class="col-12 col-md-6 mt-3" id='home-card'>
+        <div class="card-body">
+            <h5 class="card-title">{{ lodg.name }}</h5>
+            <p class="card-text">{{ lodg.description }}</p>
+            
+        </div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/fayaf/Desktop/progica/src/Controller/FavsController.php'|file_link(0) }}">src/Controller/FavsController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/fayaf/Desktop/progica/templates/favs/index.html.twig'|file_link(0) }}">templates/favs/index.html.twig</a></code></li>
-    </ul>
-</div>
+        <img class="lodging-pic mt-2" src="{{ asset(lodg.image) }}" class="card-img-bottom" alt="...">
+        
+            <br>
+        <a style='text-decoration:none;' href="{{ path('app_client_detail', {id: lodg.id}) }}"> <i class="pt-3 fa-solid fa-circle-info"></i> </a> 
+        
+    </div>
+    {% endif %}
+    
+ {% endfor %}
+ {% set i = i +1 %}
+{% endfor %}
+    </div>
 {% endblock %}

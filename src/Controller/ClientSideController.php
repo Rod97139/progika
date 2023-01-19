@@ -9,6 +9,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[Route('/')]
 class ClientSideController extends AbstractController
@@ -28,7 +29,7 @@ class ClientSideController extends AbstractController
 
 
     #[Route('/all/{page?1}/{nbre?6}', name: 'app_home')]
-    public function indexAll(ManagerRegistry $doctrine, $page, $nbre): Response
+    public function indexAll(ManagerRegistry $doctrine, $page, $nbre, UserInterface $user): Response
     {
         $repository = $doctrine->getRepository(Lodging::class);
         $nbLodging = $repository->count([]);
@@ -41,7 +42,8 @@ class ClientSideController extends AbstractController
             'isPaginated' => true,
             'nbrePage' => $nbrePage,
             'page' => $page,
-            'nbre' => $nbre
+            'nbre' => $nbre,
+            'favs' => $user->getFavs()
         ]);
         
     }

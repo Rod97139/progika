@@ -19,7 +19,28 @@
     <br>
    <a style='text-decoration:none;' href="{{ path('app_client_detail', {id: lodg.id}) }}"> <i class="pt-3 fa-solid fa-circle-info"></i> </a> 
    
-   <a href="#"><i  class="p-1 fa-regular fa-star"></i></a>
+   <a href="{{ path('app_favs_add', {id: lodg.id}) }}">
+
+                      {% set y = 0 %}
+                      {% set i = 0 %}
+
+                      {% if favs|length == 0 %}
+                        <i  class="p-1 fa-regular fa-star"></i>
+                      {% endif %}
+                      
+                      
+                  {% for fav in favs %}
+                      {% if favs[i][0] == lodg.id %}
+                        {% set y = 1 %}
+                        <i class="p-1 fa-solid fa-star"></i>
+                        {% elseif i == favs|length -1 and y == 0 %}
+                      <i  class="p-1 fa-regular fa-star"></i>
+                      {% endif %}
+                      {% set i = i +1 %}
+                  {% endfor %}
+
+                  
+   </a>
 </div>
     {% endfor %}
     </div>

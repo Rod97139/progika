@@ -65,7 +65,7 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('app_admin_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('admin/edit.html.twig', [
+        return $this->render('admin/edit.html.twig', [
             'user' => $user,
             'form' => $form,
         ]);
