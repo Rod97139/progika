@@ -13,8 +13,22 @@ $navbar-light-toggler-border-color: red;
 
 // card
 
+$pagination-color: #24292f;
+$pagination-padding-y: .375rem;
+$pagination-bg: #cab478;
+$pagination-border-color: #24292f;
+$pagination-hover-bg: #CDA434;
+$pagination-focus-color:#CDA434;
+
+$pagination-active-bg: #CDA434;
+
 
 @import "~bootstrap/scss/bootstrap";
+.pagination {
+    margin-top: 5rem;
+
+    text-align: center;
+}
 
 .lodging-pic{
         height: 200px;
@@ -24,12 +38,7 @@ $navbar-light-toggler-border-color: red;
     #home-card{
         text-align: center;
     }
-#pagination{
-    width: 100%;
-    margin: 0 auto;
-    margin-top: 2rem;
-    background-color: #bfbfbf;
-}
+
 
   
 

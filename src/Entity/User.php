@@ -56,6 +56,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
+    #[ORM\Column(type: Types::JSON, nullable: false)]
+    private array $saved = [];
+
     public function __construct()
     {
         $this->lodgings = new ArrayCollection();
@@ -247,6 +250,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getSaved(): array
+    {
+        return $this->saved;
+    }
+
+    public function setSaved(?array $saved): self
+    {
+        $this->saved = $saved;
 
         return $this;
     }
