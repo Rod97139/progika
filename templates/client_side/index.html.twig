@@ -27,7 +27,7 @@
 {% if isPaginated is defined and isPaginated %}
 <div id='pagination' class="row">
 <nav aria-label="Page navigation example">
-  <ul class="pagination justify-content-end">
+  <ul class="pagination justify-content-center">
    {% if page != 1 %}
     <li class="page-item"><a class="page-link" href="{{ path('app_home', {page: page -1, nbre: nbre}) }}">Précédent</a></li>
     {% endif %}

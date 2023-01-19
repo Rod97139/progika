@@ -57,7 +57,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $isVerified = false;
 
     #[ORM\Column(type: Types::JSON, nullable: false)]
-    private array $saved = [];
+    private array $favs = [];
 
     public function __construct()
     {
@@ -254,14 +254,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getSaved(): array
+    public function getFavs(): array
     {
-        return $this->saved;
+        return $this->favs;
     }
 
-    public function setSaved(?array $saved): self
+    public function setFavs(?array $favs): self
     {
-        $this->saved = $saved;
+        $this->favs = $favs;
 
         return $this;
     }
