@@ -149,7 +149,13 @@ class LodgingController extends AbstractController
             $manager->persist($lodging);
             $manager->flush();
 
-            return $this->redirectToRoute('app_lodging_index', [], Response::HTTP_SEE_OTHER);
+            if ($this->isGranted('ROLE_OWNER')) {
+                return $this->redirectToRoute('app_owner_lodging_list', [], Response::HTTP_SEE_OTHER);
+            }else{
+                return $this->redirectToRoute('app_lodging_index', [], Response::HTTP_SEE_OTHER);
+            }
+
+           
         }
 
         return $this->renderForm('lodging/edit.html.twig', [
@@ -165,6 +171,10 @@ class LodgingController extends AbstractController
             $lodgingRepository->remove($lodging, true);
         }
 
-        return $this->redirectToRoute('app_lodging_index', [], Response::HTTP_SEE_OTHER);
+        if ($this->isGranted('ROLE_OWNER')) {
+            return $this->redirectToRoute('app_owner_lodging_list', [], Response::HTTP_SEE_OTHER);
+        }else{
+            return $this->redirectToRoute('app_lodging_index', [], Response::HTTP_SEE_OTHER);
+        }
     }
 }
