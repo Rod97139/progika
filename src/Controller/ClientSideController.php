@@ -75,14 +75,11 @@ class ClientSideController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        
-
         $coordgps[] = $lodging->getCity()->getGpsLat();
         $coordgps[] = $lodging->getCity()->getGpsLng();
         $criterion = $lodging->getCriteria();
-
         $userId = $lodging->getUser();
-        
+
         return $this->render('client_side/detail.html.twig', [
                 'lodging' => $lodging,
                 'gps' => $coordgps,
