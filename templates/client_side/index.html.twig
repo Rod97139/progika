@@ -14,7 +14,12 @@
     
   </div>
 
-  <img class="lodging-pic mt-2" src="{{ asset(lodg.image) }}" class="card-img-bottom" alt="...">
+{% if lodg.image is defined %}
+
+ <img class="lodging-pic mt-2" src="{{ asset(lodg.image) }}" class="card-img-bottom" alt="...">
+  
+{% endif %}
+ 
   
     <br>
    <a style='text-decoration:none;' href="{{ path('app_client_detail', {id: lodg.id}) }}"> <i class="pt-3 fa-solid fa-circle-info"></i> </a> 

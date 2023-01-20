@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\UserType;
 use App\Repository\LodgingRepository;
 use App\Repository\UserRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,4 +52,23 @@ class OwnerSideController extends AbstractController
                 'lodgings' => $lodgingRepository->findBy(['user' => $user->getId()]),
             ]);
     }
+
+    #[Route('/owner/make', name: 'app_make_owner')]
+    public function makeOwner(UserInterface $user, ManagerRegistry $doctrine): Response
+    {
+
+
+        $user->setRoles(['ROLE_OWNER']);
+
+
+        $manager = $doctrine->getManager();
+            $manager->persist($user);
+            $manager->flush();
+
+
+
+        return $this->redirectToRoute('app_login');
+    }
+
+
 }

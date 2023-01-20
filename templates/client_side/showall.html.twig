@@ -24,10 +24,11 @@ const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 {% for lodg in lodgings %}
 
 
-   L.marker([{{ lodg.city.gpsLat }}, {{ lodg.city.gpsLng }}]).addTo(map);
+   L.marker([{{ lodg.city.gpsLat }}, {{ lodg.city.gpsLng }}]).addTo(map)
+   {# .bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup(); #}
+   
     
 {% endfor %}
-
 
 </script>
     

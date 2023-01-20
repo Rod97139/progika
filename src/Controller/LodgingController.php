@@ -81,7 +81,11 @@ class LodgingController extends AbstractController
             $manager->persist($lodging);
             $manager->flush();
 
-            return $this->redirectToRoute('app_lodging_index', [], Response::HTTP_SEE_OTHER);
+            if ($this->isGranted('ROLE_ADMIN')) {
+                return $this->redirectToRoute('app_lodging_index', [], Response::HTTP_SEE_OTHER);
+            }elseif ($this->isGranted('ROLE_OWNER')) {
+                return $this->redirectToRoute('app_owner_lodging_list', [], Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->render('lodging/new.html.twig', [
@@ -149,10 +153,10 @@ class LodgingController extends AbstractController
             $manager->persist($lodging);
             $manager->flush();
 
-            if ($this->isGranted('ROLE_OWNER')) {
-                return $this->redirectToRoute('app_owner_lodging_list', [], Response::HTTP_SEE_OTHER);
-            }else{
+            if ($this->isGranted('ROLE_ADMIN')) {
                 return $this->redirectToRoute('app_lodging_index', [], Response::HTTP_SEE_OTHER);
+            }elseif ($this->isGranted('ROLE_OWNER')) {
+                return $this->redirectToRoute('app_owner_lodging_list', [], Response::HTTP_SEE_OTHER);
             }
 
            
@@ -164,17 +168,17 @@ class LodgingController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_lodging_delete', methods: ['POST'])]
+    #[Route('/delete/{id}', name: 'app_lodging_delete', methods: ['POST'])]
     public function delete(Request $request, Lodging $lodging, LodgingRepository $lodgingRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$lodging->getId(), $request->request->get('_token'))) {
             $lodgingRepository->remove($lodging, true);
         }
 
-        if ($this->isGranted('ROLE_OWNER')) {
-            return $this->redirectToRoute('app_owner_lodging_list', [], Response::HTTP_SEE_OTHER);
-        }else{
+        if ($this->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_lodging_index', [], Response::HTTP_SEE_OTHER);
+        }elseif ($this->isGranted('ROLE_OWNER')) {
+            return $this->redirectToRoute('app_owner_lodging_list', [], Response::HTTP_SEE_OTHER);
         }
     }
 }

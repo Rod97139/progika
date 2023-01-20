@@ -35,7 +35,8 @@ fixtures ==> `composer require --dev orm-fixtures`
 
  selectionner un group seulement `php bin/console doctrine:fixtures:load --group=LodgingFixtures --append`
 
- Recherche Map, passer de user a owner, #[isgranted] ,
+ Recherche Map
+ #[isgranted],
  
  
   Services et Event
