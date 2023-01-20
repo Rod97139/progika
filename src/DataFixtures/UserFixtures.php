@@ -5,11 +5,11 @@ namespace App\DataFixtures;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture
 {
-    // public const ADMIN_USER_REFERENCE = 'admin-user';
 
     public function __construct(private UserPasswordHasherInterface $hasher)
     {
@@ -17,6 +17,8 @@ class UserFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
+        $faker = Factory::create("fr_FR");
+        
         $admin1 = new User();
         $admin1->setEmail('admin@gmail.com');
         $admin1->setPassword($this->hasher->hashPassword($admin1, 'admin'));
@@ -39,13 +41,16 @@ class UserFixtures extends Fixture
             $owner->setEmail('owner' . $i . '@gmail.com');
             $owner->setPassword($this->hasher->hashPassword($owner, 'owner'));
             $owner->setRoles(['ROLE_OWNER']);
+            $owner->setFirstname($faker->firstName);
+            $owner->setLastname($faker->lastName);
+            $owner->setPhone($faker->phoneNumber);
+            $owner->setDisponibility("Du lundi au jeudi de 18H00 à 19h30");
             $owner->setCreatedAt(new \DateTime());
             $manager->persist($user);
             $manager->persist($owner);
         }
         $manager->flush();
 
-        // $this->addReference(self::ADMIN_USER_REFERENCE, $admin1);
     }
 
     public static function getGroups(): array
