@@ -29,8 +29,14 @@ class ClientSideController extends AbstractController
 
 
     #[Route('/all/{page?1}/{nbre?6}', name: 'app_home')]
-    public function indexAll(ManagerRegistry $doctrine, $page, $nbre, UserInterface $user): Response
+    public function indexAll(ManagerRegistry $doctrine, $page, $nbre, UserInterface $user = null): Response
     {
+        $favs = '';
+
+        if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $favs = $user->getFavs();
+        }
+        
         $repository = $doctrine->getRepository(Lodging::class);
         $nbLodging = $repository->count([]);
         
@@ -43,7 +49,7 @@ class ClientSideController extends AbstractController
             'nbrePage' => $nbrePage,
             'page' => $page,
             'nbre' => $nbre,
-            'favs' => $user->getFavs()
+            'favs' => $favs
         ]);
         
     }

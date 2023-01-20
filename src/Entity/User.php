@@ -261,7 +261,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setFavs(?array $favs): self
     {
-        $this->favs[] = $favs;
+        $this->favs = $favs;
 
         return $this;
     }

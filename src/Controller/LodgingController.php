@@ -20,9 +20,6 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 #[Route('/lodging')]
 class LodgingController extends AbstractController
 {
-    // public function __construct(private ManagerRegistry $doctrine)
-    // {}
-    
 
     #[Route('/', name: 'app_lodging_index', methods: ['GET'])]
     public function index(LodgingRepository $lodgingRepository): Response
@@ -95,7 +92,7 @@ class LodgingController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_lodging_show', methods: ['GET'])]
-    public function show(Lodging $lodging, ManagerRegistry $doctrine, $id): Response
+    public function show(Lodging $lodging): Response
     {
         // $criterion = $doctrine->getRepository(Criteria::class)->findBy([], ["type" => "DESC"]);
         $criterion = $lodging->getCriteria();
