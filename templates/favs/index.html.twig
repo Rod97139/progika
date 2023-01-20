@@ -20,6 +20,7 @@
         
             <br>
         <a style='text-decoration:none;' href="{{ path('app_client_detail', {id: lodg.id}) }}"> <i class="pt-3 fa-solid fa-circle-info"></i> </a> 
+        <a href="{{ path('app_favs_remove', {id: lodg.id}) }}"><i class="p-1 fa-solid fa-star"></i></a>
         
     </div>
     {% endif %}

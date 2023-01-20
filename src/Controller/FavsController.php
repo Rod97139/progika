@@ -32,7 +32,7 @@ class FavsController extends AbstractController
     }
 
     #[Route('/add/{id}', name: 'app_favs_add')]
-    public function addFav(Lodging $lodging = null, UserInterface $user, ManagerRegistry $doctrine): Response
+    public function addFav(Lodging $lodging = null, UserInterface $user, ManagerRegistry $doctrine, Request $request): Response
     {
         if (!$lodging || !$lodging->getId()) {
             $this->addFlash('error', 'Le gîte n\'existe pas');
@@ -48,12 +48,15 @@ class FavsController extends AbstractController
         $manager->persist($user);
         $manager->flush();
 
-        return $this->redirectToRoute('app_home');
+        
+        $route = $request->headers->get('referer');
+
+        return $this->redirect($route);
         
     }
 
     #[Route('/remove/{id}', name: 'app_favs_remove')]
-    public function removeFromFavs(Lodging $lodging = null, UserInterface $user, ManagerRegistry $doctrine): Response
+    public function removeFromFavs(Lodging $lodging = null, UserInterface $user, ManagerRegistry $doctrine, Request $request): Response
     {
         if (!$lodging || !$lodging->getId()) {
             $this->addFlash('error', 'Le gîte n\'existe pas');
@@ -79,6 +82,9 @@ class FavsController extends AbstractController
         $manager->persist($user);
         $manager->flush();
 
-        return $this->redirectToRoute('app_home');
+        $route = $request->headers->get('referer');
+
+        return $this->redirect($route);
+        
     }
 }
