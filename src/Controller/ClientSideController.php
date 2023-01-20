@@ -59,7 +59,6 @@ class ClientSideController extends AbstractController
     #[Route('/map/all', name: 'map_all')]
     public function mapAll(LodgingRepository $lodgingRepository): Response
     {
-       
 
         return $this->render('client_side/showall.html.twig', [
                 'lodgings' =>  $lodgingRepository->findAll()
@@ -79,6 +78,8 @@ class ClientSideController extends AbstractController
         $coordgps[] = $lodging->getCity()->getGpsLng();
         $criterion = $lodging->getCriteria();
         $userId = $lodging->getUser();
+
+        
 
         return $this->render('client_side/detail.html.twig', [
                 'lodging' => $lodging,

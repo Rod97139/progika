@@ -12,19 +12,34 @@
 
    <div class="row">
 <div class="col-12 col-md-6 mt-3">
-<h1>{{lodging.name}}</h1>
-    <img class='lodging-pic' src="{{lodging.image}}" alt="{{lodging.name}}">
+<h1 class='mt-1'>{{lodging.name}}</h1>
+    <img class='lodging-pic mt-4' src="{{lodging.image}}" alt="{{lodging.name}}">
     
-<h5 class='mt-2'>Description :</h5>
-<p>{{lodging.description}}</p>
-<p>Nombre de chambres : {{lodging.numberRooms}}</p>
-<p>Nombre de personnes maximum : {{lodging.maxPeople()}}</p>
-<p>Superficie : {{lodging.surface}} m²</p>
-<p>Tarif hebdomadaire : {{lodging.weeklyBasePrice}} €/semaine</p>
-<p>Adresse : {{lodging.adress}}</p>
-<h5>Équipements et services:</h5>
+<h5 class='mt-4'>Description :</h5>
+<table style='border-collapse : separate; border-spacing : 5px;'><tbody>
+<tr>
+{{lodging.description}}
+</tr>
+<tr>
+<td>Nombre de chambres: </td><td>{{lodging.numberRooms}}</td> 
+</tr>
+<tr>
+<td>Nombre de personnes maximum: </td><td>{{lodging.maxPeople()}}</td>
+</tr>
+<tr>
+<td>Superficie: </td><td>{{lodging.surface}} m²</td>
+</tr>
+<tr>
+<td>Tarif hebdomadaire: </td><td>{{lodging.weeklyBasePrice}} €/semaine</td>
+</tr>
+<tr>
+<td>Adresse: </td><td>{{lodging.adress}}</td>
+</tr>
+</tbody></table>
 
-<table>
+<h5 class='mt-3'>Équipements et services:</h5>
+
+<table class='mt-2'>
 <tbody>
  <tr>
                 <td>
@@ -57,9 +72,26 @@
 <div class="col-12 col-md-6 mt-5">
 <div id="map" style="width: 600px; height: 400px;"  ></div>
 <div>
+<h5 class='mt-3'>Localisation:</h5>
+<table style='border-collapse : separate; border-spacing : 5px;'>
+    <tbody>
+        <tr>
+            <td> Region: </td> <td> {{ lodging.city.departement.region }} </td>
+        </tr>
+        <tr>
+            <td>  Departement: </td> <td>{{ lodging.city.departement }}  </td>
+        </tr>
+        <tr>
+            <td>  Ville:  </td> <td> {{ lodging.city }} </td>
+        </tr>
+    </tbody>
+</table>
+
+</div>
+<div>
 <h5>Coordonnées du propriétaire:</h5>
 
-<table>
+<table style='border-collapse : separate; border-spacing : 5px;'>
     <tbody>
         <tr>
             <td> Nom: </td> <td> {{ user.lastname }} </td>

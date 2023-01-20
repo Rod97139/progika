@@ -15,7 +15,7 @@ class City
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'cities')]
+    #[ORM\ManyToOne(inversedBy: 'cities', fetch: 'EAGER')]
     #[ORM\JoinColumn(name: "departement_code", referencedColumnName: "code", nullable: false)]
     private ?Departement $departement = null;
 

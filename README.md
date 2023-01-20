@@ -35,7 +35,7 @@ fixtures ==> `composer require --dev orm-fixtures`
 
  selectionner un group seulement `php bin/console doctrine:fixtures:load --group=LodgingFixtures --append`
 
- Recherche Map
+ Recherche Map, prix en fonction des semaines de l'année
  #[isgranted],
  
  
