@@ -57,7 +57,27 @@
 <div class="col-12 col-md-6 mt-5">
 <div id="map" style="width: 600px; height: 400px;"  ></div>
 <div>
-Coordonnées du propriétaire :
+<h5>Coordonnées du propriétaire:</h5>
+
+<table>
+    <tbody>
+        <tr>
+            <td> Nom: </td> <td> {{ user.lastname }} </td>
+        </tr>
+        <tr>
+            <td>  Prénom: </td> <td>{{ user.firstname }}  </td>
+        </tr>
+        <tr>
+            <td>  Tel:  </td> <td> {{ user.phone }} </td>
+        </tr>
+        <tr>
+            <td>  Mail:  </td> <td> {{ user.email }} </td>
+        </tr>
+        <tr>
+            <td>  Disponibilité:  </td> <td> {{ user.disponibility }} </td>
+        </tr>
+    </tbody>
+</table>
 
 
 </div>

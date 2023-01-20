@@ -36,6 +36,7 @@ class RegistrationController extends AbstractController
         $form->remove('created_at');
         $form->remove('updated_at');
         $form->handleRequest($request);
+        $user->setCreatedAt(new \DateTime());
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password

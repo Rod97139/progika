@@ -35,4 +35,7 @@ fixtures ==> `composer require --dev orm-fixtures`
 
  selectionner un group seulement `php bin/console doctrine:fixtures:load --group=LodgingFixtures --append`
 
- Recherche Map, afficher coordonnées owner details, passer de user a owner, #[isgranted] Faker fake data owner, Services et Event
+ Recherche Map, afficher coordonnées owner details,Faker fake data owner, passer de user a owner, favoris revenir derniere page #[isgranted] ,
+ 
+ 
+  Services et Event

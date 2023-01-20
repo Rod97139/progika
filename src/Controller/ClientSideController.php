@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\City;
 use App\Entity\Lodging;
 use App\Repository\LodgingRepository;
+use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -66,7 +67,7 @@ class ClientSideController extends AbstractController
     }
 
     #[Route('/detail/{id<\d+>}', name: 'app_client_detail')]
-    public function detail(Lodging $lodging = null): Response
+    public function detail(Lodging $lodging = null, UserRepository $userRepository): Response
     {
 
         if (!$lodging || !$lodging->getCity()) {
@@ -80,12 +81,13 @@ class ClientSideController extends AbstractController
         $coordgps[] = $lodging->getCity()->getGpsLng();
         $criterion = $lodging->getCriteria();
 
+        $userId = $lodging->getUser();
         
-
         return $this->render('client_side/detail.html.twig', [
                 'lodging' => $lodging,
                 'gps' => $coordgps,
-                'criterion' => $criterion
+                'criterion' => $criterion,
+                'user' => $userRepository->findOneBy(['id' => $userId])
             ]);
     }
 }
