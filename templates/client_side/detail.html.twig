@@ -33,39 +33,38 @@
 <td>Tarif hebdomadaire: </td><td>{{lodging.weeklyBasePrice}} €/semaine</td>
 </tr>
 <tr>
-<td>Adresse: </td><td>{{lodging.adress}}</td>
+<td>Date de mise en ligne: </td><td>{{lodging.createdAt|date('d/m/Y')}}</td>
 </tr>
 </tbody></table>
 
 <h5 class='mt-3'>Équipements et services:</h5>
 
-<table class='mt-2'>
+<table style='border-collapse : separate; border-spacing : 10px;' class='mt-2'>
 <tbody>
- <tr>
-                <td>
+ 
                     {% set i = 0 %}
                     {% set totalPrice = 0 %}
                     {% if criterion[i] is defined %}
-                                {{ criterion[i].type }}:
+                            <tr><td>{{ criterion[i].type }}: </td><td>
                         {% for criteria in criterion %}
                                 {% if criterion[i].price is defined %}
                                     {% set totalPrice = totalPrice + criterion[i].price %}
                                 {% endif %}
                                 {{criteria.name}}
                                 {% if criterion[i + 1].type is defined and criterion[i].type != criterion[i + 1].type %}
-                                <br>
-                                {{ criterion[i + 1].type }}:
+                                </td></tr>
+                                <tr><td>
+                                {{ criterion[i + 1].type }}:</td><td>
                                 {% elseif criterion[i + 1].type is defined and criterion[i].type and criterion[i + 1].type == criterion[i].type %}
                                 {{","}}
                                 {% endif %}
+                                
                         {% set i = i + 1 %}
                         {% endfor %}
+                        </td></tr>
                     {% endif %}
-                    <br>
-                    Prix total services: {{ totalPrice }} €/séjour
-                </td>
+                    <tr><td> Prix total services:</td> <td> {{ totalPrice }} €/séjour </td></tr>
                 
-            </tr>
             </tbody>
             </table>
 </div>
@@ -79,10 +78,13 @@
             <td> Region: </td> <td> {{ lodging.city.departement.region }} </td>
         </tr>
         <tr>
-            <td>  Departement: </td> <td>{{ lodging.city.departement }}  </td>
+            <td>  Departement: </td> <td>{{ lodging.city.departement }} ({{ lodging.city.departement.code }})  </td>
         </tr>
         <tr>
             <td>  Ville:  </td> <td> {{ lodging.city }} </td>
+        </tr>
+        <tr>
+        <td>Adresse: </td><td>{{lodging.adress}}</td>
         </tr>
     </tbody>
 </table>
