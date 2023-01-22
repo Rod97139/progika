@@ -2,11 +2,13 @@
 
 - `composer install` `yarn install` `yarn watch`
 
-- `symfony console d:d:c` `symfony console make migration`
+- `symfony console d:d:c` `symfony console make migration` `php bin/console doctrine:migrations:migrate`
 
-- Mettre les table region et departement dans l'ordre "code, name, slug" et importer le fichier sql dans phpmyadmin ou autre
+- Mettre les table region et departement dans l'ordre avec en premier l'id puis region_code et ensuite "code, name, slug" et importer le fichier sql, qui se trouve dans le dossier sql, dans phpmyadmin ou autre
 
 - importer les fixtures avec la commande `php bin/console doctrine:fixtures:load --append`
+
+- enjoy
 
 
 

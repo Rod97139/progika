@@ -51,7 +51,7 @@ class Lodging
     #[ORM\ManyToMany(targetEntity: Criteria::class, inversedBy: 'lodgings', fetch: 'EAGER')]
     private Collection $criteria;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255, nullable: false)]
     private ?string $image = null;
 
     public function __construct()

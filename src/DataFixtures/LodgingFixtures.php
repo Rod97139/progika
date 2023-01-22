@@ -13,8 +13,8 @@ use Faker\Factory;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
-// class LodgingFixtures extends Fixture implements DependentFixtureInterface
-class LodgingFixtures extends Fixture
+class LodgingFixtures extends Fixture implements DependentFixtureInterface
+// class LodgingFixtures extends Fixture
 {
     
     public function __construct(
@@ -80,11 +80,11 @@ class LodgingFixtures extends Fixture
         $manager->flush();
     }
 
-    // public function getDependencies()
-    // {
-    //     return [
-    //         UserFixtures::class,
-    //     ];
-    // }
+    public function getDependencies()
+    {
+        return [
+            UserFixtures::class,
+        ];
+    }
     
 }

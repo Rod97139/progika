@@ -77,15 +77,16 @@ class LodgingType extends AbstractType
                         'class' => City::class,
                         'choice_label' => 'name',
                         'placeholder' => 'Villes',
-                        'label' => 'Villes',
+                        'label' => 'Ville',
                         'attr' => [
                             'class' => 'select2'
                         ]
                     ]); 
                 } else {
                     $builder->add('city', ChoiceType::class, [
-                        'placeholder' => 'Ville (Choisir une Région et un Département)',
-                        'required' => false
+                        'placeholder' => 'Ville (Choisir un Département)',
+                        'required' => false,
+                        'disabled' => true
                     ]) ;
                 }
 
@@ -105,7 +106,7 @@ class LodgingType extends AbstractType
     
                     // make it optional so you don't have to re-upload the PDF file
                     // every time you edit the Product details
-                    'required' => false,
+                    'required' => true,
     
                     // unmapped fields can't define their validation using annotations
                     // in the associated entity, so you can use the PHP constraint classes
@@ -135,8 +136,9 @@ class LodgingType extends AbstractType
                     'class' => City::class,
                     'choices' => $cities,
                     'choice_label' => 'name',
-                    'placeholder' => 'Villes',
-                    'label' => 'Villes'
+                    'placeholder' => 'Ville',
+                    'label' => 'Ville',
+                    'required' => true
                 ]);
             };
             
