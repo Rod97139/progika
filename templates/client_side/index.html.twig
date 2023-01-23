@@ -3,6 +3,8 @@
 {% block title %}Bienvenue !{% endblock %}
 
 {% block body %}
+
+
  <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container">
     
@@ -11,9 +13,9 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
+        {# <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="#"> <i class="fa-solid fa-sliders"></i> Filtres</a>
-        </li>
+        </li> #}
        
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -54,7 +56,27 @@
         <li class="nav-item">
           <a class="nav-link disabled">Disabled</a>
         </li>
+         
+      <form id="filters">
+         <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+           <i class="fa-solid fa-square-check"></i> Équipements et Services
+          </a>
+          <ul class="dropdown-menu">
+      {% for crit in criterion %}
+              <li>
+              <p class="dropdown-item"><input type="checkbox" name="criterion[]" id="crit{{crit.id}}" value='{{crit.id}}'>
+              <label for="crit{{crit.id}}">{{crit.name}}</label>
+              </p>
+              </li>
+      {% endfor %}
+          </ul>
+          </li>
+          <input type="hidden" name="page" value='{{page}}'>
+      </form>
+      
       </ul>
+     
       <form class="d-flex" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
@@ -63,76 +85,31 @@
   </div>
 </nav>
 
+{% include "client_side/_content.html.twig" %}
 
-<div class='row' >
- {% for lodg in lodgs %}
-<div class="col-12 col-md-6 mt-3" id='home-card'>
-  <div class="card-body">
-    <h5 class="card-title">{{ lodg.name }}</h5>
-    <p class="card-text">{{ lodg.description }}</p>
-    
-  </div>
+<script>
 
-{% if lodg.image is defined %}
+const FiltersForm = document.querySelector("#filters")
 
- <img class="lodging-pic mt-2" src="{{ asset(lodg.image) }}" class="card-img-bottom" alt="...">
-  
-{% endif %}
- 
-  
-    <br>
-   <a style='text-decoration:none;' href="{{ path('app_client_detail', {id: lodg.id}) }}"> <i class="pt-3 fa-solid fa-circle-info"></i> </a> 
-   
-   {% if is_granted('ROLE_USER') and favs is defined %}
+//boucle sur les inputs
+document.querySelectorAll("#filters input").forEach(input => {
+    input.addEventListener("change", () => {
+        // on intercepte les clics
+        // on récupère les datas
+        const Form = new FormData(FiltersForm)
+        Form.forEach((value, key) => {
+            console.log(key, value);
+        })
+    })
 
-   
-                      {% set y = 0 %}
-                      {% set i = 0 %}
+})
 
-                      {% if favs|length == 0  %}
-                       <a href="{{ path('app_favs_add', {id: lodg.id}) }}"> <i  class="p-1 fa-regular fa-star"></i></a>
-                      {% endif %}
-                      
-                      
-                  {% for fav in favs %}
-                      {% if favs[i][0] == lodg.id %}
-                        {% set y = 1 %}
-                        <a href="{{ path('app_favs_remove', {id: lodg.id}) }}"><i class="p-1 fa-solid fa-star"></i></a>
-                        {% elseif i == favs|length -1 and y == 0 %}
-                      <a href="{{ path('app_favs_add', {id: lodg.id}) }}"><i  class="p-1 fa-regular fa-star"></i></a>
-                      {% endif %}
-                      {% set i = i +1 %}
-                  {% endfor %}
-
-   
-   {% endif %}
-
-                  
-   
-</div>
-    {% endfor %}
-    </div>
-
-{% if isPaginated is defined and isPaginated %}
-<div id='pagination' class="row">
-<nav aria-label="Page navigation example">
-  <ul class="pagination justify-content-center">
-   {% if page != 1 %}
-    <li class="page-item"><a class="page-link" href="{{ path('app_home', {page: page -1, nbre: nbre}) }}">Précédent</a></li>
-    {% endif %}
-      
-    {% for i in range(1, nbrePage) %}
-        <li class="page-item"><a class="page-link" href="{{ path('app_home', {page: i, nbre: nbre}) }}">{{i}}</a></li>
-    {% endfor %}
-
-    {% if page != nbrePage %}
-    <li class="page-item"><a class="page-link" href="{{ path('app_home', {page: page + 1, nbre: nbre}) }}">Suivant</a></li>
-    {% endif %}
-  </ul>
-</nav>
-</div>
-  
-{% endif %}
-
+</script>
 
 {% endblock %}
+
+{# {% block javascripts %}
+
+           {{ parent() }} {{ encore_entry_script_tags('filters') }}
+
+{% endblock %} #}

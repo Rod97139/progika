@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\City;
 use App\Entity\Lodging;
+use App\Repository\CriteriaRepository;
 use App\Repository\LodgingRepository;
 use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -30,7 +31,7 @@ class ClientSideController extends AbstractController
 
 
     #[Route('/all/{page?1}/{nbre?6}', name: 'app_home')]
-    public function indexAll(ManagerRegistry $doctrine, $page, $nbre, UserInterface $user = null): Response
+    public function indexAll(ManagerRegistry $doctrine, $page, $nbre, UserInterface $user = null, CriteriaRepository $criteriaRepository): Response
     {
         $favs = '';
 
@@ -44,13 +45,16 @@ class ClientSideController extends AbstractController
         $nbrePage = ceil($nbLodging / $nbre);
         $lodgings = $repository->findBy([], [], $nbre, ($page - 1) * $nbre );
 
+        $criterion = $criteriaRepository->findAll();
+
         return $this->render('client_side/index.html.twig', [
             'lodgs' => $lodgings,
             'isPaginated' => true,
             'nbrePage' => $nbrePage,
             'page' => $page,
             'nbre' => $nbre,
-            'favs' => $favs
+            'favs' => $favs,
+            'criterion' => $criterion
         ]);
         
     }
