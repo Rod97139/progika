@@ -1,6 +1,5 @@
 /.env 
 /migrations/
-/uploads/images/
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php

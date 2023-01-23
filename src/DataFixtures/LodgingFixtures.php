@@ -32,10 +32,10 @@ class LodgingFixtures extends Fixture implements DependentFixtureInterface
         $users = $this->userRepository->findByRole('ROLE_OWNER');
 
         $pictures = [
-            '/uploads/images/gite_example.jpg',
-            '/uploads/images/gite-test3.jpg',
-            '/uploads/images/gite-test4.jpg',
-            '/uploads/images/gite-test5.jpg'
+            '/uploads/images/gite.jpg',
+            '/uploads/images/gite3.jpg',
+            '/uploads/images/gite4.jpg',
+            '/uploads/images/gite5.jpg'
             ];
         
         $criteria = $this->criteriaRepository->findAll();
