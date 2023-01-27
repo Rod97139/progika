@@ -40,19 +40,20 @@ class ClientSideController extends AbstractController
         }
         
         $repository = $doctrine->getRepository(Lodging::class);
-        $nbLodging = $repository->count([]);
+        // $nbLodging = $repository->count([]);
         
-        $nbrePage = ceil($nbLodging / $nbre);
-        $lodgings = $repository->findBy([], [], $nbre, ($page - 1) * $nbre );
+        // $nbrePage = ceil($nbLodging / $nbre);
+        // $lodgings = $repository->findBy([], [], $nbre, ($page - 1) * $nbre );
+        $lodgings = $repository->findAll();
 
         $criterion = $criteriaRepository->findAll();
 
         return $this->render('client_side/index.html.twig', [
             'lodgs' => $lodgings,
-            'isPaginated' => true,
-            'nbrePage' => $nbrePage,
-            'page' => $page,
-            'nbre' => $nbre,
+            // 'isPaginated' => true,
+            // 'nbrePage' => $nbrePage,
+            // 'page' => $page,
+            // 'nbre' => $nbre,
             'favs' => $favs,
             'criterion' => $criterion
         ]);
