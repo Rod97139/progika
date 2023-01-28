@@ -9,6 +9,7 @@ use App\Repository\LodgingRepository;
 use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -30,8 +31,10 @@ class ClientSideController extends AbstractController
     }
 
 
-    #[Route('/all/{page?1}/{nbre?6}', name: 'app_home')]
-    public function indexAll(ManagerRegistry $doctrine, $page, $nbre, UserInterface $user = null, CriteriaRepository $criteriaRepository): Response
+    // #[Route('/all/{page?1}/{nbre?6}', name: 'app_home')]
+    // public function indexAll(ManagerRegistry $doctrine, $page, $nbre, UserInterface $user = null, CriteriaRepository $criteriaRepository): Response
+    #[Route('/all', name: 'app_home')]
+    public function indexAll(LodgingRepository $lodgingRepository, UserInterface $user = null, CriteriaRepository $criteriaRepository, Request $request): Response
     {
         $favs = '';
 
@@ -39,21 +42,33 @@ class ClientSideController extends AbstractController
             $favs = $user->getFavs();
         }
         
-        $repository = $doctrine->getRepository(Lodging::class);
-        // $nbLodging = $repository->count([]);
-        
+
+        // on récupère les filtres 
+        $filters = $request->get('criterion');
+
+        // on récupère les lodgings
+        $lodgings = $lodgingRepository->findByCriteria($filters);
+        // dd($lodgings);
+
+
+        if ($request->get('ajax')) {
+            return 'ok';
+        }
+
+
+        // --- pagination ---
+        // $nbLodging = $repository->count([]);        
         // $nbrePage = ceil($nbLodging / $nbre);
         // $lodgings = $repository->findBy([], [], $nbre, ($page - 1) * $nbre );
-        $lodgings = $repository->findAll();
 
         $criterion = $criteriaRepository->findAll();
 
         return $this->render('client_side/index.html.twig', [
-            'lodgs' => $lodgings,
             // 'isPaginated' => true,
             // 'nbrePage' => $nbrePage,
             // 'page' => $page,
             // 'nbre' => $nbre,
+            'lodgs' => $lodgings,
             'favs' => $favs,
             'criterion' => $criterion
         ]);

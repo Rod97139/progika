@@ -54,6 +54,27 @@ class LodgingRepository extends ServiceEntityRepository
 //        ;
 //    }
 
+   public function findByCriteria($filters = null)
+   {
+       $query = $this->createQueryBuilder('l')
+       ;
+        //    ->andWhere('l.exampleField = :val')
+        //    ->setParameter('val', $value)
+        if ($filters != null) {
+            $query->andWhere('c = (:crit)')
+            ->join('l.criteria', 'c')
+            ->setParameter(':crit', array_values($filters));
+        }
+
+        $query->orderBy('l.created_at')
+        //    ->setMaxResults(10)
+           
+           
+       ;
+
+       return $query->getQuery()->getResult();
+   }
+
 //    public function findOneBySomeField($value): ?Lodging
 //    {
 //        return $this->createQueryBuilder('l')
