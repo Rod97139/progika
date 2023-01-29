@@ -54,15 +54,15 @@ class LodgingRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-   public function findByCriteria($filters = null)
+   public function findByCriteria($filters = null): array
    {
        $query = $this->createQueryBuilder('l')
+       ->join('l.criteria', 'c')
        ;
         //    ->andWhere('l.exampleField = :val')
         //    ->setParameter('val', $value)
         if ($filters != null) {
-            $query->andWhere('c = (:crit)')
-            ->join('l.criteria', 'c')
+            $query->andWhere('c IN(:crit)')
             ->setParameter(':crit', array_values($filters));
         }
 

@@ -12,18 +12,20 @@ document.querySelectorAll("#filters input").forEach(input => {
         
         Form.forEach((value, key) => {
             Params.append(key, value)
-            console.log(Params.toString());
         })
         //On récupere l'url active
         const Url = new URL(window.location.href)
         
         // On lance la requete ajax
-        fetch(Url.origin + "/all/?" + Params.toString() + "&ajax=1", {
+        fetch(Url.href + "?" + Params.toString() + "&ajax=1", {
             headers: {
                 "X-Requested-With": "XMLHttpRequest"
             }
-        }).then(response => {
-            console.log(response);
+        }).then(response => 
+            response.json()
+        ).then(data => {
+            const content = document.querySelector("#content")
+            content.innerHTML = data.content
         }).catch(e => alert(e))
 
     })

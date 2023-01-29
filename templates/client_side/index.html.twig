@@ -85,13 +85,14 @@
   </div>
 </nav>
 
+<div id='content'>
 {% include "client_side/_content.html.twig" %}
-
+</div>
 
 {% endblock %}
 
 {% block javascripts %}
 
-           {{ parent() }} {{ encore_entry_script_tags('filters') }}
+           {{ parent() }} {{ encore_entry_script_tags('filter') }}
 
 {% endblock %}

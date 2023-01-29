@@ -9,6 +9,7 @@ use App\Repository\LodgingRepository;
 use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -52,7 +53,15 @@ class ClientSideController extends AbstractController
 
 
         if ($request->get('ajax')) {
-            return 'ok';
+            return new JsonResponse([
+                'content' => $this->renderView('client_side/_content.html.twig', [
+                    // 'isPaginated' => true,
+                    // 'nbrePage' => $nbrePage,
+                    // 'page' => $page,
+                    // 'nbre' => $nbre,
+                    'lodgs' => $lodgings
+                    ])
+            ]);
         }
 
 
