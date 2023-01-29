@@ -50,28 +50,47 @@
             <li><a class="dropdown-item" href="#">Something else here</a></li>
           </ul>
         </li>
-         <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled">Disabled</a>
-        </li>
          
-      <form id="filters">
-         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-           <i class="fa-solid fa-square-check"></i> Équipements et Services
-          </a>
-          <ul class="dropdown-menu">
-      {% for crit in criterion %}
-              <li>
-              <p class="dropdown-item"><input type="checkbox" name="criterion[]" id="crit{{crit.id}}" value='{{crit.id}}'>
-              <label for="crit{{crit.id}}">{{crit.name}}</label>
-              </p>
-              </li>
-      {% endfor %}
-          </ul>
-          </li>
+      <form  id="filters">
+        {% set i = 0 %}
+        {% set eqext = 'Équipements extérieurs' %}
+        {% set serv = 'Services' %}
+        {% set pet = 'Privilèges' %}
+        {% set i = 0 %}
+          {% if criterion[i] is defined %}
+          <li class="nav-item dropdown" style='float:left;'>
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-tv"></i> {{ criterion[i].type }}
+            </a>
+            <ul class="dropdown-menu">
+          {% for crit in criterion %}
+                <li>
+                <p class="dropdown-item"><input type="checkbox" name="criterion[]" id="crit{{crit.id}}" value='{{crit.id}}'>
+                <label for="crit{{crit.id}}">{{crit.name}}</label>
+                </p>
+                </li>
+                {% if criterion[i + 1].type is defined and criterion[i].type != criterion[i + 1].type %}
+                
+                </ul></li>
+                <li class="nav-item dropdown" style='float:left;'>
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  {% if criterion[i + 1].type is same as eqext %}
+                    <i class="fa-solid fa-basketball"></i>
+                  {% elseif criterion[i + 1].type is same as serv %}
+                    <i class="fa-solid fa-car"></i>
+                  {% elseif criterion[i + 1].type is same as pet %}
+                    <i class="fa-solid fa-dog"></i>
+                  {% endif %}
+                   {{ criterion[i + 1].type }}
+                  </a>
+                  <ul class="dropdown-menu">
+                {% endif %}
+
+          {% set i = i + 1 %}
+        {% endfor %}
+        </ul></li>
+           
+        {% endif %}
           {# <input type="hidden" name="page" value='{{page}}'> #}
       </form>
       
