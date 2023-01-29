@@ -1,5 +1,8 @@
 {% extends 'base.html.twig' %}
 
+{# On crée des variable personnalisées #}
+{% set queryParams = app.request.query.all %}
+
 {% block title %}Bienvenue !{% endblock %}
 
 {% block body %}
@@ -64,8 +67,14 @@
             </a>
             <ul class="dropdown-menu">
           {% for crit in criterion %}
+            {# On verifie si la catégorie est dans les paramètres #}
+            {% if queryParams is not empty and queryParams.criterion is defined %}
+              {% set checked = (crit.id in queryParams.criterion) ? "checked": "" %}
+            {% else %}
+              {% set checked = "" %}
+            {% endif %}
                 <li>
-                <p class="dropdown-item"><input type="checkbox" name="criterion[]" id="crit{{crit.id}}" value='{{crit.id}}'>
+                <p class="dropdown-item"><input type="checkbox" name="criterion[]" id="crit{{crit.id}}" value='{{crit.id}}' {{ checked }}>
                 <label for="crit{{crit.id}}">{{crit.name}}</label>
                 </p>
                 </li>
@@ -74,13 +83,15 @@
                 </ul></li>
                 <li class="nav-item dropdown" style='float:left;'>
                   <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  {% if criterion[i + 1].type is same as eqext %}
-                    <i class="fa-solid fa-basketball"></i>
-                  {% elseif criterion[i + 1].type is same as serv %}
-                    <i class="fa-solid fa-car"></i>
-                  {% elseif criterion[i + 1].type is same as pet %}
-                    <i class="fa-solid fa-dog"></i>
-                  {% endif %}
+                      {% if criterion[i + 1].type is same as eqext %}
+                        <i class="fa-solid fa-basketball"></i>
+                      {% elseif criterion[i + 1].type is same as serv %}
+                        <i class="fa-solid fa-car"></i>
+                      {% elseif criterion[i + 1].type is same as pet %}
+                        <i class="fa-solid fa-dog"></i>
+                      {% else %}
+                        <i class="fa-solid fa-square-check"></i>
+                      {% endif %}
                    {{ criterion[i + 1].type }}
                   </a>
                   <ul class="dropdown-menu">
@@ -108,10 +119,54 @@
 {% include "client_side/_content.html.twig" %}
 </div>
 
+<script>
+const FiltersForm = document.querySelector("#filters")
+
+//boucle sur les inputs
+document.querySelectorAll("#filters input").forEach(input => {
+    input.addEventListener("change", () => {
+        // on intercepte les clics
+        // on récupère les datas
+        const Form = new FormData(FiltersForm)
+
+        // on fabrique l'url
+        const Params = new URLSearchParams()
+        
+        Form.forEach((value, key) => {
+            Params.append(key, value)
+        })
+        //On récupere l'url active
+        const Url = new URL(window.location.href)
+        
+        // On lance la requete ajax
+        fetch(Url.pathname + "?" + Params.toString() + "&ajax=1", {
+            headers: {
+                "X-Requested-With": "XMLHttpRequest"
+            }
+        }).then(response => 
+            response.json()
+        ).then(data => {
+            // on va chercher la zone du contenu
+            const content = document.querySelector("#content")
+
+            // on remplace le contenu html
+            content.innerHTML = data.content
+
+
+            // on met a jour l'url
+            history.pushState({}, null, Url.pathname + "?" + Params.toString())
+
+        }).catch(e => alert(e))
+
+    })
+
+})
+</script>
 {% endblock %}
 
 {% block javascripts %}
 
-           {{ parent() }} {{ encore_entry_script_tags('filter') }}
+           {{ parent() }} 
+           {# {{ encore_entry_script_tags('filter') }} #}
 
 {% endblock %}
