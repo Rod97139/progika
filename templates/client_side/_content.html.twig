@@ -58,15 +58,15 @@
 <nav aria-label="Page navigation example">
   <ul class="pagination justify-content-center">
    {% if page != 1 %}
-    <li class="page-item"><a class="page-link" href="{{ path('app_home', {page: page -1, nbre: nbre}) }}">Précédent</a></li>
+    <li class="page-item"><a class="page-link" href="{{ path('app_home', {page: page -1}) }}&{{ queryString }}">Précédent</a></li>
     {% endif %}
       
     {% for i in range(1, nbrePage) %}
-        <li class="page-item"><a class="page-link" href="{{ path('app_home', {page: i, nbre: nbre}) }}">{{i}}</a></li>
+        <li class="page-item"><a class="page-link" href="{{ path('app_home', {page: i}) }}&{{ queryString }}">{{i}}</a></li>
     {% endfor %}
 
     {% if page != nbrePage %}
-    <li class="page-item"><a class="page-link" href="{{ path('app_home', {page: page + 1, nbre: nbre}) }}">Suivant</a></li>
+    <li class="page-item"><a class="page-link" href="{{ path('app_home', {page: page + 1}) }}&{{ queryString }}">Suivant</a></li>
     {% endif %}
   </ul>
 </nav>

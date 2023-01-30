@@ -3,10 +3,19 @@
 {% block title %}Hello FavsController!{% endblock %}
 
 {% block body %}
+<pre>
+    {{ dump(favs|length) }}
+</pre>
 <div class='row' >
  {% set i = 0 %}
-{% for fav in favs %}
+ {% set y = 0 %}
+
+ {% set condition = true %}
+    
  {% for lodg in lodgs %}
+ 
+{% if condition %}
+ {% for fav in favs %}
  
     {% if favs[i][0] == lodg.id %}
     <div class="col-12 col-md-6 mt-3" id='home-card'>
@@ -21,12 +30,24 @@
             <br>
         <a style='text-decoration:none;' href="{{ path('app_client_detail', {id: lodg.id}) }}"> <i class="pt-3 fa-solid fa-circle-info"></i> </a> 
         <a href="{{ path('app_favs_remove', {id: lodg.id}) }}"><i class="p-1 fa-solid fa-star"></i></a>
-        
+        {% set y = y + 1 %}
     </div>
     {% endif %}
+    {% if y == favs|length %}
+    {% set condition = false %}
+    {% endif %}
     
- {% endfor %}
  {% set i = i +1 %}
+ {% endfor %}
+ <pre>
+    {{ dump(y) }}
+ </pre>
+ 
+ 
+{% set i = 0 %}
+
+{% endif %}
 {% endfor %}
+
     </div>
 {% endblock %}

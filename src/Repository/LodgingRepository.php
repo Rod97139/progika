@@ -57,22 +57,43 @@ class LodgingRepository extends ServiceEntityRepository
    public function findByCriteria($filters = null): array
    {
        $query = $this->createQueryBuilder('l')
-       ->join('l.criteria', 'c')
-       ;
-        //    ->andWhere('l.exampleField = :val')
-        //    ->setParameter('val', $value)
+       ->join('l.criteria', 'c');
         if ($filters != null) {
             $query->andWhere('c IN(:crit)')
             ->setParameter(':crit', array_values($filters));
         }
 
-        $query->orderBy('l.created_at')
-        //    ->setMaxResults(10)
-           
-           
-       ;
+        $query->orderBy('l.created_at');
 
        return $query->getQuery()->getResult();
+   }
+
+   public function getTotalLodgings($filters = null){
+    $query = $this->createQueryBuilder('l')
+        ->select('COUNT(l)');
+    if($filters != null){
+        $query->andWhere('c IN(:crit)')
+        ->join('l.criteria', 'c')
+        ->setParameter(':crit', array_values($filters));
+    }
+
+    return $query->getQuery()->getSingleScalarResult();
+}
+
+   public function getPaginatedLodgings($page, $limit, $filters = null): array
+   {
+        $query = $this->createQueryBuilder('l')
+            ->orderBy('l.created_at', 'DESC')
+            ->setFirstResult(($page * $limit) - $limit)
+            ->setMaxResults($limit)
+            ;
+            if ($filters != null) {
+                $query->andWhere('c IN(:crit)')
+                ->join('l.criteria', 'c')
+                ->setParameter(':crit', array_values($filters));
+            }
+        
+        return $query->getQuery()->getResult();
    }
 
 //    public function findOneBySomeField($value): ?Lodging

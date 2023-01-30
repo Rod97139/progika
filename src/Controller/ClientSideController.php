@@ -43,40 +43,63 @@ class ClientSideController extends AbstractController
             $favs = $user->getFavs();
         }
         
+        // On définit le nombre d'élement par page
+        $limit = 6;
+
+        //on récupère le numéro de page
+        $page = (int)$request->query->get('page', 1);
+
+        
+        // $lodgings = $repository->findBy([], [], $nbre, ($page - 1) * $nbre );
+
+        
 
         // on récupère les filtres 
         $filters = $request->get('criterion');
 
         // on récupère les lodgings
-        $lodgings = $lodgingRepository->findByCriteria($filters);
+        
+        $lodgings = $lodgingRepository->getPaginatedLodgings($page, $limit, $filters);
+
+        // on récupere le nombre total de gîtes
+         // --- pagination ---
+         
+        $nbLodging = $lodgingRepository->getTotalLodgings($filters);
+         $nbrePage = ceil($nbLodging / $limit);  
+        // $lodgings = $lodgingRepository->findByCriteria($filters);
         // dd($lodgings);
+
+        $isPaginated = true;
+
+       
+
+        if ($nbLodging < 1) {
+            $isPaginated = false;
+        }
+
+
+        
+       
 
 
         if ($request->get('ajax')) {
             return new JsonResponse([
                 'content' => $this->renderView('client_side/_content.html.twig', [
-                    // 'isPaginated' => true,
-                    // 'nbrePage' => $nbrePage,
-                    // 'page' => $page,
-                    // 'nbre' => $nbre,
+                    'isPaginated' => $isPaginated,
+                    'nbrePage' => $nbrePage,
+                    'page' => $page,
+                    'nbre' => $limit,
                     'lodgs' => $lodgings
                     ])
             ]);
         }
 
-
-        // --- pagination ---
-        // $nbLodging = $repository->count([]);        
-        // $nbrePage = ceil($nbLodging / $nbre);
-        // $lodgings = $repository->findBy([], [], $nbre, ($page - 1) * $nbre );
-
         $criterion = $criteriaRepository->findAll();
 
         return $this->render('client_side/index.html.twig', [
-            // 'isPaginated' => true,
-            // 'nbrePage' => $nbrePage,
-            // 'page' => $page,
-            // 'nbre' => $nbre,
+            'isPaginated' => true,
+            'nbrePage' => $nbrePage,
+            'page' => $page,
             'lodgs' => $lodgings,
             'favs' => $favs,
             'criterion' => $criterion
