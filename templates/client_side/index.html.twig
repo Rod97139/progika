@@ -43,14 +43,14 @@
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
            <i class="fa-solid fa-map-pin"></i> Region
           </a>
-          <ul class="dropdown-menu ">
+          <ul class="dropdown-menu region">
           
         <div class="d-flex flex-wrap">
       {% for region in regions %}
-        <div class="dropdown-item">
+        <li class="dropdown-item">
           <input class='region' type="radio" name="regions[]" id="region{{region.id}}" value='{{region.id}}'/>
           <label for="region{{region.id}}">{{region.name}}</label>
-        </div>
+        </li>
       {% endfor %}
     </div>
           </ul>

@@ -23,6 +23,9 @@ $pagination-active-bg: #CDA434;
 
 @import "~bootstrap/scss/bootstrap";
 
+.dropdown-menu.region{
+    width: 500%;
+}
 .dropdown-item {
     width: 50%;
   }
