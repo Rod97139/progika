@@ -5,6 +5,7 @@
 
 {% block title %}Bienvenue !{% endblock %}
 
+
 {% block body %}
 
 
@@ -40,18 +41,22 @@
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-           <i class="fa-solid fa-calendar-days"></i> Dates
+           <i class="fa-solid fa-map-pin"></i> Region
           </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          <ul class="dropdown-menu ">
+          
+        <div class="d-flex flex-wrap">
+      {% for region in regions %}
+        <div class="dropdown-item">
+          <input class='region' type="radio" name="regions[]" id="region{{region.id}}" value='{{region.id}}'/>
+          <label for="region{{region.id}}">{{region.name}}</label>
+        </div>
+      {% endfor %}
+    </div>
           </ul>
         </li>
          
       <form  id="filters">
-        {% set i = 0 %}
         {% set eqext = 'Équipements extérieurs' %}
         {% set serv = 'Services' %}
         {% set pet = 'Privilèges' %}
@@ -115,54 +120,11 @@
 {% include "client_side/_content.html.twig" %}
 </div>
 
-<script>
-const FiltersForm = document.querySelector("#filters")
-
-//boucle sur les inputs
-document.querySelectorAll("#filters input").forEach(input => {
-    input.addEventListener("change", () => {
-        // on intercepte les clics
-        // on récupère les datas
-        const Form = new FormData(FiltersForm)
-
-        // on fabrique l'url
-        const Params = new URLSearchParams()
-        
-        Form.forEach((value, key) => {
-            Params.append(key, value)
-        })
-        //On récupere l'url active
-        const Url = new URL(window.location.href)
-        
-        // On lance la requete ajax
-        fetch(Url.pathname + "?" + Params.toString() + "&ajax=1", {
-            headers: {
-                "X-Requested-With": "XMLHttpRequest"
-            }
-        }).then(response => 
-            response.json()
-        ).then(data => {
-            // on va chercher la zone du contenu
-            const content = document.querySelector("#content")
-
-            // on remplace le contenu html
-            content.innerHTML = data.content
-
-
-            // on met a jour l'url
-            history.pushState({}, null, Url.pathname + "?" + Params.toString())
-
-        }).catch(e => alert(e))
-
-    })
-
-})
-</script>
 {% endblock %}
 
 {% block javascripts %}
 
            {{ parent() }} 
-           {# {{ encore_entry_script_tags('filter') }} #}
+           {{ encore_entry_script_tags('filters') }}
 
 {% endblock %}

@@ -158,8 +158,6 @@ class LodgingController extends AbstractController
             }elseif ($this->isGranted('ROLE_OWNER')) {
                 return $this->redirectToRoute('app_owner_lodging_list', [], Response::HTTP_SEE_OTHER);
             }
-
-           
         }
 
         return $this->renderForm('lodging/edit.html.twig', [

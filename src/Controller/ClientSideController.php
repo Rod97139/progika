@@ -6,6 +6,7 @@ use App\Entity\City;
 use App\Entity\Lodging;
 use App\Repository\CriteriaRepository;
 use App\Repository\LodgingRepository;
+use App\Repository\RegionRepository;
 use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,7 +36,7 @@ class ClientSideController extends AbstractController
     // #[Route('/all/{page?1}/{nbre?6}', name: 'app_home')]
     // public function indexAll(ManagerRegistry $doctrine, $page, $nbre, UserInterface $user = null, CriteriaRepository $criteriaRepository): Response
     #[Route('/all', name: 'app_home')]
-    public function indexAll(LodgingRepository $lodgingRepository, UserInterface $user = null, CriteriaRepository $criteriaRepository, Request $request): Response
+    public function indexAll(LodgingRepository $lodgingRepository, UserInterface $user = null, CriteriaRepository $criteriaRepository, RegionRepository $regionRepository, Request $request): Response
     {
         $favs = '';
 
@@ -48,11 +49,6 @@ class ClientSideController extends AbstractController
 
         //on récupère le numéro de page
         $page = (int)$request->query->get('page', 1);
-
-        
-        // $lodgings = $repository->findBy([], [], $nbre, ($page - 1) * $nbre );
-
-        
 
         // on récupère les filtres 
         $filters = $request->get('criterion');
@@ -77,11 +73,6 @@ class ClientSideController extends AbstractController
             $isPaginated = false;
         }
 
-
-        
-       
-
-
         if ($request->get('ajax')) {
             return new JsonResponse([
                 'content' => $this->renderView('client_side/_content.html.twig', [
@@ -95,6 +86,7 @@ class ClientSideController extends AbstractController
         }
 
         $criterion = $criteriaRepository->findAll();
+        $regions = $regionRepository->findAll();
 
         return $this->render('client_side/index.html.twig', [
             'isPaginated' => true,
@@ -102,7 +94,8 @@ class ClientSideController extends AbstractController
             'page' => $page,
             'lodgs' => $lodgings,
             'favs' => $favs,
-            'criterion' => $criterion
+            'criterion' => $criterion,
+            'regions' => $regions
         ]);
         
     }
