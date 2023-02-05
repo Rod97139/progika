@@ -166,6 +166,8 @@ class LodgingController extends AbstractController
         ]);
     }
 
+    
+
     #[Route('/delete/{id}', name: 'app_lodging_delete', methods: ['POST'])]
     public function delete(Request $request, Lodging $lodging, LodgingRepository $lodgingRepository): Response
     {

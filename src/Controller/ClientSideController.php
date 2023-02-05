@@ -80,11 +80,13 @@ class ClientSideController extends AbstractController
                     'isPaginated' => $isPaginated,
                     'nbrePage' => $nbrePage,
                     'page' => $page,
+                    'favs' => $favs,
                     'nbre' => $limit,
                     'lodgs' => $lodgings
                     ])
             ]);
         }
+        
 
         $criterion = $criteriaRepository->findAll();
         $regions = $regionRepository->findAll();

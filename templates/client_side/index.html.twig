@@ -40,7 +40,7 @@
           </ul>
         </li>
         
-        <form  id="filters">
+        <form  id="filters">        
         <li class="nav-item dropdown" style="float:left;">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
            <i class="fa-solid fa-map-pin"></i> Region
@@ -51,9 +51,14 @@
         {# <div class="d-flex flex-wrap"> #}
         
       {% for region in regions %}
+       {% if queryParams is not empty and queryParams.region is defined %}
+               {% set checked = (region.code in queryParams.region) ? "checked": "" %}
+            {% else %}
+              {% set checked = "" %}
+            {% endif %}
 
         <li class="dropdown-item">
-          <input class='region' type="radio" name="region" id="region{{region.id}}" value='{{region.code}}'/>
+          <input class='region' type="radio" name="region" id="region{{region.id}}" value='{{region.code}}' {{checked}} />
           <label for="region{{region.id}}">{{region.name}}</label>
         </li>
       {% endfor %}
@@ -108,7 +113,7 @@
         </ul></li>
            
         {% endif %}
-          <input type="hidden" name="page" value='{{page}}'>
+          {# <input type="hidden" name="page" value='{{page}}'> #}
       </form>
       
       </ul>

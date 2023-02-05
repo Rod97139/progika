@@ -3,9 +3,6 @@
 {% block title %}Hello FavsController!{% endblock %}
 
 {% block body %}
-<pre>
-    {{ dump(favs|length) }}
-</pre>
 <div class='row' >
  {% set i = 0 %}
  {% set y = 0 %}
@@ -39,9 +36,6 @@
     
  {% set i = i +1 %}
  {% endfor %}
- <pre>
-    {{ dump(y) }}
- </pre>
  
  
 {% set i = 0 %}
