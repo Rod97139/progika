@@ -51,7 +51,8 @@ class ClientSideController extends AbstractController
         $page = (int)$request->query->get('page', 1);
 
         // on récupère les filtres 
-        $filters = $request->get('criterion');
+        $filters['criterion'] = $request->get('criterion');
+        $filters['region'] = $request->get('region');
 
         // on récupère les lodgings
         
@@ -59,7 +60,6 @@ class ClientSideController extends AbstractController
 
         // on récupere le nombre total de gîtes
          // --- pagination ---
-         
         $nbLodging = $lodgingRepository->getTotalLodgings($filters);
          $nbrePage = ceil($nbLodging / $limit);  
         // $lodgings = $lodgingRepository->findByCriteria($filters);
@@ -76,6 +76,7 @@ class ClientSideController extends AbstractController
         if ($request->get('ajax')) {
             return new JsonResponse([
                 'content' => $this->renderView('client_side/_content.html.twig', [
+                    'filters' => $filters,
                     'isPaginated' => $isPaginated,
                     'nbrePage' => $nbrePage,
                     'page' => $page,

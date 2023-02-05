@@ -54,27 +54,28 @@ class LodgingRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-   public function findByCriteria($filters = null): array
-   {
-       $query = $this->createQueryBuilder('l')
-       ->join('l.criteria', 'c');
-        if ($filters != null) {
-            $query->andWhere('c IN(:crit)')
-            ->setParameter(':crit', array_values($filters));
-        }
+//    public function findByCriteria($filters = null): array
+//    {
+//        $query = $this->createQueryBuilder('l');
+       
+//         if ($filters['criterion'] != null) {
+//             $query->andWhere('c IN(:crit)')
+//             ->join('l.criteria', 'c')
+//             ->setParameter(':crit', array_values($filters['criterion']));
+//         }
 
-        $query->orderBy('l.created_at');
+//         $query->orderBy('l.created_at');
 
-       return $query->getQuery()->getResult();
-   }
+//        return $query->getQuery()->getResult();
+//    }
 
    public function getTotalLodgings($filters = null){
     $query = $this->createQueryBuilder('l')
         ->select('COUNT(l)');
-    if($filters != null){
+    if($filters['criterion'] != null){
         $query->andWhere('c IN(:crit)')
         ->join('l.criteria', 'c')
-        ->setParameter(':crit', array_values($filters));
+        ->setParameter(':crit', array_values($filters['criterion']));
     }
 
     return $query->getQuery()->getSingleScalarResult();
@@ -87,10 +88,10 @@ class LodgingRepository extends ServiceEntityRepository
             ->setFirstResult(($page * $limit) - $limit)
             ->setMaxResults($limit)
             ;
-            if ($filters != null) {
+            if ($filters['criterion'] != null) {
                 $query->andWhere('c IN(:crit)')
                 ->join('l.criteria', 'c')
-                ->setParameter(':crit', array_values($filters));
+                ->setParameter(':crit', array_values($filters['criterion']));
             }
         
         return $query->getQuery()->getResult();

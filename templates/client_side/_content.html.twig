@@ -8,6 +8,12 @@
     
   </div>
 
+{% if filters is defined %}
+  <pre>
+    {{ dump(filters) }}
+  </pre>
+{% endif %}
+
 {% if lodg.image is defined %}
 
  <img class="lodging-pic mt-2" src="{{ asset(lodg.image) }}" class="card-img-bottom" alt="...">

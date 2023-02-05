@@ -39,24 +39,29 @@
             <li><a class="dropdown-item" href="#">Something else here</a></li>
           </ul>
         </li>
-        <li class="nav-item dropdown">
+        
+        <form  id="filters">
+        <li class="nav-item dropdown" style="float:left;">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
            <i class="fa-solid fa-map-pin"></i> Region
           </a>
+          
           <ul class="dropdown-menu region">
           
-        <div class="d-flex flex-wrap">
+        {# <div class="d-flex flex-wrap"> #}
+        
       {% for region in regions %}
+
         <li class="dropdown-item">
-          <input class='region' type="radio" name="regions[]" id="region{{region.id}}" value='{{region.id}}'/>
+          <input class='region' type="radio" name="region" id="region{{region.id}}" value='{{region.id}}'/>
           <label for="region{{region.id}}">{{region.name}}</label>
         </li>
       {% endfor %}
-    </div>
+    {# </div> #}
           </ul>
         </li>
          
-      <form  id="filters">
+      
         {% set eqext = 'Équipements extérieurs' %}
         {% set serv = 'Services' %}
         {% set pet = 'Privilèges' %}
@@ -119,6 +124,7 @@
 <div id='content'>
 {% include "client_side/_content.html.twig" %}
 </div>
+
 
 {% endblock %}
 
