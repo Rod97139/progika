@@ -53,7 +53,7 @@
       {% for region in regions %}
 
         <li class="dropdown-item">
-          <input class='region' type="radio" name="region" id="region{{region.id}}" value='{{region.id}}'/>
+          <input class='region' type="radio" name="region" id="region{{region.id}}" value='{{region.code}}'/>
           <label for="region{{region.id}}">{{region.name}}</label>
         </li>
       {% endfor %}

@@ -77,6 +77,12 @@ class LodgingRepository extends ServiceEntityRepository
         ->join('l.criteria', 'c')
         ->setParameter(':crit', array_values($filters['criterion']));
     }
+    if ($filters['region'] != null) {
+        $query->join('l.city', 'v', 'WITH', 'v.id = l.city')
+        ->join('v.departement', 'dpt', 'WITH', 'dpt.code = v.departement')
+        ->andWhere('dpt.region = (:region)')
+        ->setParameter(':region', $filters['region']);
+    }
 
     return $query->getQuery()->getSingleScalarResult();
 }
@@ -84,16 +90,22 @@ class LodgingRepository extends ServiceEntityRepository
    public function getPaginatedLodgings($page, $limit, $filters = null): array
    {
         $query = $this->createQueryBuilder('l')
-            ->orderBy('l.created_at', 'DESC')
+            // ->orderBy('l.created_at', 'DESC')
             ->setFirstResult(($page * $limit) - $limit)
             ->setMaxResults($limit)
             ;
+            if ($filters['region'] != null) {
+                $query
+                ->andWhere('dpt.region = (:region)')
+                ->join('l.city', 'v', 'WITH', 'v.id = l.city')
+                ->join('v.departement', 'dpt', 'WITH', 'dpt.code = v.departement');
+                $query->setParameter(':region', $filters['region']);
+            }
             if ($filters['criterion'] != null) {
                 $query->andWhere('c IN(:crit)')
-                ->join('l.criteria', 'c')
-                ->setParameter(':crit', array_values($filters['criterion']));
+                ->join('l.criteria', 'c');
+                $query->setParameter(':crit', array_values($filters['criterion']));
             }
-        
         return $query->getQuery()->getResult();
    }
 

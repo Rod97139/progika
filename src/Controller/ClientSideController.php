@@ -53,6 +53,7 @@ class ClientSideController extends AbstractController
         // on récupère les filtres 
         $filters['criterion'] = $request->get('criterion');
         $filters['region'] = $request->get('region');
+        
 
         // on récupère les lodgings
         
@@ -76,7 +77,6 @@ class ClientSideController extends AbstractController
         if ($request->get('ajax')) {
             return new JsonResponse([
                 'content' => $this->renderView('client_side/_content.html.twig', [
-                    'filters' => $filters,
                     'isPaginated' => $isPaginated,
                     'nbrePage' => $nbrePage,
                     'page' => $page,
