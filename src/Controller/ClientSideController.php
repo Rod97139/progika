@@ -53,6 +53,7 @@ class ClientSideController extends AbstractController
         // on récupère les filtres 
         $filters['criterion'] = $request->get('criterion');
         $filters['region'] = $request->get('region');
+        $filters['rooms'] = $request->get('rooms');
         
 
         // on récupère les lodgings
@@ -82,7 +83,8 @@ class ClientSideController extends AbstractController
                     'page' => $page,
                     'favs' => $favs,
                     'nbre' => $limit,
-                    'lodgs' => $lodgings
+                    'lodgs' => $lodgings,
+                    'filters' => $filters
                     ])
             ]);
         }

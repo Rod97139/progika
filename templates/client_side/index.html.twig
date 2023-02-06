@@ -16,19 +16,25 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
       <ul class="navbar-nav me-auto mb-2 mb-lg-0"> 
-        <li class="nav-item dropdown">
+      <form  id="filters"> 
+        <li class="nav-item dropdown" style="float:left;">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
            <i class="fa-solid fa-bed"></i> Chambres
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li class="dropdown-item">
+            <input  type="text" name="rooms" id="rooms" value=''/>
+            
+
+            </li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+            <li><label for="rooms">Chambres </label></li>
           </ul>
         </li>
-        <li class="nav-item dropdown">
+        
+        <li class="nav-item dropdown" style="float:left;">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
            <i class="fa-solid fa-euro-sign"></i> Prix
           </a>
@@ -40,7 +46,7 @@
           </ul>
         </li>
         
-        <form  id="filters">        
+              
         <li class="nav-item dropdown" style="float:left;">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
            <i class="fa-solid fa-map-pin"></i> Region
@@ -131,11 +137,13 @@
 </div>
 
 
+ 
 {% endblock %}
 
 {% block javascripts %}
 
            {{ parent() }} 
            {{ encore_entry_script_tags('filters') }}
+        
 
 {% endblock %}
