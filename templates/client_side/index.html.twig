@@ -29,9 +29,8 @@
             {% endif %}
           <ul class="dropdown-menu">
             <li class="dropdown-item">
-            <input  type="text" name="rooms" id="rooms" value='{{roomsValue}}'/>
+            <input class="form-control"  type="text" name="rooms" id="rooms" placeholder="Nombre de Chambres" value='{{roomsValue}}'/>
             </li>
-            <li class="dropdown-item"><label for="rooms">Chambres </label></li>
           </ul>
         </li>
         
@@ -40,14 +39,14 @@
            <i class="fa-solid fa-euro-sign"></i> Prix
           </a>
           <ul class="dropdown-menu">
-             <li class="dropdown-item" ><input  type="text" name="lowPrice" id="lowPrice" 
+             <li class="dropdown-item" ><input class="form-control" type="text" name="lowPrice" id="lowPrice" 
              {% if queryParams is not empty and queryParams.lowPrice is defined %}
              value='{{queryParams.lowPrice}}'
              {% endif %}
              />
             <label for="lowPrice">Min </label></li>
             <li><hr class="dropdown-divider"></li>
-            <li class="dropdown-item"><input  type="text" name="highPrice" id="highPrice" 
+            <li class="dropdown-item"><input class="form-control" type="text" name="highPrice" id="highPrice" 
             {% if queryParams is not empty and queryParams.highPrice is defined %}
             value='{{queryParams.highPrice}}'
             {% endif %}
@@ -57,33 +56,6 @@
           </ul>
         </li>
         
-              
-        <li class="nav-item dropdown" style="float:left;">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-           <i class="fa-solid fa-map-pin"></i> Region
-          </a>
-          
-          <ul class="dropdown-menu region">
-          
-        {# <div class="d-flex flex-wrap"> #}
-        
-      {% for region in regions %}
-       {% if queryParams is not empty and queryParams.region is defined %}
-               {% set checked = (region.code in queryParams.region) ? "checked": "" %}
-            {% else %}
-              {% set checked = "" %}
-            {% endif %}
-
-        <li class="dropdown-item">
-          <input class='region' type="radio" name="region" id="region{{region.id}}" value='{{region.code}}' {{checked}} />
-          <label for="region{{region.id}}">{{region.name}}</label>
-        </li>
-      {% endfor %}
-    {# </div> #}
-          </ul>
-        </li>
-         
-      
         {% set eqext = 'Équipements extérieurs' %}
         {% set serv = 'Services' %}
         {% set pet = 'Privilèges' %}
@@ -131,14 +103,50 @@
            
         {% endif %}
           {# <input type="hidden" name="page" value='{{page}}'> #}
+            
+              
+        <li class="nav-item dropdown" style="float:left;">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+           <i class="fa-solid fa-map-pin"></i> Region
+          </a>
+          
+          <ul class="dropdown-menu region">
+          
+        {# <div class="d-flex flex-wrap"> #}
+        
+      {% for region in regions %}
+       {% if queryParams is not empty and queryParams.region is defined %}
+               {% set checked = (region.code in queryParams.region) ? "checked": "" %}
+            {% else %}
+              {% set checked = "" %}
+            {% endif %}
+
+        <li class="dropdown-item">
+          <input class='region' type="radio" name="region" id="region{{region.id}}" value='{{region.code}}' {{checked}} />
+          <label for="region{{region.id}}">{{region.name}}</label>
+        </li>
+      {% endfor %}
+    {# </div> #}
+          </ul>
+        </li>
+        <li class="nav-item dropdown" style="float:left;">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+           <i class="fa-sharp fa-solid fa-city"></i> Ville
+          </a>
+          <ul class="dropdown-menu">
+            <li class="dropdown-item" style="float:left;">
+                <input class="form-control me-2" type="search" placeholder="Ville" name="city" aria-label="Search">
+            </li>
+            <li class="dropdown-item" style="float:left;">
+                <input class="form-control me-2" type="number" placeholder="Périmètre (Km)" name="zone" aria-label="Search">
+            </li>
+          </ul>
+        </li>
       </form>
       
       </ul>
      
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+      
     </div>
   </div>
 </nav>
