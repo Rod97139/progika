@@ -73,7 +73,7 @@ class LodgingRepository extends ServiceEntityRepository
 
    public function getTotalLodgings($filters = null){
     $query = $this->createQueryBuilder('l')
-        ->select('COUNT(l)');
+        ;
         if ($filters['price']['high'] != null || $filters['price']['low'] != null){
             if ($filters['price']['high'] == null) {
                 $filters['price']['high']  = $this->maxPrice();
@@ -91,7 +91,11 @@ class LodgingRepository extends ServiceEntityRepository
         if($filters['criterion'] != null){
             $query->andWhere('c IN(:crit)')
             ->join('l.criteria', 'c')
-            ->setParameter(':crit', array_values($filters['criterion']));
+            ->setParameter(':crit', array_values($filters['criterion']))
+            ->groupBy('l.id')
+            ->having('COUNT(l.id) = :count')
+            ->setParameter(':count', count(array_values($filters['criterion'])))
+            ;
         }
         if ($filters['region'] != null) {
             $query->join('l.city', 'v', 'WITH', 'v.id = l.city')
@@ -100,7 +104,7 @@ class LodgingRepository extends ServiceEntityRepository
             ->setParameter(':region', $filters['region']);
         }
 
-    return $query->getQuery()->getSingleScalarResult();
+    return $query->getQuery()->getScalarResult();
 }
 
     public function maxPrice()
@@ -146,7 +150,11 @@ class LodgingRepository extends ServiceEntityRepository
             if ($filters['criterion'] != null) {
                 $query->andWhere('c IN(:crit)')
                 ->join('l.criteria', 'c');
-                $query->setParameter(':crit', array_values($filters['criterion']));
+                $query->setParameter(':crit', array_values($filters['criterion']))
+                ->groupBy('l.id')
+                ->having('COUNT(l.id) = :count')
+                ->setParameter(':count', count(array_values($filters['criterion'])))
+                ;
             }
         return $query->getQuery()->getResult();
    }

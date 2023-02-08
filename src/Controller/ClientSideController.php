@@ -64,10 +64,12 @@ class ClientSideController extends AbstractController
 
         // on récupere le nombre total de gîtes
          // --- pagination ---
-        $nbLodging = $lodgingRepository->getTotalLodgings($filters);
+        //  dd($lodgings);
+        $nbLodging = count($lodgingRepository->getTotalLodgings($filters));
+        
          $nbrePage = ceil($nbLodging / $limit);  
         // $lodgings = $lodgingRepository->findByCriteria($filters);
-        // dd($lodgings);
+        
 
         $isPaginated = true;
 
