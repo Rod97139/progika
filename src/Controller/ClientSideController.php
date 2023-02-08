@@ -54,6 +54,8 @@ class ClientSideController extends AbstractController
         $filters['criterion'] = $request->get('criterion');
         $filters['region'] = $request->get('region');
         $filters['rooms'] = $request->get('rooms');
+        $filters['price']['low'] = $request->get('lowPrice');
+        $filters['price']['high'] = $request->get('highPrice');
         
 
         // on récupère les lodgings
@@ -71,7 +73,7 @@ class ClientSideController extends AbstractController
 
        
 
-        if ($nbLodging < 1) {
+        if ($nbLodging < 7) {
             $isPaginated = false;
         }
 
@@ -94,7 +96,7 @@ class ClientSideController extends AbstractController
         $regions = $regionRepository->findAll();
 
         return $this->render('client_side/index.html.twig', [
-            'isPaginated' => true,
+            'isPaginated' => $isPaginated,
             'nbrePage' => $nbrePage,
             'page' => $page,
             'lodgs' => $lodgings,

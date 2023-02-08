@@ -1,4 +1,3 @@
-
 const FiltersForm = document.querySelector("#filters")
 
 //boucle sur les inputs
@@ -12,7 +11,10 @@ document.querySelectorAll("#filters input").forEach(input => {
         const Params = new URLSearchParams()
         
         Form.forEach((value, key) => {
-            Params.append(key, value)
+            if (value != '') {
+                Params.append(key, value)
+            }
+            
         })
         //On récupere l'url active
         const Url = new URL(window.location.href)

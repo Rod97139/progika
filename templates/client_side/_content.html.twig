@@ -5,15 +5,8 @@
   <div class="card-body">
     <h5 class="card-title">{{ lodg.name }}</h5>
     <p class="card-text">{{ lodg.description }}</p>
-    
   </div>
-
-{% if filters is defined %}
-  <pre>
-    {{ dump(filters) }}
-  </pre>
-{% endif %}
-
+  
 {% if lodg.image is defined %}
 
  <img class="lodging-pic mt-2" src="{{ asset(lodg.image) }}" class="card-img-bottom" alt="...">
@@ -58,6 +51,7 @@
 {# On crée des variable personnalisées #}
 {% set queryParams = app.request.query.all %}
 {% set queryString = queryParams|filter((v, k) => k != "page" and k != "ajax")|url_encode %}
+
 
 {% if isPaginated is defined and isPaginated %}
 <div id='pagination' class="row">

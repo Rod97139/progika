@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Lodging;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -16,7 +18,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class LodgingRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, private EntityManagerInterface $em)
     {
         parent::__construct($registry, Lodging::class);
     }
@@ -72,20 +74,45 @@ class LodgingRepository extends ServiceEntityRepository
    public function getTotalLodgings($filters = null){
     $query = $this->createQueryBuilder('l')
         ->select('COUNT(l)');
-    if($filters['criterion'] != null){
-        $query->andWhere('c IN(:crit)')
-        ->join('l.criteria', 'c')
-        ->setParameter(':crit', array_values($filters['criterion']));
-    }
-    if ($filters['region'] != null) {
-        $query->join('l.city', 'v', 'WITH', 'v.id = l.city')
-        ->join('v.departement', 'dpt', 'WITH', 'dpt.code = v.departement')
-        ->andWhere('dpt.region = (:region)')
-        ->setParameter(':region', $filters['region']);
-    }
+        if ($filters['price']['high'] != null || $filters['price']['low'] != null){
+            if ($filters['price']['high'] == null) {
+                $filters['price']['high']  = $this->maxPrice();
+            }elseif($filters['price']['low'] == null){
+                $filters['price']['low'] = $this->minPrice();
+            }
+            $query->andWhere('l.weekly_base_price BETWEEN :low AND :high')
+                ->setParameter(':low', $filters['price']['low']);
+            $query->setParameter(':high', $filters['price']['high']);
+        }
+        if ($filters['rooms'] != null) {
+            $query->andWhere('l.number_rooms = (:rooms)');
+            $query->setParameter(':rooms', $filters['rooms']);
+        }
+        if($filters['criterion'] != null){
+            $query->andWhere('c IN(:crit)')
+            ->join('l.criteria', 'c')
+            ->setParameter(':crit', array_values($filters['criterion']));
+        }
+        if ($filters['region'] != null) {
+            $query->join('l.city', 'v', 'WITH', 'v.id = l.city')
+            ->join('v.departement', 'dpt', 'WITH', 'dpt.code = v.departement')
+            ->andWhere('dpt.region = (:region)')
+            ->setParameter(':region', $filters['region']);
+        }
 
     return $query->getQuery()->getSingleScalarResult();
 }
+
+    public function maxPrice()
+    {
+        $query = $this->em->createQuery("SELECT MAX(l.weekly_base_price) FROM App\Entity\Lodging l");
+        return $query->getSingleScalarResult();
+    }
+    public function minPrice()
+    {
+        $query = $this->em->createQuery("SELECT MIN(l.weekly_base_price) FROM App\Entity\Lodging l");
+        return $query->getSingleScalarResult();
+    }
 
    public function getPaginatedLodgings($page, $limit, $filters = null): array
    {
@@ -94,6 +121,21 @@ class LodgingRepository extends ServiceEntityRepository
             ->setFirstResult(($page * $limit) - $limit)
             ->setMaxResults($limit)
             ;
+            if ($filters['price']['high'] != null || $filters['price']['low'] != null ){
+                if ($filters['price']['high'] == null) {
+                    $filters['price']['high']  = $this->maxPrice();
+                }elseif($filters['price']['low'] == null){
+                    $filters['price']['low'] = $this->minPrice();
+                }
+
+                $query->andWhere('l.weekly_base_price BETWEEN :low AND :high')
+                    ->setParameter(':low', $filters['price']['low']);
+                $query->setParameter(':high', $filters['price']['high']);
+            }
+            if ($filters['rooms'] != null) {
+                $query->andWhere('l.number_rooms = (:rooms)');
+                $query->setParameter(':rooms', $filters['rooms']);
+            }
             if ($filters['region'] != null) {
                 $query
                 ->andWhere('dpt.region = (:region)')

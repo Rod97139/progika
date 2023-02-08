@@ -8,7 +8,6 @@
 
 {% block body %}
 
-
  <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container">
     
@@ -23,14 +22,16 @@
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
            <i class="fa-solid fa-bed"></i> Chambres
           </a>
+           {% if queryParams is not empty and queryParams.rooms is defined %}
+               {% set roomsValue = queryParams.rooms %}
+            {% else %}
+              {% set roomsValue = "" %}
+            {% endif %}
           <ul class="dropdown-menu">
             <li class="dropdown-item">
-            <input  type="text" name="rooms" id="rooms" value=''/>
-            
-
+            <input  type="text" name="rooms" id="rooms" value='{{roomsValue}}'/>
             </li>
-            <li><hr class="dropdown-divider"></li>
-            <li><label for="rooms">Chambres </label></li>
+            <li class="dropdown-item"><label for="rooms">Chambres </label></li>
           </ul>
         </li>
         
@@ -39,10 +40,20 @@
            <i class="fa-solid fa-euro-sign"></i> Prix
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
+             <li class="dropdown-item" ><input  type="text" name="lowPrice" id="lowPrice" 
+             {% if queryParams is not empty and queryParams.lowPrice is defined %}
+             value='{{queryParams.lowPrice}}'
+             {% endif %}
+             />
+            <label for="lowPrice">Min </label></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+            <li class="dropdown-item"><input  type="text" name="highPrice" id="highPrice" 
+            {% if queryParams is not empty and queryParams.highPrice is defined %}
+            value='{{queryParams.highPrice}}'
+            {% endif %}
+            />
+            <label for="highPrice">Max </label>
+            </li>
           </ul>
         </li>
         
@@ -135,8 +146,6 @@
 <div id='content'>
 {% include "client_side/_content.html.twig" %}
 </div>
-
-
  
 {% endblock %}
 
