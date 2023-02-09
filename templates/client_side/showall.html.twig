@@ -118,6 +118,10 @@
           
         {# <div class="d-flex flex-wrap"> #}
         
+        <li class="dropdown-item">
+          <input class='region' type="radio" name="region" id="france" value=''/>
+          <label for="france">Toute la France</label>
+        </li>
       {% for region in regions %}
        {% if queryParams is not empty and queryParams.region is defined %}
                {% set checked = (region.code in queryParams.region) ? "checked": "" %}
@@ -143,8 +147,13 @@
                 <ul id="showCity">
                 </ul>
             </li>
+            {% if queryParams is not empty and queryParams.zone is defined %}
+               {% set zoneValue = queryParams.zone %}
+            {% else %}
+              {% set zoneValue = "" %}
+            {% endif %}
             <li class="dropdown-item" style="float:left;">
-                <input class="form-control me-2 " type="number" placeholder="Périmètre (Km)" name="zone" aria-label="Search"/>
+                <input class="form-control me-2 " type="number" placeholder="Périmètre (Km)" name="zone" value='{{zoneValue}}'/>
             </li>
           </ul>
         </li>
@@ -167,6 +176,7 @@ const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 		maxZoom: 19,
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 	}).addTo(map);
+   
 
 </script>
 <div id='content'>

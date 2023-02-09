@@ -93,7 +93,7 @@ class LodgingRepository extends ServiceEntityRepository
             ->join('l.criteria', 'c')
             ->setParameter(':crit', array_values($filters['criterion']))
             ->groupBy('l.id')
-            ->having('COUNT(l.id) = :count')
+            ->andHaving('COUNT(l.id) = :count')
             ->setParameter(':count', count(array_values($filters['criterion'])))
             ;
         }
@@ -120,7 +120,7 @@ class LodgingRepository extends ServiceEntityRepository
                                     + sin( radians(' . $filters['city']['GpsLat'] . ') )
                                     * sin( radians( v.gps_lat ) ) ) ) as HIDDEN distance');
                                     
-                        $query->having('distance <= :zone')
+                        $query->andHaving('distance <= :zone')
                         ->setParameter(':zone', $filters['city']['zone'])
                     
                     ;
@@ -176,14 +176,15 @@ class LodgingRepository extends ServiceEntityRepository
                 ->join('l.criteria', 'c');
                 $query->setParameter(':crit', array_values($filters['criterion']))
                 ->groupBy('l.id')
-                ->having('COUNT(l.id) = :count')
+                ->andHaving('COUNT(l.id) = :count')
                 ->setParameter(':count', count(array_values($filters['criterion'])))
                 ;
             }
-            if ($filters['city']['zip_code'] != null && $filters['city']['name'] != null) {
+            if ($filters['city']['name'] !== null) {
+                
                 $query->join('l.city', 'v', 'WITH', 'v.id = l.city');
 
-                if ($filters['city']['zone'] == null){
+                if ($filters['city']['zone'] === null){
                 $query->andWhere('v.name = (:name)')
                 ->setParameter(':name', $filters['city']['name'])
                 // ->andWhere('v.zip_code = (:zip)')
@@ -197,7 +198,7 @@ class LodgingRepository extends ServiceEntityRepository
                                         + sin( radians(' . $filters['city']['GpsLat'] . ') )
                                         * sin( radians( v.gps_lat ) ) ) ) as HIDDEN distance');
                                         
-                            $query->having('distance <= :zone')
+                            $query->andHaving('distance <= :zone')
                             ->setParameter(':zone', $filters['city']['zone'])
                         
                         ;
@@ -238,7 +239,7 @@ class LodgingRepository extends ServiceEntityRepository
                 ->join('l.criteria', 'c');
                 $query->setParameter(':crit', array_values($filters['criterion']))
                 ->groupBy('l.id')
-                ->having('COUNT(l.id) = :count')
+                ->andHaving('COUNT(l.id) = :count')
                 ->setParameter(':count', count(array_values($filters['criterion'])))
                 ;
             }
@@ -259,7 +260,7 @@ class LodgingRepository extends ServiceEntityRepository
                                         + sin( radians(' . $filters['city']['GpsLat'] . ') )
                                         * sin( radians( v.gps_lat ) ) ) ) as HIDDEN distance');
                                         
-                            $query->having('distance <= :zone')
+                            $query->andHaving('distance <= :zone')
                             ->setParameter(':zone', $filters['city']['zone'])
                         ;
                     }

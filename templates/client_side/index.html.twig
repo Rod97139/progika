@@ -1,10 +1,8 @@
 {% extends 'base.html.twig' %}
-
 {# On crée des variable personnalisées #}
 {% set queryParams = app.request.query.all %}
 
 {% block title %}Bienvenue !{% endblock %}
-
 
 {% block body %}
 
@@ -113,6 +111,10 @@
           <ul class="dropdown-menu region">
           
         {# <div class="d-flex flex-wrap"> #}
+         <li class="dropdown-item">
+          <input class='region' type="radio" name="region" id="france" value=''/>
+          <label for="france">Toute la France</label>
+        </li>
         
       {% for region in regions %}
        {% if queryParams is not empty and queryParams.region is defined %}
@@ -139,8 +141,13 @@
                 <ul id="showCity">
                 </ul>
             </li>
+            {% if queryParams is not empty and queryParams.zone is defined %}
+               {% set zoneValue = queryParams.zone %}
+            {% else %}
+              {% set zoneValue = "" %}
+            {% endif %}
             <li class="dropdown-item" style="float:left;">
-                <input class="form-control me-2 " type="number" placeholder="Périmètre (Km)" name="zone" aria-label="Search"/>
+                <input class="form-control me-2 " type="number" placeholder="Périmètre (Km)" name="zone" value='{{zoneValue}}'/>
             </li>
           </ul>
         </li>
@@ -203,7 +210,4 @@
               }
            </script>
            {{ encore_entry_script_tags('filters') }}
-          
-        
-
 {% endblock %}
