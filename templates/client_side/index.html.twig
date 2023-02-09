@@ -135,32 +135,75 @@
           </a>
           <ul class="dropdown-menu">
             <li class="dropdown-item" style="float:left;">
-                <input class="form-control me-2" type="search" placeholder="Ville" name="city" aria-label="Search">
+                <input class="form-control me-2 city-api-gouv" type="search" placeholder="Ville" aria-label="Search"/>
+                <ul id="showCity">
+                </ul>
             </li>
             <li class="dropdown-item" style="float:left;">
-                <input class="form-control me-2" type="number" placeholder="Périmètre (Km)" name="zone" aria-label="Search">
+                <input class="form-control me-2 " type="number" placeholder="Périmètre (Km)" name="zone" aria-label="Search"/>
             </li>
           </ul>
         </li>
       </form>
       
       </ul>
-     
-      
-    </div>
   </div>
 </nav>
 
 <div id='content'>
 {% include "client_side/_content.html.twig" %}
 </div>
- 
+         
 {% endblock %}
 
 {% block javascripts %}
 
            {{ parent() }} 
+           <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+            <script>       
+            window.onload = () => {
+                    const cityInput = document.querySelector(".city-api-gouv")
+                    const showCity = document.getElementById("showCity")
+                    
+                    
+                    const onKeyUp = () => {
+                      if (cityInput.value.length > 3) {
+                        axios.get('https://api-adresse.data.gouv.fr/search/?q='+ cityInput.value +'&type=municipality&autocomplete=1&limit=1')
+                        .then(function (response) {
+                          // handle success
+                          let html = ''
+                          response.data.features.forEach((city) => {
+                            console.log(city.geometry.coordinates)
+                            html += '<li class="item"><input id="city'
+                            +city.properties.id+
+                            '" class="city-api-gouv-hidden" type="hidden" value=' 
+                            + city.properties.postcode +
+                            ' name="cityZipCode"/><input id="city'
+                            +city.properties.id+
+                            '" class="city-api-gouv-hidden" type="hidden" value=' 
+                            + city.properties.name +
+                            ' name="cityName"/><input id="city'
+                            +city.properties.id+
+                            '" class="city-api-gouv-hidden" type="hidden" value=' 
+                            + city.geometry.coordinates[1] +
+                            ' name="cityGpsLat"/><input id="city'
+                            +city.properties.id+
+                            '" class="city-api-gouv-hidden" type="hidden" value=' 
+                            + city.geometry.coordinates[0] +
+                            ' name="cityGpsLng"/><label for="city'
+                            +city.properties.id+'">'
+                            + city.properties.city + ' - ' + city.properties.postcode+
+                            ' </label></li>'
+                            showCity.innerHTML = html
+                          })
+                        })
+                      }
+                    }
+                    cityInput.addEventListener("keyup", onKeyUp)
+              }
+           </script>
            {{ encore_entry_script_tags('filters') }}
+          
         
 
 {% endblock %}

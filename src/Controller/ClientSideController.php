@@ -56,6 +56,11 @@ class ClientSideController extends AbstractController
         $filters['price']['low'] = $request->get('lowPrice');
         $filters['price']['high'] = $request->get('highPrice');
         $filters['region'] = $request->get('region');
+        $filters['city']['zip_code'] = $request->get('cityZipCode');
+        $filters['city']['name'] = $request->get('cityName');
+        $filters['city']['zone'] = $request->get('zone');
+        $filters['city']['GpsLat'] = $request->get('cityGpsLat');
+        $filters['city']['GpsLng'] = $request->get('cityGpsLng');
         
 
         // on récupère les lodgings
@@ -111,11 +116,37 @@ class ClientSideController extends AbstractController
 
 
     #[Route('/map/all', name: 'map_all')]
-    public function mapAll(LodgingRepository $lodgingRepository): Response
+    public function mapAll(LodgingRepository $lodgingRepository, CriteriaRepository $criteriaRepository, RegionRepository $regionRepository, Request $request): Response
     {
+        $filters['criterion'] = $request->get('criterion');
+        $filters['rooms'] = $request->get('rooms');
+        $filters['price']['low'] = $request->get('lowPrice');
+        $filters['price']['high'] = $request->get('highPrice');
+        $filters['region'] = $request->get('region');
+        $filters['city']['zip_code'] = $request->get('cityZipCode');
+        $filters['city']['name'] = $request->get('cityName');
+        $filters['city']['zone'] = $request->get('zone');
+        $filters['city']['GpsLat'] = $request->get('cityGpsLat');
+        $filters['city']['GpsLng'] = $request->get('cityGpsLng');
+
+        $lodgings = $lodgingRepository->getMappedLodgings($filters);
+
+        if ($request->get('ajax')) {
+            return new JsonResponse([
+                'content' => $this->renderView('client_side/_mapContent.html.twig', [
+                    
+                    'lodgings' => $lodgings
+                    ])
+            ]);
+        }
+        
+        $criterion = $criteriaRepository->findAll();
+        $regions = $regionRepository->findAll();
 
         return $this->render('client_side/showall.html.twig', [
-                'lodgings' =>  $lodgingRepository->findAll()
+                    'criterion' => $criterion,
+                    'regions' => $regions,
+                'lodgings' =>  $lodgings
         ]);
     }
 

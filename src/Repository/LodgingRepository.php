@@ -103,6 +103,30 @@ class LodgingRepository extends ServiceEntityRepository
             ->andWhere('dpt.region = (:region)')
             ->setParameter(':region', $filters['region']);
         }
+        if ($filters['city']['zip_code'] != null && $filters['city']['name'] != null) {
+            $query->join('l.city', 'v', 'WITH', 'v.id = l.city');
+
+            if ($filters['city']['zone'] == null){
+            $query->andWhere('v.name = (:name)')
+            ->setParameter(':name', $filters['city']['name'])
+            // ->andWhere('v.zip_code = (:zip)')
+            // ->setParameter(':zip', $filters['city']['zip_code'])
+            ;
+            } else {
+                $query->addSelect('( 3959 * acos(cos(radians(' . $filters['city']['GpsLat'] . '))
+                                    * cos( radians( v.gps_lat ) )
+                                    * cos( radians( v.gps_lng )
+                                    - radians(' . $filters['city']['GpsLng'] . ') )
+                                    + sin( radians(' . $filters['city']['GpsLat'] . ') )
+                                    * sin( radians( v.gps_lat ) ) ) ) as HIDDEN distance');
+                                    
+                        $query->having('distance <= :zone')
+                        ->setParameter(':zone', $filters['city']['zone'])
+                    
+                    ;
+                }
+
+        }
 
     return $query->getQuery()->getScalarResult();
 }
@@ -155,6 +179,90 @@ class LodgingRepository extends ServiceEntityRepository
                 ->having('COUNT(l.id) = :count')
                 ->setParameter(':count', count(array_values($filters['criterion'])))
                 ;
+            }
+            if ($filters['city']['zip_code'] != null && $filters['city']['name'] != null) {
+                $query->join('l.city', 'v', 'WITH', 'v.id = l.city');
+
+                if ($filters['city']['zone'] == null){
+                $query->andWhere('v.name = (:name)')
+                ->setParameter(':name', $filters['city']['name'])
+                // ->andWhere('v.zip_code = (:zip)')
+                // ->setParameter(':zip', $filters['city']['zip_code'])
+                ;
+                } else {
+                    $query->addSelect('( 3959 * acos(cos(radians(' . $filters['city']['GpsLat'] . '))
+                                        * cos( radians( v.gps_lat ) )
+                                        * cos( radians( v.gps_lng )
+                                        - radians(' . $filters['city']['GpsLng'] . ') )
+                                        + sin( radians(' . $filters['city']['GpsLat'] . ') )
+                                        * sin( radians( v.gps_lat ) ) ) ) as HIDDEN distance');
+                                        
+                            $query->having('distance <= :zone')
+                            ->setParameter(':zone', $filters['city']['zone'])
+                        
+                        ;
+                    }
+
+            }
+        return $query->getQuery()->getResult();
+   }
+
+   public function getMappedLodgings($filters = null): array
+   {
+        $query = $this->createQueryBuilder('l')
+            ;
+            if ($filters['price']['high'] != null || $filters['price']['low'] != null ){
+                if ($filters['price']['high'] == null) {
+                    $filters['price']['high']  = $this->maxPrice();
+                }elseif($filters['price']['low'] == null){
+                    $filters['price']['low'] = $this->minPrice();
+                }
+
+                $query->andWhere('l.weekly_base_price BETWEEN :low AND :high')
+                    ->setParameter(':low', $filters['price']['low']);
+                $query->setParameter(':high', $filters['price']['high']);
+            }
+            if ($filters['rooms'] != null) {
+                $query->andWhere('l.number_rooms = (:rooms)');
+                $query->setParameter(':rooms', $filters['rooms']);
+            }
+            if ($filters['region'] != null) {
+                $query
+                ->andWhere('dpt.region = (:region)')
+                ->join('l.city', 'v', 'WITH', 'v.id = l.city')
+                ->join('v.departement', 'dpt', 'WITH', 'dpt.code = v.departement');
+                $query->setParameter(':region', $filters['region']);
+            }
+            if ($filters['criterion'] != null) {
+                $query->andWhere('c IN(:crit)')
+                ->join('l.criteria', 'c');
+                $query->setParameter(':crit', array_values($filters['criterion']))
+                ->groupBy('l.id')
+                ->having('COUNT(l.id) = :count')
+                ->setParameter(':count', count(array_values($filters['criterion'])))
+                ;
+            }
+            if ($filters['city']['zip_code'] != null && $filters['city']['name'] != null) {
+                $query->join('l.city', 'v', 'WITH', 'v.id = l.city');
+
+                if ($filters['city']['zone'] == null){
+                $query->andWhere('v.name = (:name)')
+                ->setParameter(':name', $filters['city']['name'])
+                // ->andWhere('v.zip_code = (:zip)')
+                // ->setParameter(':zip', $filters['city']['zip_code'])
+                ;
+                } else {
+                    $query->addSelect('( 3959 * acos(cos(radians(' . $filters['city']['GpsLat'] . '))
+                                        * cos( radians( v.gps_lat ) )
+                                        * cos( radians( v.gps_lng )
+                                        - radians(' . $filters['city']['GpsLng'] . ') )
+                                        + sin( radians(' . $filters['city']['GpsLat'] . ') )
+                                        * sin( radians( v.gps_lat ) ) ) ) as HIDDEN distance');
+                                        
+                            $query->having('distance <= :zone')
+                            ->setParameter(':zone', $filters['city']['zone'])
+                        ;
+                    }
             }
         return $query->getQuery()->getResult();
    }

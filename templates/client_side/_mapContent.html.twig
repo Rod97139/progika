@@ -1,0 +1,18 @@
+
+
+
+ 
+<script>
+{% for lodg in lodgings %}
+
+
+   L.marker([{{ lodg.city.gpsLat }}, {{ lodg.city.gpsLng }}]).addTo(map)
+   .bindPopup("<img style='height: 100px;' class='lodging-pic ' src='{{ asset(lodg.image) }}' class='card-img-bottom' alt='...'> <br><a href='{{ path('app_client_detail', {id: lodg.id}) }}'>Détails Gîte</a><br> {{ lodg.weeklyBasePrice }} €/semaine")
+
+   
+   
+    
+{% endfor %}
+
+</script>
+    

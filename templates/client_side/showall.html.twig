@@ -1,5 +1,7 @@
 {% extends "base.html.twig" %}
 
+{% set queryParams = app.request.query.all %}
+{% set queryString = queryParams|filter((v, k) => k != "page" and k != "ajax")|url_encode %}
 {% block stylesheets %}
      {{ parent() }}
      {# leaflet #}
@@ -9,7 +11,153 @@
 
 {% block body %}
 
-    <div id="map" class="container-fluid" style="width: 1200px; height: 800px;"></div>
+
+ <nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container">
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0"> 
+      <form  id="filters"> 
+        <li class="nav-item dropdown" style="float:left;">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+           <i class="fa-solid fa-bed"></i> Chambres
+          </a>
+           {% if queryParams is not empty and queryParams.rooms is defined %}
+               {% set roomsValue = queryParams.rooms %}
+            {% else %}
+              {% set roomsValue = "" %}
+            {% endif %}
+          <ul class="dropdown-menu">
+            <li class="dropdown-item">
+            <input class="form-control"  type="text" name="rooms" id="rooms" placeholder="Nombre de Chambres" value='{{roomsValue}}'/>
+            </li>
+          </ul>
+        </li>
+        
+        <li class="nav-item dropdown" style="float:left;">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+           <i class="fa-solid fa-euro-sign"></i> Prix
+          </a>
+          <ul class="dropdown-menu">
+             <li class="dropdown-item" ><input class="form-control" type="text" name="lowPrice" id="lowPrice" 
+             {% if queryParams is not empty and queryParams.lowPrice is defined %}
+             value='{{queryParams.lowPrice}}'
+             {% endif %}
+             />
+            <label for="lowPrice">Min </label></li>
+            <li><hr class="dropdown-divider"></li>
+            <li class="dropdown-item"><input class="form-control" type="text" name="highPrice" id="highPrice" 
+            {% if queryParams is not empty and queryParams.highPrice is defined %}
+            value='{{queryParams.highPrice}}'
+            {% endif %}
+            />
+            <label for="highPrice">Max </label>
+            </li>
+          </ul>
+        </li>
+        
+        {% set eqext = 'Équipements extérieurs' %}
+        {% set serv = 'Services' %}
+        {% set pet = 'Privilèges' %}
+        {% set i = 0 %}
+          {% if criterion[i] is defined %}
+          <li class="nav-item dropdown" style='float:left;'>
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-tv"></i> {{ criterion[i].type }}
+            </a>
+            <ul class="dropdown-menu">
+          {% for crit in criterion %}
+            {# On verifie si la catégorie est dans les paramètres #}
+            {% if queryParams is not empty and queryParams.criterion is defined %}
+              {% set checked = (crit.id in queryParams.criterion) ? "checked": "" %}
+            {% else %}
+              {% set checked = "" %}
+            {% endif %}
+                <li>
+                <p class="dropdown-item"><input type="checkbox" name="criterion[]" id="crit{{crit.id}}" value='{{crit.id}}' {{ checked }}>
+                <label for="crit{{crit.id}}">{{crit.name}}</label>
+                </p>
+                </li>
+                {% if criterion[i + 1].type is defined and criterion[i].type != criterion[i + 1].type %}
+                
+                </ul></li>
+                <li class="nav-item dropdown" style='float:left;'>
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      {% if criterion[i + 1].type is same as eqext %}
+                        <i class="fa-solid fa-basketball"></i>
+                      {% elseif criterion[i + 1].type is same as serv %}
+                        <i class="fa-solid fa-car"></i>
+                      {% elseif criterion[i + 1].type is same as pet %}
+                        <i class="fa-solid fa-dog"></i>
+                      {% else %}
+                        <i class="fa-solid fa-square-check"></i>
+                      {% endif %}
+                   {{ criterion[i + 1].type }}
+                  </a>
+                  <ul class="dropdown-menu">
+                {% endif %}
+
+          {% set i = i + 1 %}
+        {% endfor %}
+        </ul></li>
+           
+        {% endif %}
+          {# <input type="hidden" name="page" value='{{page}}'> #}
+            
+              
+        <li class="nav-item dropdown" style="float:left;">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+           <i class="fa-solid fa-map-pin"></i> Region
+          </a>
+          
+          <ul class="dropdown-menu region">
+          
+        {# <div class="d-flex flex-wrap"> #}
+        
+      {% for region in regions %}
+       {% if queryParams is not empty and queryParams.region is defined %}
+               {% set checked = (region.code in queryParams.region) ? "checked": "" %}
+            {% else %}
+              {% set checked = "" %}
+            {% endif %}
+
+        <li class="dropdown-item">
+          <input class='region' type="radio" name="region" id="region{{region.id}}" value='{{region.code}}' {{checked}} />
+          <label for="region{{region.id}}">{{region.name}}</label>
+        </li>
+      {% endfor %}
+    {# </div> #}
+          </ul>
+        </li>
+        <li class="nav-item dropdown" style="float:left;">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+           <i class="fa-sharp fa-solid fa-city"></i> Ville
+          </a>
+          <ul class="dropdown-menu">
+            <li class="dropdown-item" style="float:left;">
+                <input class="form-control me-2 city-api-gouv" type="search" placeholder="Ville" aria-label="Search"/>
+                <ul id="showCity">
+                </ul>
+            </li>
+            <li class="dropdown-item" style="float:left;">
+                <input class="form-control me-2 " type="number" placeholder="Périmètre (Km)" name="zone" aria-label="Search"/>
+            </li>
+          </ul>
+        </li>
+      </form>
+       <li class="nav-item">
+       <input class="nav-link btn btn-primary" type="button" onclick='document.location.reload(false)' value="Rechercher"/>
+        </li>
+      
+      </ul>
+  </div>
+</nav>
+
+<div id="map" class="container-fluid" style="width: 1200px; height: 800px;"></div>
 
     <script>
 
@@ -20,25 +168,61 @@ const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 	}).addTo(map);
 
-
-
-{% for lodg in lodgings %}
-
-
-   L.marker([{{ lodg.city.gpsLat }}, {{ lodg.city.gpsLng }}]).addTo(map)
-   .bindPopup("<img style='height: 100px;' class='lodging-pic ' src='{{ asset(lodg.image) }}' class='card-img-bottom' alt='...'> <br><a href='{{ path('app_client_detail', {id: lodg.id}) }}'>Détails Gîte</a><br> {{ lodg.weeklyBasePrice }} €/semaine")
-
-   
-   
-    
-{% endfor %}
-
 </script>
-    
+<div id='content'>
+{% include "client_side/_mapContent.html.twig" %}
+</div>
+   
 {% endblock %}
 
 {% block javascripts %}
-{{ parent() }}
+ {{ parent() }} 
+           <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+            <script>       
+            window.onload = () => {
+                    const cityInput = document.querySelector(".city-api-gouv")
+                    const showCity = document.getElementById("showCity")
+                    
+                    
+                    const onKeyUp = () => {
+                      if (cityInput.value.length > 3) {
+                        axios.get('https://api-adresse.data.gouv.fr/search/?q='+ cityInput.value +'&type=municipality&autocomplete=1&limit=1')
+                        .then(function (response) {
+                          // handle success
+                          let html = ''
+                          response.data.features.forEach((city) => {
+                            console.log(city.geometry.coordinates)
+                            html += '<li class="item"><input id="city'
+                            +city.properties.id+
+                            '" class="city-api-gouv-hidden" type="hidden" value=' 
+                            + city.properties.postcode +
+                            ' name="cityZipCode"/><input id="city'
+                            +city.properties.id+
+                            '" class="city-api-gouv-hidden" type="hidden" value=' 
+                            + city.properties.name +
+                            ' name="cityName"/><input id="city'
+                            +city.properties.id+
+                            '" class="city-api-gouv-hidden" type="hidden" value=' 
+                            + city.geometry.coordinates[1] +
+                            ' name="cityGpsLat"/><input id="city'
+                            +city.properties.id+
+                            '" class="city-api-gouv-hidden" type="hidden" value=' 
+                            + city.geometry.coordinates[0] +
+                            ' name="cityGpsLng"/><label for="city'
+                            +city.properties.id+'">'
+                            + city.properties.city + ' - ' + city.properties.postcode+
+                            ' </label></li>'
+                            showCity.innerHTML = html
+                          })
+                        })
+                      }
+                    }
+                    cityInput.addEventListener("keyup", onKeyUp)
+              }
+           </script>
+           {{ encore_entry_script_tags('filters') }}
+          
+        
 
 
 
