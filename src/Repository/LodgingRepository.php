@@ -103,7 +103,7 @@ class LodgingRepository extends ServiceEntityRepository
             ->andWhere('dpt.region = (:region)')
             ->setParameter(':region', $filters['region']);
         }
-        if ($filters['city']['zip_code'] != null && $filters['city']['name'] != null) {
+        if ($filters['city']['name'] != null) {
             $query->join('l.city', 'v', 'WITH', 'v.id = l.city');
 
             if ($filters['city']['zone'] == null){
@@ -113,7 +113,7 @@ class LodgingRepository extends ServiceEntityRepository
             // ->setParameter(':zip', $filters['city']['zip_code'])
             ;
             } else {
-                $query->addSelect('( 3959 * acos(cos(radians(' . $filters['city']['GpsLat'] . '))
+                $query->addSelect('( 6371.4 * acos(cos(radians(' . $filters['city']['GpsLat'] . '))
                                     * cos( radians( v.gps_lat ) )
                                     * cos( radians( v.gps_lng )
                                     - radians(' . $filters['city']['GpsLng'] . ') )
@@ -191,7 +191,7 @@ class LodgingRepository extends ServiceEntityRepository
                 // ->setParameter(':zip', $filters['city']['zip_code'])
                 ;
                 } else {
-                    $query->addSelect('( 3959 * acos(cos(radians(' . $filters['city']['GpsLat'] . '))
+                    $query->addSelect('( 6371.4 * acos(cos(radians(' . $filters['city']['GpsLat'] . '))
                                         * cos( radians( v.gps_lat ) )
                                         * cos( radians( v.gps_lng )
                                         - radians(' . $filters['city']['GpsLng'] . ') )
@@ -243,7 +243,7 @@ class LodgingRepository extends ServiceEntityRepository
                 ->setParameter(':count', count(array_values($filters['criterion'])))
                 ;
             }
-            if ($filters['city']['zip_code'] != null && $filters['city']['name'] != null) {
+            if ($filters['city']['name'] !== null) {
                 $query->join('l.city', 'v', 'WITH', 'v.id = l.city');
 
                 if ($filters['city']['zone'] == null){
@@ -253,7 +253,7 @@ class LodgingRepository extends ServiceEntityRepository
                 // ->setParameter(':zip', $filters['city']['zip_code'])
                 ;
                 } else {
-                    $query->addSelect('( 3959 * acos(cos(radians(' . $filters['city']['GpsLat'] . '))
+                    $query->addSelect('( 6371.4 * acos(cos(radians(' . $filters['city']['GpsLat'] . '))
                                         * cos( radians( v.gps_lat ) )
                                         * cos( radians( v.gps_lng )
                                         - radians(' . $filters['city']['GpsLng'] . ') )

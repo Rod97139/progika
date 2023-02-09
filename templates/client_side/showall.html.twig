@@ -142,18 +142,34 @@
            <i class="fa-sharp fa-solid fa-city"></i> Ville
           </a>
           <ul class="dropdown-menu">
+          {% if queryParams is not empty and queryParams.cityName is defined %}
+               {% set cityValue = queryParams.cityName %}
+            {% else %}
+              {% set cityValue = "" %}
+            {% endif %}
             <li class="dropdown-item" style="float:left;">
-                <input class="form-control me-2 city-api-gouv" type="search" placeholder="Ville" aria-label="Search"/>
+                <input class="form-control me-2 city-api-gouv"
+                 type="text" placeholder="Ville" value='{{cityValue}}'
+                 {% if queryParams is not empty and queryParams.cityName is defined %}
+                  name='cityName'
+                  />
+                   <input type="hidden" name="cityGpsLat" value='{{queryParams.cityGpsLat}}'/>
+                   <input type="hidden" name="cityGpsLng" value='{{queryParams.cityGpsLng}}'/>
+
+                 {% else %}
+                 />
+                 {% endif %}
                 <ul id="showCity">
                 </ul>
             </li>
+            
             {% if queryParams is not empty and queryParams.zone is defined %}
                {% set zoneValue = queryParams.zone %}
             {% else %}
               {% set zoneValue = "" %}
             {% endif %}
             <li class="dropdown-item" style="float:left;">
-                <input class="form-control me-2 " type="number" placeholder="Périmètre (Km)" name="zone" value='{{zoneValue}}'/>
+                <input class="form-control me-2 " type="number" placeholder="Rayon (en Km)" name="zone" value='{{zoneValue}}'/>
             </li>
           </ul>
         </li>
