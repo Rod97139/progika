@@ -7,6 +7,7 @@ use App\Traits\TimeStampTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: LodgingRepository::class)]
 class Lodging
@@ -42,6 +43,7 @@ class Lodging
 
     #[ORM\ManyToOne(inversedBy: 'lodgings', fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank]
     private ?City $city = null;
 
     #[ORM\ManyToOne(inversedBy: 'lodgings')]
@@ -50,7 +52,7 @@ class Lodging
 
     #[ORM\ManyToMany(targetEntity: Criteria::class, inversedBy: 'lodgings', fetch: 'EAGER')]
     private Collection $criteria;
-
+    
     #[ORM\Column(length: 255, nullable: false)]
     private ?string $image = null;
 

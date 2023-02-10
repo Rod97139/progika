@@ -116,7 +116,6 @@ class LodgingController extends AbstractController
         $form->remove('user');
         $form->remove('created_at');
         $form->remove('updated_at');
-        $form->remove('departement');
         
         $form->handleRequest($request);
         $lodging->setUpdatedAt(new \DateTime());
@@ -160,7 +159,7 @@ class LodgingController extends AbstractController
             }
         }
 
-        return $this->renderForm('lodging/edit.html.twig', [
+        return $this->render('lodging/edit.html.twig', [
             'lodging' => $lodging,
             'form' => $form,
         ]);

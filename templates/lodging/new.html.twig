@@ -10,6 +10,8 @@
 {% endblock %}
 
 
-        {% block javascripts %}
-           {{ parent() }} {{ encore_entry_script_tags('ajax') }}
-        {% endblock %}
+{% block javascripts %}
+    {{ parent() }} 
+    {{ encore_entry_script_tags('ajaxRegion') }}
+
+{% endblock %}
