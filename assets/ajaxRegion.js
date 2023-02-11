@@ -2,13 +2,11 @@
     let region = document.querySelector("#lodging_region")
     region.addEventListener("change", function(){
             let form = this.closest("form")
-            let name = this.name
             let data = this.name + "=" + this.value
             
             fetch(form.action, {
                 method: form.getAttribute("method"),
                 body: data,
-                name: name,
                 headers: {
                 "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
                 }

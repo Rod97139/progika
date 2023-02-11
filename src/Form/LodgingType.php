@@ -78,7 +78,6 @@ class LodgingType extends AbstractType
                 ->add('region', EntityType::class, [
                     'mapped' => false,
                     'class' => Region::class,
-                    'choice_label' => 'name',
                     'placeholder' => 'Selectionner la région',
                     'required' => false
                     ]);
@@ -131,7 +130,6 @@ class LodgingType extends AbstractType
             [
                 'mapped' => false,
                 'class' => Departement::class,
-                'choice_label' => 'name',
                 'placeholder' => $region ? 'Selectionner le département' : 'Selectionner une région',
                 'required' => false,
                 'auto_initialize' => false,
