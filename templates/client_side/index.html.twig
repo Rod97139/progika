@@ -189,7 +189,7 @@
                     
                     
                     const onKeyUp = () => {
-                      if (cityInput.value.length >= 1) {
+                      if (cityInput.value.length > 2) {
                         axios.get('https://api-adresse.data.gouv.fr/search/?q='+ cityInput.value +'&type=municipality&autocomplete=1&limit=1')
                         .then(function (response) {
                           // handle success
@@ -225,4 +225,5 @@
               }
            </script>
            {{ encore_entry_script_tags('filters') }}
+           
 {% endblock %}

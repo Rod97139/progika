@@ -211,7 +211,7 @@ const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     
                     
                     const onKeyUp = () => {
-                      if (cityInput.value.length > 1) {
+                      if (cityInput.value.length > 2) {
                         axios.get('https://api-adresse.data.gouv.fr/search/?q='+ cityInput.value +'&type=municipality&autocomplete=1&limit=1')
                         .then(function (response) {
                           // handle success
@@ -247,9 +247,5 @@ const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
               }
            </script>
            {{ encore_entry_script_tags('filters') }}
-          
-        
-
-
 
 {% endblock %}
