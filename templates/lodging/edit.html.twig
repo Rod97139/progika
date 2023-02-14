@@ -16,28 +16,103 @@
 {% block javascripts %}
 
 {{ parent() }} 
+
 {# {{ encore_entry_script_tags('ajaxRegion') }} #}
 
-{# <script>
+{# 
+<script>
+window.onload = () => {
+var $region = $('#lodging_region');
+// When sport gets selected ...
+$region.change(function() {
+  // ... retrieve the corresponding form.
+  var $form = $(this).closest('form');
+  // Simulate form data, but only include the selected sport value.
+  var data = {};
+  data[$region.attr('name')] = $region.val();
+  // Submit data via AJAX to the form's action path.
+  $.ajax({
+    url : $form.attr('action'),
+    type: $form.attr('method'),
+    data : data,
+    complete: function(html) {
+      // Replace current position field ...
+      $('#lodging_departement').replaceWith(
+        // ... with the returned one from the AJAX response.
+        $(html.responseText).find('#lodging_departement')
+      );
+      // Position field now displays the appropriate positions.
+    }
+  });
+});
+}
+</script> #}
+
+
+
+{# 
+<script>
+window.onload = () => {
+$(document).on('change', '#lodging_region', '#lodging_departement', function () {
+
+    let $field = $(this)
+    let $regionField = $('#lodging_region')
+  // ... retrieve the corresponding form.
+    let $form = $field.closest('form');
+    let target = '#' + $field.attr('id').replace('departement', 'ville').replace('region', 'departement')
+  // Simulate form data, but only include the selected sport value.
+  let data = {};
+  data[$regionField.attr('name')] = $regionField.val();
+  data[$field.attr('name')] = $field.val();
+  // Submit data via AJAX to the form's action path.
+  $.post($form.attr('action'), data).then(function (data) {
+    let $input = $(html.responseText).find(target)
+    $(target).replaceWith($input)
+
+    //   $('#lodging_departement').replaceWith(
+    //     // ... with the returned one from the AJAX response.
+    //     $(html.responseText).find('#lodging_departement')
+    //   );
+      // Position field now displays the appropriate positions.
+    
+  });
+});
+}
+</script> #}
+
+
+<script>
+  
+
 
 window.onload = () => {
+
     let region = document.querySelector("#lodging_region")
     region.addEventListener("change", function(){
+      // mettre le select de la ville a null
+        document.querySelector("#lodging_city").innerHTML = null
             let form = this.closest("form")
-            let data = this.name + "=" + this.value
+            const data = new URLSearchParams();
+            for (const pair of new FormData(form)) {
+              if (pair[0] != 'lodging[_token]'){
+                data.append(pair[0], pair[1]);
+                }
+            }
+            // let data = this.name + "=" + this.value
             
             fetch(form.action, {
-                method: 'OPTIONS',
+                method: 'post',
                 body: data,
                 headers: {
                 "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
                 }
             })
 
-            .then(response => console.log(response))
+            .then(response => response.text())
             .then(html => {
             let content = document.createElement("html")
             content.innerHTML = html
+            console.log(content)
             let newSelect = content.querySelector("#lodging_departement") 
             
 
@@ -52,10 +127,16 @@ window.onload = () => {
                     
                     departement.addEventListener("change", function(){
                         
-                            data += '&' + this.name + "=" + this.value
+                          const data = new URLSearchParams();
+                            for (const pair of new FormData(form)) {
+                              if (pair[0] != 'lodging[_token]'){
+                                data.append(pair[0], pair[1]);
+                                }
+                            }
+                            // data += '&' + this.name + "=" + this.value
                             
                         fetch(form.action, {
-                            method: 'put',
+                            method: 'post',
                             body: data,
                             headers: {
                                 "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
@@ -76,5 +157,6 @@ window.onload = () => {
         })
     })  
     }
-</script> #}
+</script>
+
 {% endblock %}
