@@ -17,5 +17,3 @@ import 'select2';
 $(document).ready(() => $('.select2').select2()) 
 import 'select2/dist/css/select2.min.css';
 require('@fortawesome/fontawesome-free/css/all.css');
-
-
