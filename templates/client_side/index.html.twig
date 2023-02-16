@@ -15,7 +15,8 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
       <ul class="navbar-nav me-auto mb-2 mb-lg-0"> 
-      <form  id="filters"> 
+      
+      <form  id="filters"  > 
         <li class="nav-item dropdown" style="float:left;">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
            <i class="fa-solid fa-bed"></i> Chambres
@@ -27,7 +28,7 @@
             {% endif %}
           <ul class="dropdown-menu">
             <li class="dropdown-item">
-            <input class="form-control"  type="text" name="rooms" id="rooms" placeholder="Nombre de Chambres" value='{{roomsValue}}'/>
+            <input class="form-control" type="text" name="rooms" id="rooms" placeholder="Nombre de Chambres" value='{{roomsValue}}'/>
             </li>
           </ul>
         </li>
@@ -180,7 +181,6 @@
 
 {% block javascripts %}
 
-           {{ parent() }} 
            <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
             <script>       
             window.onload = () => {
@@ -225,5 +225,6 @@
               }
            </script>
            {{ encore_entry_script_tags('filters') }}
+              {{ parent() }} 
            
 {% endblock %}

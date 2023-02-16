@@ -8,12 +8,12 @@
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.scss';
 
-// start the Stimulus application
-import './bootstrap';
-
 import { Tooltip, Toast, Popover } from 'bootstrap';
 import $ from 'jquery';
 import 'select2';                       
 $(document).ready(() => $('.select2').select2()) 
+// start the Stimulus application
+import './bootstrap';
+
 import 'select2/dist/css/select2.min.css';
 require('@fortawesome/fontawesome-free/css/all.css');

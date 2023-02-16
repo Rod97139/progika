@@ -37,7 +37,7 @@
                 <td>{{ lodging.adress }}</td>
                 <td>
                     <a class="btn btn-primary" href="{{ path('app_lodging_show', {'id': lodging.id}) }}">show</a>
-                    <a href="{{ path('app_lodging_edit', {'id': lodging.id}) }}">edit</a>
+                    <a data-turbo='false' href="{{ path('app_lodging_edit', {'id': lodging.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
