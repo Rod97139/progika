@@ -27,14 +27,14 @@
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                    <a class="nav-link" data-turbo='false' aria-current="page" href="{{ path('map_all') }}"> <i class="fa-solid fa-map-location-dot"></i> Map</a>
+                    <a class="nav-link" aria-current="page" href="{{ path('map_all') }}"> <i class="fa-solid fa-map-location-dot"></i> Map</a>
                   </li>
                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       <i class="fa-solid fa-user"></i> Mon compte
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul data-turbo='true' class="dropdown-menu">
                       <li><a class="dropdown-item" href="{{ path('app_owner_edit', {id: app.user.id}) }}"><i class="fa-solid fa-user-pen"></i> Éditer mon Profile</a></li>
 
                       {% if is_granted('ROLE_OWNER') %}
@@ -62,7 +62,7 @@
                     <a class="nav-link dropdown-toggle" style='color:red;' href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       <i class="fa-solid fa-screwdriver-wrench"></i> Gestion administrateur
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul data-turbo='true' class="dropdown-menu">
                       <li><a class="dropdown-item" href="{{ path('app_admin_index') }}"><i class="fa-solid fa-list"></i> Gestion des utilisateurs</a></li>
                       <li><hr class="dropdown-divider"></li>
                       <li><a class="dropdown-item" href="{{ path('app_lodging_index') }}"><i class="fa-solid fa-list"></i> Gestion des gîtes</a></li>
