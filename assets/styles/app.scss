@@ -23,6 +23,10 @@ $pagination-active-bg: #CDA434;
 
 @import "~bootstrap/scss/bootstrap";
 
+.turbo-progress-bar {
+    height: 10px;
+    background-color: #499b4a;
+  }
 
 .dropdown-item {
     width: 250px;
