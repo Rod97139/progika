@@ -30,6 +30,12 @@ class Message
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $from_id = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $to_id = null;
+
     //from_id
 
     //to_id
@@ -96,6 +102,30 @@ class Message
     public function setReadAt(?\DateTimeImmutable $readAt): self
     {
         $this->readAt = $readAt;
+
+        return $this;
+    }
+
+    public function getFromId(): ?int
+    {
+        return $this->from_id;
+    }
+
+    public function setFromId(?int $from_id): self
+    {
+        $this->from_id = $from_id;
+
+        return $this;
+    }
+
+    public function getToId(): ?int
+    {
+        return $this->to_id;
+    }
+
+    public function setToId(?int $to_id): self
+    {
+        $this->to_id = $to_id;
 
         return $this;
     }

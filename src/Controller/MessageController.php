@@ -11,6 +11,7 @@ class MessageController extends AbstractController
     #[Route('/message', name: 'app_message')]
     public function index(): Response
     {
+        dd($this->getUser());
         return $this->render('message/index.html.twig', [
             'controller_name' => 'MessageController',
         ]);
