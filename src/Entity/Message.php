@@ -20,12 +20,19 @@ class Message
 
     #[ORM\Column(length: 255)]
     private ?string $content = null;
+    
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $readAt = null;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    //from_id
+
+    //to_id
 
     public function getId(): ?int
     {
@@ -76,6 +83,19 @@ class Message
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    
+    public function getReadAt(): ?\DateTimeImmutable
+    {
+        return $this->readAt;
+    }
+
+    public function setReadAt(?\DateTimeImmutable $readAt): self
+    {
+        $this->readAt = $readAt;
 
         return $this;
     }

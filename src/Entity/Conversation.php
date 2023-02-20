@@ -20,9 +20,6 @@ class Conversation
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'conversations')]
     private Collection $user;
 
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $readAt = null;
-
     #[ORM\OneToMany(mappedBy: 'conversation', targetEntity: Message::class)]
     private Collection $messages;
 
@@ -57,18 +54,6 @@ class Conversation
     public function removeUser(User $user): self
     {
         $this->user->removeElement($user);
-
-        return $this;
-    }
-
-    public function getReadAt(): ?\DateTimeImmutable
-    {
-        return $this->readAt;
-    }
-
-    public function setReadAt(?\DateTimeImmutable $readAt): self
-    {
-        $this->readAt = $readAt;
 
         return $this;
     }
