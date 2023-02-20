@@ -59,9 +59,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::JSON, nullable: false)]
     private array $favs = [];
 
+    #[ORM\ManyToMany(targetEntity: Conversation::class, mappedBy: 'user')]
+    private Collection $conversations;
+
     public function __construct()
     {
         $this->lodgings = new ArrayCollection();
+        $this->conversations = new ArrayCollection();
     }
 
 
@@ -262,6 +266,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setFavs(?array $favs): self
     {
         $this->favs = $favs;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Conversation>
+     */
+    public function getConversations(): Collection
+    {
+        return $this->conversations;
+    }
+
+    public function addConversation(Conversation $conversation): self
+    {
+        if (!$this->conversations->contains($conversation)) {
+            $this->conversations->add($conversation);
+            $conversation->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConversation(Conversation $conversation): self
+    {
+        if ($this->conversations->removeElement($conversation)) {
+            $conversation->removeUser($this);
+        }
 
         return $this;
     }
