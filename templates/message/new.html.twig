@@ -4,5 +4,8 @@
 
 {% block body %}
     <h1>Conversation {{conversation.id}}</h1>
+
+    {{ form(form) }}
+    
     <p><a href="{{ path('app_conversation', {'id': conversation.id}) }}">Back</a></p>
 {% endblock %}

@@ -17,10 +17,10 @@ class Conversation
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'conversations', fetch:'EAGER')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'conversations', fetch: 'EAGER')]
     private Collection $user;
 
-    #[ORM\OneToMany(mappedBy: 'conversation', targetEntity: Message::class)]
+    #[ORM\OneToMany(mappedBy: 'conversation', targetEntity: Message::class, fetch: 'EAGER')]
     private Collection $messages;
 
     #[ORM\Column(nullable: true)]

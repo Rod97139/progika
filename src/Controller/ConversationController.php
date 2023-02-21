@@ -56,7 +56,7 @@ class ConversationController extends AbstractController
     public function show(Conversation $conversation): Response
     {
         
-        
+        dd($conversation);
         return $this->render('conversation/show.html.twig', ['conversation' => $conversation]);
     }
 }

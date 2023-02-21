@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\UX\Turbo\Attribute\Broadcast;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
-#[Broadcast]
+// #[Broadcast]
 class Message
 {
     #[ORM\Id]
@@ -15,7 +15,7 @@ class Message
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'messages')]
+    #[ORM\ManyToOne(inversedBy: 'messages', fetch: 'EAGER')]
     private ?Conversation $conversation = null;
 
     #[ORM\Column(length: 255)]
