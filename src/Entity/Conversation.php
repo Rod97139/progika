@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\UX\Turbo\Attribute\Broadcast;
 
 #[ORM\Entity(repositoryClass: ConversationRepository::class)]
-#[Broadcast]
+// #[Broadcast]
 class Conversation
 {
     #[ORM\Id]
@@ -23,6 +23,9 @@ class Conversation
     #[ORM\OneToMany(mappedBy: 'conversation', targetEntity: Message::class)]
     private Collection $messages;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $lodging_id = null;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -32,6 +35,18 @@ class Conversation
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getLodgingId(): ?int
+    {
+        return $this->lodging_id;
+    }
+
+    public function setLodgingId(?int $lodging_id): self
+    {
+        $this->lodging_id = $lodging_id;
+
+        return $this;
     }
 
     /**
