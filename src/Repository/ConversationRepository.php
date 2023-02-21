@@ -39,20 +39,24 @@ class ConversationRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Conversation[] Returns an array of Conversation objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+   /**
+    * @return Conversation[] Returns an array of Conversation objects
+    */
+   public function findByUsers($client, $owner): array
+   {
+    $query = $this->createQueryBuilder('c');
+
+    $query->andWhere('u IN(:user)')
+                ->join('c.user', 'u');
+    $query->setParameter(':user', array_values([$client, $owner]))
+        ->groupBy('c.id')
+        ->andHaving('COUNT(c.id) = :count')
+        ->setParameter(':count', count(array_values([$client, $owner])))
+    ;
+          return $query->getQuery()
+           ->getResult()
+       ;
+   }
 
 //    public function findOneBySomeField($value): ?Conversation
 //    {

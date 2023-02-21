@@ -110,9 +110,9 @@
         <tr>
             <td>  Disponibilité:  </td> <td> {{ user.disponibility }} </td>
         </tr>
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {% if is_granted('IS_AUTHENTICATED_FULLY') and lodging.user.id != app.user.id %}
         <tr>
-            <td> <a class='btn btn-primary' href="{{ path('app_conversation', {'ownerId': lodging.user.id, 'lodgingId': lodging.id}) }}">Contacter le propriétaire</a> </td>
+            <td> <a class='btn btn-primary' href="{{ path('app_conversation_new', {'ownerId': lodging.user.id, 'lodgingId': lodging.id}) }}">Contacter le propriétaire</a> </td>
         </tr>
         {% endif %}
     </tbody>

@@ -19,29 +19,44 @@ use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 class ConversationController extends AbstractController
 {
 
-    public function __construct(private UserRepository $userRepository, private ConversationRepository $conversationRepository, private TokenGeneratorInterface $tokenGenerator, private CsrfTokenManagerInterface $tokenmanager) {}
+    public function __construct(private UserRepository $userRepository, private ConversationRepository $conversationRepository) {}
 
-    #[Route('/conversation/new/{ownerId}/{lodgingId}', name: 'app_conversation')]
-    public function new($ownerId, $lodgingId, EntityManagerInterface $manager, SessionInterface $session): Response
+    #[Route('/conversation/new/{ownerId}/{lodgingId}', name: 'app_conversation_new')]
+    public function new($ownerId, $lodgingId, EntityManagerInterface $manager): Response
     {
-        // // Générer un nouveau token CSRF
-        // $token = $this->tokenGenerator->generateToken();
-        // // Enregistrer le token dans la session pour une utilisation future
-        // $session->set('csrf_token', $token);
+        $create = true;
         $client = $this->getUser();
+        $owner = $this->userRepository->findOneBy(['id' => $ownerId]);
+        $conversations = $this->conversationRepository->findByUsers($client, $owner);
 
-        $test = $this->conversationRepository->findBy(['user_id' => $ownerId, 'user_id' => $client->getId()]);
-        dd($test);
-        $owner = $this->userRepository->findBy(['id' => $ownerId]);
-        $conversation = new Conversation();
-        $conversation->addUser($client)
-                    ->addUser($owner[0])
-                    ;
-        $conversation->setLodgingId($lodgingId);
-        $manager->persist($conversation);
-        $manager->flush();
-        // dd($conversation);
+        foreach ($conversations as $conv) {
+            if ($conv->getLodgingId() === (int)$lodgingId) {
+               $create = false;
+            }
+        }
+        
+        if($create){
+            $conversation = new Conversation();
+            $conversation->addUser($client)
+                        ->addUser($owner);
+            $conversation->setLodgingId($lodgingId);
+            $manager->persist($conversation);
+            $manager->flush();
 
-        return $this->render('conversation/new.html.twig');
+            // dd($conversation);
+
+            return $this->redirectToRoute('app_conversation', ['id' => $conversation->getId()]);
+        }
+
+        dd(($this->conversationRepository->findByUsers($client, $owner)));
+
+    }
+
+    #[Route('/conversation/{id}', name: 'app_conversation')]
+    public function show(Conversation $conversation): Response
+    {
+        
+        
+        return $this->render('conversation/show.html.twig', ['conversation' => $conversation]);
     }
 }

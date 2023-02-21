@@ -2,18 +2,18 @@
 
 namespace App\Controller;
 
+use App\Entity\Conversation;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MessageController extends AbstractController
 {
-    #[Route('/message', name: 'app_message')]
-    public function index(): Response
+    #[Route('/conversation/{conversation}/message/new', name: 'app_message_new')]
+    public function new(Conversation $conversation): Response
     {
-        dd($this->getUser());
-        return $this->render('message/index.html.twig', [
-            'controller_name' => 'MessageController',
+        return $this->render('message/new.html.twig', [
+            'conversation' => $conversation
         ]);
     }
 }
