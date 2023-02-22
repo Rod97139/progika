@@ -3,9 +3,23 @@
 {% block title %}New Conversation{% endblock %}
 
 {% block body %}
+<div data-turbo='true'>
     <h1>Conversation {{conversation.id}}</h1>
+    <table>
+{% for message in conversation.messages %}
+       <tr>
+        <td> {{message.createdAt|date('d M H:i')}}</td>
+        <td>{{message.content}} </td>
+       </tr>
+    
+{% endfor %}
 
+    </table>
+ <turbo-frame id='new_message'>
     {{ form(form) }}
+  </turbo-frame>
+ 
     
     <p><a href="{{ path('app_conversation', {'id': conversation.id}) }}">Back</a></p>
+</div>
 {% endblock %}

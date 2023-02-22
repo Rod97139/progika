@@ -58,6 +58,19 @@ class ConversationRepository extends ServiceEntityRepository
        ;
    }
 
+   public function findWithOneUser($user): array
+   {
+    $query = $this->createQueryBuilder('c');
+
+    $query->andWhere('u IN(:user)')
+                ->join('c.user', 'u');
+    $query->setParameter(':user', $user)
+    ;
+          return $query->getQuery()
+           ->getResult()
+       ;
+   }
+
 //    public function findOneBySomeField($value): ?Conversation
 //    {
 //        return $this->createQueryBuilder('c')

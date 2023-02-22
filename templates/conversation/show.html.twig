@@ -3,6 +3,22 @@
 {% block title %}New Conversation{% endblock %}
 
 {% block body %}
+<div data-turbo='true'>
     <h1>Conversation {{conversation.id}}</h1>
-        <p><a href="{{ path('app_message_new', {'conversation': conversation.id}) }}">New Message</a></p>
+        <table style='border-collapse : collapse; border-spacing : 2px; '>
+<th>User </th><th></th> <th>Date et Heure</th><th>Contenu du Message</th>
+{% for message in conversation.messages %}
+       <tr>
+        <td> {{message.fromId}}</td><td> </td>
+        <td> {{message.createdAt|date('d M H:i')}}</td>
+        <td>{{message.content}} </td>
+       </tr>
+    
+{% endfor %}
+
+    </table>
+    <turbo-frame id='new_message' src='{{ path('app_message_new', {'conversation': conversation.id}) }}' target='_top'> </turbo-frame>
+        
+        {# <p><a href="{{ path('app_message_new', {'conversation': conversation.id}) }}">New Message</a></p> #}
+</div>
 {% endblock %}

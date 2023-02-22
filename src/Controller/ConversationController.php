@@ -22,7 +22,7 @@ class ConversationController extends AbstractController
     public function __construct(private UserRepository $userRepository, private ConversationRepository $conversationRepository) {}
 
     #[Route('/conversation/new/{ownerId}/{lodgingId}', name: 'app_conversation_new')]
-    public function new($ownerId, $lodgingId, EntityManagerInterface $manager): Response
+    public function newContact($ownerId, $lodgingId, EntityManagerInterface $manager): Response
     {
         $create = true;
         $client = $this->getUser();
@@ -32,6 +32,7 @@ class ConversationController extends AbstractController
         foreach ($conversations as $conv) {
             if ($conv->getLodgingId() === (int)$lodgingId) {
                $create = false;
+               $conversation = $conv;
             }
         }
         
@@ -45,10 +46,10 @@ class ConversationController extends AbstractController
 
             // dd($conversation);
 
-            return $this->redirectToRoute('app_conversation', ['id' => $conversation->getId()]);
         }
-
-        dd(($this->conversationRepository->findByUsers($client, $owner)));
+        
+        // dd(($this->conversationRepository->findByUsers($client, $owner)));
+        return $this->redirectToRoute('app_conversation', ['id' => $conversation->getId()]);
 
     }
 
@@ -56,7 +57,15 @@ class ConversationController extends AbstractController
     public function show(Conversation $conversation): Response
     {
         
-        dd($conversation);
         return $this->render('conversation/show.html.twig', ['conversation' => $conversation]);
     }
+
+    #[Route('/conversation', name: 'app_conversation_all')]
+    public function showAll(): Response
+    {
+        dd($this->conversationRepository->findWithOneUser($this->getUser()));
+        // return $this->render('conversation/show.html.twig', ['conversation' => $conversation]);
+    }
+
+
 }
