@@ -21,30 +21,12 @@ class MessageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('content', TextType::class)
-            ->add('readAt', DateTimeType::class, [
-                'required' => false
-
+            ->add('content', TextType::class, [
+                'attr' => ['autocomplete' => 'off']
+                ])
+            ->add('submit', SubmitType::class, [
+                'attr' => ['formnovalidate' => 'formnovalidate']
             ])
-            ->add('createdAt',DateTimeType::class, [
-                'required' => false
-
-            ])
-            ->add('updatedAt', DateTimeType::class, [
-                'required' => false
-
-            ])
-            ->add('from_id', EntityType::class, [
-                'class' => User::class,
-                'required' => false
-
-            ])
-            ->add('to_id', EntityType::class, [
-                'class' => User::class,
-                'required' => false
-
-            ])
-            ->add('submit', SubmitType::class)
         ;
     }
 

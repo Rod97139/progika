@@ -1,0 +1,16 @@
+
+<turbo-stream action="append" target="messages">
+    <template>
+    
+        <td> {{message.fromId}}</td><td> </td>
+        <td> {{message.createdAt|date('d M H:i')}}</td>
+        <td style='color: green;'> <h3>{{message.content}} </h3></td>
+       
+    </template>
+</turbo-stream>
+
+ <turbo-stream action="replace" target="emptyForm">
+            <template>
+                {{ include('conversation/_form.html.twig') }}
+            </template>
+</turbo-stream>
