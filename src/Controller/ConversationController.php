@@ -35,6 +35,7 @@ class ConversationController extends AbstractController
         $owner = $this->userRepository->findOneBy(['id' => $ownerId]);
         $conversations = $this->conversationRepository->findByUsers($client, $owner);
 
+        //à simplifier avec une requete sql andWhere c.lodging_id = get lodgingId
         foreach ($conversations as $conv) {
             if ($conv->getLodgingId() === (int)$lodgingId) {
                $create = false;
@@ -62,53 +63,54 @@ class ConversationController extends AbstractController
     #[Route('/conversation/{id}', name: 'app_conversation')]
     public function show(Conversation $conversation, Request $request, EntityManagerInterface $em, HubInterface $hub, Authorization $authorization): Response
     {
-        $to_id = (array_values(array_diff($conversation->getUser()->toArray(), array($this->getUser())))[0]->getId());
-        $message = new Message();
-        $form = $this->createForm(MessageType::class, $message);
-        $emptyForm = clone $form;
-        
-        $form->handleRequest($request);
-        
-        if($form->isSubmitted() && $form->isValid()) {
-            $form = $emptyForm;
+        if ($this->getUser() == $conversation->getUser()[0] || $this->getUser() == $conversation->getUser()[1]) {
             
-            $message->setConversation($conversation);
-            $message->setFromId($this->getUser()->getId());
-            $message->setToId($to_id);
+            $to_id = (array_values(array_diff($conversation->getUser()->toArray(), array($this->getUser())))[0]->getId());
+            $message = new Message();
+            $form = $this->createForm(MessageType::class, $message);
+            $emptyForm = clone $form;
             
-            $em->persist($message);
-            $em->flush();
+            $form->handleRequest($request);
             
-            //hub mercure
-            $hub->publish(new Update(
-                sprintf(
-                    'http://127.0.0.1:8000/conversation/%s',
-                    $conversation->getId()
-                ),
-                // true,
-                $this->renderView('message/message.stream.html.twig', ['message' => $message,
-                 'form' => $form
-                 ] ),
-            ));
-
-            // $authorization->setCookie($request, [sprintf(
-            //     'http://127.0.0.1:8000/conversation/%s',
-            //     $conversation->getId()
-            //     )], [],
-            //             [], );
-
-            
-            
-                }
+            if($form->isSubmitted() && $form->isValid()) {
+                $form = $emptyForm;
+                $message->setConversation($conversation);
+                $message->setFromId($this->getUser()->getId());
+                $message->setToId($to_id);
                 
-    return $this->render('conversation/show.html.twig', ['conversation' => $conversation, 'form' => $form]);
+                $em->persist($message);
+                $em->flush();
+                
+                //hub mercure
+                $hub->publish(new Update(
+                    sprintf(
+                        'http://127.0.0.1:8000/conversation/%s',
+                        $conversation->getId()
+                    ),
+                    // true,
+                    $this->renderView('conversation/message.stream.html.twig', ['message' => $message,
+                    'form' => $form
+                    ] ),
+                ));
+
+                // $authorization->setCookie($request, [sprintf(
+                //     'http://127.0.0.1:8000/conversation/%s',
+                //     $conversation->getId()
+                //     )], [],
+                //             [], );
+            } 
+            return $this->render('conversation/show.html.twig', ['conversation' => $conversation, 'form' => $form]);
+        }else{
+            return $this->redirectToRoute('app_home');
+        }
 }
 
     #[Route('/conversation', name: 'app_conversation_all')]
     public function showAll(): Response
     {
-        dd($this->conversationRepository->findWithOneUser($this->getUser()));
-        // return $this->render('conversation/show.html.twig', ['conversation' => $conversation]);
+        $conversations = $this->conversationRepository->findWithOneUser($this->getUser());
+        
+        return $this->render('conversation/availableConversations.html.twig', ['conversations' => $conversations]);
     }
 
 

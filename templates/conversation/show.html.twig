@@ -5,31 +5,36 @@
 {% block body %}
 <div data-turbo='true'>
     <h1>Conversation {{conversation.id}}</h1>
-        <table style='border-collapse : collapse; border-spacing : 2px; '>
-<th>User </th><th></th> <th>Date et Heure</th><th>Contenu du Message</th>
-{% for message in conversation.messages %}
-       <tr>
-        <td> {{message.fromId}}</td><td> </td>
-        <td> {{message.createdAt|date('d M H:i')}}</td>
-        <td> <h3>{{message.content}} </h3></td>
-       </tr>
-    
-{% endfor %}
-    <tr id="messages" {{ turbo_stream_listen('http://127.0.0.1:8000/conversation/' ~ conversation.id) }}>
-        {#
-            mercure('http://127.0.0.1:8000/conversation/' ~ conversation.id)
-            The messages will be displayed here.
-            "turbo_stream_listen()" automatically registers a Stimulus controller that subscribes to the "chat" topic as managed by the transport.
-            All connected users will receive the new messages!
-         #}
-    </tr>
+       
+        
+                <table id="messages" {{ turbo_stream_listen('http://127.0.0.1:8000/conversation/' ~ conversation.id) }}>
+                            <th>User </th><th></th> <th>Date et Heure</th><th>Contenu du Message</th>
+                    {#
+                        mercure('http://127.0.0.1:8000/conversation/' ~ conversation.id)
+                        The messages will be displayed here.
+                        "turbo_stream_listen()" automatically registers a Stimulus controller that subscribes to the "chat" topic as managed by the transport.
+                        All connected users will receive the new messages!
+                    #}
+
+
+                            {% for message in conversation.messages %}
+                                <tr>
+                                    <td> {{message.fromId}}</td><td> </td>
+                                    <td> {{message.createdAt|date('d M H:i')}}</td>
+                                    <td> <h3>{{message.content}} </h3></td>
+                                </tr>
+                
+                            {% endfor %}
+                </table>
+        
 
        
 
-    </table>
+    
     {# <turbo-frame id='new_message' src='{{ path('app_message_new', {'conversation': conversation.id}) }}' target='_top' autoscroll> Loading ...</turbo-frame> #}
         {# <p><a href="{{ path('app_message_new', {'conversation': conversation.id}) }}">New Message</a></p> #}
-            {{ form(form, {'attr': {'id': 'emptyForm', 'data-turbo-frame': 'autoscroll'}}) }}
+            {{ form(form) }}
+            {# {'attr': {'id': 'emptyForm'}})  #}
 </div>
 
 {# 

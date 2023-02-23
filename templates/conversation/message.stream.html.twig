@@ -1,13 +1,18 @@
 
 <turbo-stream action="append" target="messages">
     <template>
-    
+        <tr>
         <td> {{message.fromId}}</td><td> </td>
         <td> {{message.createdAt|date('d M H:i')}}</td>
-        <td style='color: green;'> <h3>{{message.content}} </h3></td>
-       
+        {% if app.user.roles[0] == 'ROLE_OWNER' %}
+            <td style='color: green;'> <h3>{{message.content}} </h3></td>
+        {% else %}
+            <td style='color: red;'> <h3>{{message.content}} </h3></td>
+        {% endif %}
+        
+       </tr>
     </template>
-</turbo-stream>
+</turbo-stream autoscroll>
 
  <turbo-stream action="replace" target="emptyForm">
             <template>

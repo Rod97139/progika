@@ -6,6 +6,8 @@ use App\Repository\MessageRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\UX\Turbo\Attribute\Broadcast;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -21,6 +23,7 @@ class Message
     private ?Conversation $conversation = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $content = null;
     
     #[ORM\Column(nullable: true)]

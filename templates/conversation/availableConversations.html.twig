@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {% if conversations is empty %}
+        <h4>Aucune conversation enregistrée pour cet utilisateur</h4>
+    {% else %}
+        {% for conversation in conversations %}
+            {{ dump(conversation) }}
+            <a class='btn btn-primary' href='{{ path('app_conversation', {'id': conversation.id }) }}'>Voir</a>
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}
