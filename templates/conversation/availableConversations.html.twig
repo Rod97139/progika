@@ -6,8 +6,13 @@
         <h4>Aucune conversation enregistrée pour cet utilisateur</h4>
     {% else %}
         {% for conversation in conversations %}
-            {{ dump(conversation) }}
-            <a class='btn btn-primary' href='{{ path('app_conversation', {'id': conversation.id }) }}'>Voir</a>
+            <a class='btn btn-primary' href='{{ path('app_conversation', {'id': conversation.id }) }}'>
+            {% if conversation.user[0] == app.user %}
+                {{ conversation.user[1].email }}
+            {% else %}
+                {{ conversation.user[0].email }}
+            {% endif %}
+           </a>
         {% endfor %}
     {% endif %}
 
