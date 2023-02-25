@@ -9,6 +9,13 @@
         {% else %}
             <td style='color: red;'> <h3>{{message.content}} </h3></td>
         {% endif %}
+
+         <script type="module">
+          const form = document.getElementById('message_content')
+          form.value = ''
+          const chatDiv = document.querySelector('.overflow-auto');
+          chatDiv.scrollTop = chatDiv.scrollHeight; 
+        </script>
         
        </tr>
     </template>

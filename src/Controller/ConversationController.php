@@ -65,7 +65,10 @@ class ConversationController extends AbstractController
     {
         if ($this->getUser() == $conversation->getUser()[0] || $this->getUser() == $conversation->getUser()[1]) {
             
-            $to_id = (array_values(array_diff($conversation->getUser()->toArray(), array($this->getUser())))[0]->getId());
+            $to_id = (array_values(array_diff($conversation->getUser()->toArray(), [$this->getUser()]))[0]->getId());
+
+            // dd(array_values(array_diff($conversation->getUser()->toArray(), [$this->getUser()])));
+
             $message = new Message();
             $form = $this->createForm(MessageType::class, $message);
             $emptyForm = clone $form;
