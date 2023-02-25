@@ -6,6 +6,7 @@
 <div data-turbo='true'>
     <h1>Conversation {{conversation.id}}</h1>
        
+       <div class='message-container'>
         
                 <table id="messages" {{ turbo_stream_listen('http://127.0.0.1:8000/conversation/' ~ conversation.id) }}>
                             <th>User </th><th></th> <th>Date et Heure</th><th>Contenu du Message</th>
@@ -19,13 +20,15 @@
 
                             {% for message in conversation.messages %}
                                 <tr>
-                                    <td> {{message.fromId}}</td><td> </td>
+                                    <td > {{message.fromId}}</td><td> </td>
                                     <td> {{message.createdAt|date('d M H:i')}}</td>
                                     <td> <h3>{{message.content}} </h3></td>
                                 </tr>
                 
                             {% endfor %}
                 </table>
+
+                </div>
         
 
        
@@ -36,7 +39,7 @@
             {{ form(form) }}
             {# {'attr': {'id': 'emptyForm'}})  #}
 </div>
-<div class='overflow-auto'>
+<div class='overflow-auto pt-5'>
 </div>
 
 {# 
