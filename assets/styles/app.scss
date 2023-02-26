@@ -65,6 +65,13 @@ body {
             height: 400px; /* hauteur de la div */
             overflow-y: scroll; /* la div sera scrollable verticalement */
           }
+          .message-container::-webkit-scrollbar {
+            width: 0px; /* Retire la largeur de la barre de défilement */
+          }
+          
+          .message-container::-webkit-scrollbar-thumb {
+            background-color: transparent; /* Rend la barre de défilement transparente */
+          }
     
     .dropdown-menu{
         background-color: #cab478;

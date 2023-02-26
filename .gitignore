@@ -1,5 +1,6 @@
 /.env 
 /mercure/mercure.db
+/mercure/Caddyfile.dev
 /migrations/
 ###> symfony/framework-bundle ###
 /.env.local

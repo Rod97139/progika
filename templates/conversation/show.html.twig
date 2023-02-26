@@ -26,6 +26,9 @@
                                 </tr>
                 
                             {% endfor %}
+                            
+                            <script > let appUser = {{app.user.id}} 
+                            </script>
                 </table>
 
                 </div>
@@ -49,7 +52,7 @@
 const eventSource = new EventSource("{{ mercure(link, { subscribe: link })|escape('js') }}", {
     withCredentials: true
 });
-</script> #}
+</scrip> #}
 
 
 {% endblock %}
