@@ -2,31 +2,40 @@
 <turbo-stream action="append" target="messages">
     <template>
         <tr>
-        <td> {{message.fromId}}</td><td> </td>
+        <td> {{app.user.email}}</td><td> </td>
         <td> {{message.createdAt|date('d M H:i')}}</td>
         {% if app.user.roles[0] == 'ROLE_OWNER' %}
             <td style='color: green;'> <h3>{{message.content}} </h3></td>
         {% else %}
             <td style='color: red;'> <h3>{{message.content}} </h3></td>
-        {% endif %}
-
-         <script type="module">
-         if (appUser = {{message.fromId}}) {
-            console.log(appUser)
-                const form = document.getElementById('message_content')
-                form.value = ''
-         }
-          
+        {% endif %}     
+            <script type="module">
           const chatDiv = document.querySelector('.message-container');
           chatDiv.scrollTop = chatDiv.scrollHeight; 
-        </script>
-        
+        </script>   
        </tr>
     </template>
 </turbo-stream autoscroll>
 
- <turbo-stream action="replace" target="emptyForm">
+ <turbo-stream action="replace" target="empty-message_{{app.user.id}}">
+            <template>
+               <script id='empty-message_{{app.user.id}}' type="module">
+                const form = document.getElementById('message_content')
+                form.value = ''
+              </script>
+            </template>
+</turbo-stream>
+ <turbo-stream action="replace" target="scroll_message">
+            <template>
+               <script id='scroll_message' type="module">
+                const chatDiv = document.querySelector('.overflow-auto');
+                chatDiv.scrollTop = chatDiv.scrollHeight; 
+              </script>
+            </template>
+</turbo-stream>
+
+ {# <turbo-stream action="replace" target="emptyForm">
             <template>
                 {{ include('conversation/_form.html.twig') }}
             </template>
-</turbo-stream>
+</turbo-stream> #}

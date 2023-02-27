@@ -84,6 +84,12 @@ class ConversationController extends AbstractController
                 $em->persist($message);
                 $em->flush();
                 
+                // $authorization->setCookie($request, [sprintf(
+                //     'http://127.0.0.1:8000/conversation/%s',
+                //     $conversation->getId()
+                //     )], [],
+                //             [], );
+                
                 //hub mercure
                 $hub->publish(new Update(
                     sprintf(
@@ -96,11 +102,6 @@ class ConversationController extends AbstractController
                     ] ),
                 ));
 
-                // $authorization->setCookie($request, [sprintf(
-                //     'http://127.0.0.1:8000/conversation/%s',
-                //     $conversation->getId()
-                //     )], [],
-                //             [], );
             } 
             return $this->render('conversation/show.html.twig', ['conversation' => $conversation, 'form' => $form]);
         }else{
