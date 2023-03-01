@@ -112,7 +112,9 @@ class ConversationController extends AbstractController
     #[Route('/conversation', name: 'app_conversation_all')]
     public function showAll(): Response
     {
+        $otherUsers = $this->userRepository->getConvsUsers($this->getUser());
         $conversations = $this->conversationRepository->findWithOneUser($this->getUser());
+        // dd($otherUsers, $conversations);
         
         return $this->render('conversation/availableConversations.html.twig', ['conversations' => $conversations]);
     }

@@ -19,7 +19,7 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, private ConversationRepository $conversationRepository)
     {
         parent::__construct($registry, User::class);
     }
@@ -71,6 +71,22 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     $query = $this->getEntityManager()->createNativeQuery($rawQuery, $rsm);
     $query->setParameter('role', $role);
     return $query->getResult();
+}
+
+public function getConvsUsers($currentUser)
+{
+    $convs = $this->conversationRepository->findWithOneUser($currentUser);
+
+    $query = $this->createQueryBuilder('u');
+    $query->andWhere('c IN(:conversations)')
+                ->join('u.conversations', 'c');
+    $query->setParameter(':conversations', array_values($convs))
+        ->andWhere('u.id != :current')
+        ->setParameter(':current', $currentUser)
+    ;
+          return $query->getQuery()
+           ->getResult()
+       ;
 }
 
 //    /**
