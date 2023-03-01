@@ -1,6 +1,6 @@
 ## Installation : 
 
-- `composer install` `yarn install` `yarn watch`
+- `composer install` `yarn install -f` `yarn watch`
 
 - `symfony console d:d:c` `symfony console make migration` `php bin/console doctrine:migrations:migrate`
 
@@ -12,10 +12,10 @@
 
 #### Identifiants et mdp :
 
-admin@gmail.com => admin
-user1@gmail.com => user
-owner1@gmail.com => owner
-etc...
+- admin@gmail.com => admin
+- user1@gmail.com => user
+- owner1@gmail.com => owner
+- etc...
 
 ### Distance (acos): 
 
