@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\MessageRepository;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\UX\Turbo\Attribute\Broadcast;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -40,6 +42,14 @@ class Message
 
     #[ORM\Column(nullable: true)]
     private ?int $to_id = null;
+
+    #[ORM\OneToMany(mappedBy: 'message', targetEntity: Attachment::class, orphanRemoval: true)]
+    private Collection $attachments;
+
+    public function __construct()
+    {
+        $this->attachments = new ArrayCollection();
+    }
 
     //from_id
 
@@ -143,5 +153,35 @@ class Message
             $this->setCreatedAt(new DateTimeImmutable());
         }
         $this->setUpdatedAt(new DateTimeImmutable());
+    }
+
+    /**
+     * @return Collection<int, Attachment>
+     */
+    public function getAttachments(): Collection
+    {
+        return $this->attachments;
+    }
+
+    public function addAttachment(Attachment $attachment): self
+    {
+        if (!$this->attachments->contains($attachment)) {
+            $this->attachments->add($attachment);
+            $attachment->setMessage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttachment(Attachment $attachment): self
+    {
+        if ($this->attachments->removeElement($attachment)) {
+            // set the owning side to null (unless already changed)
+            if ($attachment->getMessage() === $this) {
+                $attachment->setMessage(null);
+            }
+        }
+
+        return $this;
     }
 }
