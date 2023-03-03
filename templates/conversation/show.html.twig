@@ -6,7 +6,7 @@
 <div data-turbo='true'>
     <h1>Conversation {{conversation.id}}</h1>
        
-       <div class='message-container'>
+       <div class='message-container' data-controller="scroll">
         
                 <table id="messages" {{ turbo_stream_listen('http://127.0.0.1:8000/conversation/' ~ conversation.id) }}>
                 <th>User </th><th>Date et Heure</th><th>Contenu du Message</th>
@@ -20,22 +20,23 @@
                 </table>
                 </div>
                 <div id="scroll_message"></div>
-                <div id="empty-message_{{app.user.id}}"></div>
+                <div id="empty-form_{{app.user.id}}"></div>
                 {{ form(form) }}
         </div>
-<div class='overflow-auto pt-5'>
-</div>
-
-{# 
-<script>
-{% set link = 'http://127.0.0.1:8000/conversation/' ~ conversation.id %}
-
-const eventSource = new EventSource("{{ mercure(link, { subscribe: link })|escape('js') }}", {
-    withCredentials: true
-});
-</scrip> #}
 
 
+
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+
+    <script>
+    const chatDiv = document.querySelector('.overflow-auto');
+    chatDiv.scrollTop = chatDiv.scrollHeight; 
+    </script>
+
+    
 {% endblock %}
 
 

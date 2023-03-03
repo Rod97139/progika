@@ -48,6 +48,4 @@ fixtures ==> `composer require --dev orm-fixtures`
 
  prix en fonction des semaines de l'année, bar de recherche
  #[IsGranted],
- 
- 
   Services et Event
