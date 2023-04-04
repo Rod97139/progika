@@ -23,12 +23,13 @@ class MessageType extends AbstractType
         $builder
             ->add('content', TextType::class, [
                 'attr' => ['autocomplete' => 'off',
+                'autofocus' => 'autofocus',
                 // 'class' => 'overflow-auto'
                 ]
                 ])
             ->add('submit', SubmitType::class, [
                 'attr' => [
-                   'formnovalidate' => 'formnovalidate',
+                //    'formnovalidate' => 'formnovalidate',
                     // 'class' => 'overflow-auto'
                 ]
             ])
